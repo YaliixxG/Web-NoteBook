@@ -986,3 +986,51 @@ DIV 按键移动                                                 用执行语句
 异步交互：指发送一个请求，不需要等待返回，随时可以再发送下一个请求，即不需要等待
 
 定时器为异步交互
+
+
+--------------------------------------------------------------------------------------------------------
+
+cookie 的程序编写
+
+<script>
+
+//设置cookie
+
+function setCookie(name,value,expires){
+  // expires 表示过期时间，如果不设置，默认会话结束即关闭浏览器的时候就会消失
+  //第一步，设置过期时间
+  var data = new Date(); 
+       date.setDate(date.getDate()+expires); 
+       //date.getDate()表示获取当前时间，setDate()表示设置时间
+       document.cookie = name + "=" + value +";expires=" + date;
+}
+
+//获取cookie
+//我设置的cookie是一条长长的字符串，我们现在要做的是获取其中单条cookie信息，并且输出等号后面的值
+
+function getCookie(key){
+  //第一步：将字符串转换成数组形式
+  var arrStr = document.cookie.split("; ") //将字符串转换成数组,这里要注意分号后面有空格
+  //第二步：将数组arrStr中的元素再次切割，转换成数组
+  for(var i = 0; i<arrStr.length;i++){
+    var arr = arrStr[i].split("=");
+    if(arr[0]==key){
+      return arr[1]
+    }
+  }
+     return ""; //这里要记住：函数内部只要遇到return,函数就停止执行
+}
+
+//移除cookie
+//只要将cookie的过期时间设置为负值，cookie就会直接消失
+
+function removeCookie(key){
+  set(key,"任意值",-1)
+}
+removeCookie("需要移除的name");
+
+
+
+</script>
+
+------------------------------------------------------------------------------------
