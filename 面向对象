@@ -1,0 +1,99 @@
+面对对象的特点：封装，继承，多态。
+
+构造函数的特点：1.构造函数没有new Object,它的后台会自动 var obj=new Object
+              2.构造函数中的this指向为新建立的空对象
+              3.构造函数不需要返回对象引用，它是后台自动返回
+
+如果是通用的方法功能，可以将其挂载在构造函数的原型上，然后让其引用。
+
+constructor 指向构造函数
+            指向的是构造出这个对象的构造函数
+            var arr=[]
+            var obj={}
+            arr.constructor==Array
+            obj.constructor==Object
+
+hasOwnProperty()  查找的属性 只能在自己身上或者构造函数上的属性(true)  不能找原型或其他的属性(false)
+                  var p=new Person
+                  p.hasOwnProperty()  返回的结果为布尔值
+
+instanceof  检测这个对象是否是由这个构造函数构造出来的
+            p instanceof Person   返回值为true 则是由这个构造函数构造出来的
+
+
+  继  承
+
+子级拥有父级所有的属性和方法
+ 两步走
+1. 要拥有父级构造函数中的属性和方法 call apply
+2. 要拥有父级的prototype上的属性和方法 for in
+
+
+参数指向的改变： call apply
+   call与apply 调用 改变指向问题，并且可以接受实参
+   function fn(a,b){
+    console.log(this)  // 此时的this指向的是window
+   }
+   fn call('我们'，1,2)  // 原本的指向应该是window调用 但是这里的指向为‘我们’这个字符串，第二个参数开始都是为实参
+   fn.apply('我们'，[2,3]) // 第一个也是改变指向 ，第二个参数开始都是实参的集合，集合的第一项为第一个实参，第二个为第二个实参
+
+  call与apply的效果是一样的，call用的比较多
+
+  子级要拥有父级的属性，但是自己也可以拥有私有属性，可以通过 【遍历】 的方法   for(var i Person.prototype){
+                                                                   Cheng.prototype[i]=Person.prototype[i]
+                                                                     子 级                父 级
+                                                                         }   【父亲的就是我的 我的还是我的】
+
+----------------------------------------------------------------------------------------------------------------------
+
+将普通JS写成面向对象的形式：
+
+1.建一个构造函数，将要进行事件的元素绑定在这个构造函数的属性上
+    function Fii() {
+      this.oA=$('a');
+      this.oul=$('ul')
+    }
+2.建立一个对象，让对象等于这个构造函数
+   var Card=new Fii();
+
+3.将普通JS里面的函数、循环等等剥离出来，或者通用的部分，分别放进一个有名函数中，但是有名函数默认是被window调用
+ 但是我们现在需要把它被对象 Card 调用，我们将它绑在构造函数的原型属性上，  Fii.prototype.Aii=function () {}
+ 则可以被对象 Card 调用，绑在原型上的属性、函数可以被通用。
+ 当其他的相同的结构需要同样的效果时，这些属性、函数也可以被拿来用，只需建立一个新对象，将这些属性、函数
+ 绑在它身上就可以。例如 Card1.int()
+
+    Fii.prototype.Aii=function (obj) {
+      for (var i = 0; i < this.oul.length; i++) {
+
+        this.oul[i].style.display="none";
+      }
+      this.oul[obj.index].style.display="block";
+    };
+
+
+    Fii.prototype.int=function(){
+     var that=this
+      for (var i = 0; i <this.oul.length; i++) {
+          this.oA[i].index=i
+          this.oA[i].onclick=function(){
+            that.Aii(this)
+          };
+      }
+    }
+
+  4.重点是要清楚 this 的指向问题，我们需要将this的指向全部指向对象 Card ，但是原函数中有一些this的指向是特定指向当前元素的怎么办？
+  this.oA[i].onclick=function(){
+    that.Aii(this)
+  };                        就是把引用它的地方重新写成函数形式，函数中的this是默认指向window，但是我们要其指向对象，则设定哥变量赋值 var that=this
+                            此时的this则是指向对象Card了，然后将函数中的this改成that.
+                            指向元素的this则用传参的形式来表示。
+                             Fii.prototype.Aii=function (obj) {
+                              for (var i = 0; i < this.oul.length; i++) {
+                                this.oul[i].style.display="none";
+                              }
+                              this.oul[obj.index].style.display="block";
+                            };
+ 5.最后调用  最后你要调用那个函数   则用 Card.int() 其中Card是你设定的对象，int是前面封装好的函数，你将其绑定在构造函数上变成一个属性
+   则是用    对象.属性（）来调用    你不是调用这个属性 而是这个属性上面有你需要的方法
+   当其他的相同的结构需要同样的效果时，这些属性、函数也可以被拿来用，只需建立一个新对象，将这些属性、函数
+   绑在它身上就可以。例如 Card1.int()

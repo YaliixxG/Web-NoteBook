@@ -1,0 +1,702 @@
+
+关于CSS3兼容性问题
+如果不兼容 加上内核前缀
+-webkit 谷歌浏览器
+-moz    火狐
+-ms     IE
+-O      oprea
+
+计算元素离父级的宽度  calc(50% - 140px)   50%是指你所在位置是父级的多少宽度
+                                        140px是指元素本身的宽度
+                                        注意 中间的“-” 旁边都是有空格
+-------------------------------------------------------------------------------------
+
+CSS属性：
+
+链接CSS
+
+<link href="相对路径" rel="stylesheet"/>
+
+----------------------------------------------------------------------------------
+
+CSS: Cascading Style Sheet  层叠样式表
+     作用：用来定义HTML标签的显示方式
+
+1.如何定义CSS
+选择器{
+  属性名:值;
+  属性名:值;
+}
+
+2.如何在HTML页面中使用CSS
+  a.在<head></head>标签之间定义一对<style></style>标签
+    在<style>标签之间定义CSS选择器
+
+
+
+3.选择器的分类
+  标签选择器[HTML选择器]:使用HTML标签作为选择器名
+  只要出现这个标签，就会应用这个样式
+  h3{}
+  ul{}
+  li{}
+
+  ID选择器:使用标签的id属性作为选择器名
+  使用这个id的标签，就会应用这个样式
+  <h3 id="abc"></h3>
+  #abc{}
+
+  Class选择器[类选择器]：使用class对标签分类，使用class作为选择器名
+  使用这一个分类的所有标签，都会应用这个样式  一个元素可以设置多个class
+  每个class值用空格隔开
+  <p class="aa"></p>
+  <p class="aa"></p>
+  <h3 class="aa"></h3>
+  .aa{}
+
+
+  -------------------------------------
+  伪类选择器
+  :link       超链接的默认状态
+  :visited    访问过后的状态
+  :hover      鼠标放到标签上的状态   #ul1:hover li 表示鼠标悬停在ul标签上 会作用到里面的li元素
+  :active     鼠标按下的状态
+  :checked    鼠标点击选中时的状态
+
+  伪元素选择器
+  :first-line  第一行
+  :first-letter 第一个字符
+  :nth-of-type(1) 父级下面的第一个子元素，括号里面的数字代表第几个子元素
+  :first-of-type 找到父元素下面所有子元素中间的第一个
+  :last-of-type  找到父元素下面所有子元素中间的最后一个
+  :first-child
+  ul>li>li     表示ul下面最近的li元素下面的li元素 （“>”只适用于嵌套关系）
+
+
+  --------------------------------------------------------------------------------
+
+
+
+
+4.CSS的属性（一部分）
+  color：定义文本颜色
+  background: 定义标签的背景颜色
+  font-size:定义字体大小的
+  font-family:"宋体"
+  width：标签的宽度
+  height：标签的高度
+  text-align:left|center|right; 文本水平对齐方式
+  text-decoration:文本修饰
+                  line-through  删除线
+                  overline      上划线
+                  underline     下划线
+                  none          没有线
+
+  border:定义边框 粗细  颜色  显示方式
+  border:1px #000000 solid|dotted|dashed;
+                      实线   点线    虚线
+
+5.当多个选择器选择到同一个标签的时候，到底哪一个选择器会生效？？？
+  选择器的优先级
+  ID选择器>类选择器>标签选择器
+
+  优先级高的选择器会覆盖掉优先级低的选择器中的相同属性
+
+
+----------------------------------------------------------------
+群组选择器
+父子选择器
+
+1.HTML文件中引入CSS的四种方式
+
+  1)所有的标签都有一个style属性
+    <p style="属性:值;属性:值"></p>
+
+  2)在<head></head>标签中定义一对<style></style>
+      在style中定义CSS
+
+  3)定义一个单独的CSS文件,在css文件中定义选择器
+    在HTML页面的<head></head>中引入这个CSS文件
+    <link rel="stylesheet" href="相对路径"/>
+
+  4)定义一个单独的CSS文件,在css文件中定义选择器
+    在HTML页面的<head></head>中定义style标签
+    在style标签中引入css文件
+    <style media="screen">
+      @import "abc.css";
+    </style>
+
+    四种引入方式的优先级：
+    1>2=3>4
+
+------------------------------------------------------------------------------------
+
+查找设置属性值
+
+元素[attr] 表示找到拥有这个属性的元素
+
+元素[attr="属性值"] 表示找到所有拥有属性和属性值的元素
+
+例如: input[type]
+      input[type="button"]
+
+元素[attr~="属性值"] ~表示包含关系
+                    只要属性值里面包含这个属性值的，都可以被找到
+
+元素[attr^="属性值"] ^表示找到以什么开头的属性值
+
+元素[attr$="属性值"] $表示找到以什么结尾的属性值
+
+------------------------------------------------------------------------------------
+
+字体
+
+1.font-style:normal | italic；字形  italic 表示斜体
+2.font-variant:normal | small-caps; 这个主要是针对英文 small-caps 是表示将小写字母改成小型大写字母
+3.font-weight:normal | bold; 字的粗细  bold 表示加粗
+4.font-size:14px; 文字大小 默认16px
+5.font-family:字体1，字体2; 字体
+综合写法：【必须按照顺序来写 1-2-3-4-5】
+font:italic small-caps bold 14px 行高 字体1 字体2
+用font设置复合属性，字大小和字体必须要写
+
+-----------------------------------------------------------------------------------
+
+文本
+
+color:#FF0000; 文本颜色
+      值有三种写法:#FF0000 | red | rgba(214,53,232,1)
+       rgba(214,53,232,1) 前三位数就是RGB的数值，a代表透明值 0（透明）—— 1（不透明）
+
+text-align:left|center|right|justify; 文本水平对齐方式 默认居左
+
+text-overflow:ellipsis; 单行文字超出父级变成省略号
+white-space:nowrap;     白色空间无包裹 定义一个单行空间
+word-break:break word; 当长单词长度超出父级时 让长单词换行显示
+
+text-decoration:none|line-through|overline|underline 文本修饰
+                      line-through  删除线
+                      overline      上划线
+                      underline     下划线
+                      none          没有线
+
+text-indent:12px|20%|2em 首行缩进  em表示字符
+letter-spacing:12px|2em  字符间距
+word-spacing:12px|2em    主要应用于英文单词之间的间距(空格间距)
+text-transform:none|lowercase|capitalize|uppercase 字母大小写转换
+               none         默认显示
+               lowercase    所有字母小写
+               capitalize   首字母大写
+               uppercase    所有字母大写
+
+line-height:32px|150%|2em  行高，行间距
+多行文字行高   如何测量：先测量两行文字之间的间距，如果为偶数，则平均分；如果为奇数，则上为偶数，下为奇数
+单行文字行高   =上下间隙+文字高度
+             上下间隙=（line-height - 文字高度）/2
+
+text-shadow:5px 5px 5px #CCCCCC;   文本阴影
+            水平 垂直 模糊的距离 阴影颜色
+
+
+
+-------------------------------------------------------------------------------------
+
+背景
+
+背景颜色
+background-color:#FF0000 | red | rgb(123,235,12) | rgba(231,12,234,1);
+opacity:0.5;表示透明度 缺点：里面的子元素会继承父元素的透明度
+
+background:linear-gradient 线性渐变
+                          (#000,#f00 50%, #090)
+                          (0deg,#000 20%,#f00 50%,#090)
+                          (45deg,#000,#f00 50%,#090)
+                          度数表示与水平呈多少角度进行渐变
+                          百分比表示在什么位置的时候是什么颜色
+
+
+背景图片
+background-image:url("flower1.jpg");   双引号里面是写图片的路径
+如果图片小于标签的大小，则会在水平和垂直方向出现重复（平铺）
+background-repeat:no-repeat | repeat-x | repeat-y （是否平铺）
+                    不平铺    水平平铺    垂直平铺
+background-size: contain   |   cover   |   100% 100%   用于在有限宽高的父级里面展示背景图片
+                 宽度填满       高度填满     宽高都填满父级（宽度比例 高度比例）
+background-size:2rem 1rem; 背景大小值可以在后面直接写    这个属性必须和background一起使用 写在一起才有效果
+
+
+背景位置
+background-position:
+                    水平位置：left center right
+                    垂直位置：top  center bottom
+                    坐标表示：x  y  可以是负数
+                    如果数值只写一个数值，则第二个数值默认为center
+背景是否滚动:
+background-attachment:fixed; 不随滚动条滚动
+
+综合写法
+background:#FF0000 url("flower1.jpg") repeat-x 10px 10px;
+            背景颜色 背景图片 是否平铺 背景位置
+
+
+
+------------------------------------------------------------------------------------
+
+边框
+border-width:2px;       边框粗细
+border-color:#CC0000;   边框颜色
+border-style:solid;     边框样式
+             none;      没有边框
+             dotted ;   点线
+             dashed ;   虚线
+             double;    双线
+             inset;     内凹线
+             groove;    浮雕线
+border-radius:5px 5px;  圆角边框  第一个值是左上和右下的圆角半径，第二个值是右上和左下的圆角半径
+border-radius：10px 10px 10px 10px/5px 5px 5px 5px; 如果添上斜杠写8个值的话，则第一个值为X轴半径 斜杠后的第一个值为Y轴半径
+border-collapse:separate | collapse；表示table与td边框是否合并，这种合并是不会加粗的
+                separate 不合并
+                collapse 合并
+
+border-left-width:2px;          边框粗细
+border-left-color:#CC0000;      边框颜色            （左边框）
+border-left-style:solid;        边框样式
+
+border-right-width:2px;         边框粗细
+border-right-color:#CC0000;     边框颜色            （右边框）
+border-right-style:solid;       边框样式
+
+border-top-width:2px;          边框粗细
+border-top-color:#CC0000;      边框颜色             （上边框）
+border-top-style:solid;        边框样式
+
+border-bottom-width:2px;       边框粗细
+border-bottom-color:#CC0000;   边框颜色             （下边框）
+border-bottom-style:solid;     边框样式
+
+以上四个位置，三个样式 都可以分别组合写
+
+----------------------------------------------------------------------------------
+
+图文混排的实现
+
+float:left | right; 图片的放置位置 左右
+          1.能够让内嵌/行内标签支持宽高的设置
+          2.能够解决内嵌和内联块标签换行产生的间隙问题
+          3.能够使块标签在一行显示
+元素设置浮动以后：1.当浮动元素碰到父级的边界时，浮动停止
+                2.当浮动元素碰到另一个元素时，浮动停止
+                3.不占据位置，撑不开父级的高度（解决方法:可以给父级设置高度或者将父级也变成浮动元素）
+
+clear:清除浮动
+clear:both | left | right;
+      both   让元素的两边没有浮动元素
+      left   让元素的两边没有浮动元素
+      right  让元素的两边没有浮动元素
+overflow:hidden 超出部分隐藏（给父级加）
+
+        :after{
+            content:"";    设置一个空标签
+            display:block;  将空标签变成块元素
+            clear:both;     再让块元素的左右都没有浮动元素 会掉入内容的最后一位 将div撑开
+        }
+
+清除浮动的几种方法：
+                 1.clear清除浮动（添加空div法）：在浮动元素下方添加空div,并给改元素写css样式
+                 2.给浮动元素父级设置高度：我们知道了高度塌陷是因为给浮动元素的父级高度是自适应
+                   缺点：在浮动元素高度不确定的时候不适用
+                 3.以浮制浮（父级同时浮动）：就是让浮动元素的父级也浮动
+                   缺点：需要给每个浮动元素父级添加浮动，浮动多了容易出错
+                 4.父级设置成inline-block: 缺点：父级的margin左右auto失效，无法使用margin
+                 5. br 清浮动
+                                <div class="box">
+                                    <div class="box"></div>
+                                    <br clear='both' />
+                                </div>
+                    br标签自带clear属性，将它设置成both其实和添加空div原理是一样的。
+                    缺点：不符合工作中，结构、样式、行为，三者分离的要求
+                6.给父级添加overflow:hidden
+                  缺点：需要配合宽度或者zoom兼容IE6，IE7
+                    overflow:hidden;
+                    zoom:1;
+                7.万能清除法 after伪类 清浮动（现在主流方法，推荐使用）
+                  选择符:after{
+                              content:'';
+                              clear:both;
+                              display:block;
+                              }
+                              同时为了兼容IE6\IE7同样需要配合zoom使用
+                所以总体如下：  .clear:after{
+                                      content:'';
+                                      clear:both;
+                                      display:block;
+                                      }
+                                .clear{zoom:1;}
+
+
+
+margin：5px;        图片与文字的距离为5px 边距
+margin:0px auto;   自动调整左右边距（标签水平居中）
+
+--------------------------------------------------------------------------------------
+
+边距
+边距指的是同级标签之间或者父标签和子标签的距离
+
+盒子：标签是一层嵌套一层的这个模式叫做盒子模型
+
+外边距：当前这个标签的外边框到父标签的内边距的距离
+margin-top
+margin-bottom
+margin-left
+margin-top
+
+margin:10px;                      表示四个方向的值都一样
+margin:10px 20px;                 上下10 左右20
+margin:10px 20px 30px;            上10 左右20 下30
+margin:10px 30px 50px 80px;       上 右 下 左
+注意：
+1.当出现两个元素上下排列时，上面元素设置向下的外边距，下面元素设置向上的外边距，两者之间的间距取大值
+2.当出现包含关系，子元素设置了向上的外边距，外边距会发生传递，传递给离他最近的父级而不起作用
+  解决办法:a 给父级加边框
+          b 将父级变成浮动元素
+
+margin负值 结构：   <div>
+                     <ul>
+                       <li></li>
+                       <li><li>
+                     </ul>
+                  </div>
+ 将ul的宽度写在父级<div>上 例如 ul 600px的宽度，但是li的宽度为280px，而且是两个一行排列，并且中间
+ 有25px的空隙 但右边li元素没有，如果给li 设置margin-right为25px, 则左右两列li右侧都有25px的空隙，
+ 总宽度会超出ul的宽度（600px)，此时可以在ul的外边再套一个<div>，将宽度写在div上 600px, 在margin-right：-px 负值写在
+ ul上 这个负值的宽度则是一个虚拟空间 但是在显示中不会显示出来。
+
+
+
+内边距：当前这个标签的内边框到子元素外边框的距离
+padding-top
+padding-bottom
+padding-left
+padding-right
+
+padding:10px;                      表示四个方向的值都一样
+padding:10px 20px;                 上下10 左右20
+padding:10px 20px 30px;            上10 左右20 下30
+padding:10px 30px 50px 80px;       上 右 下 左
+
+一个标签实际占据的尺寸
+实际宽度=width+[border-left]+[border-right]+[padding-left]+[padding-right]
+实际高度=width+[border-top]+[border-bottom]+[padding-top]+[padding-bottom]
+
+---------------------------------------------------------------------------------
+
+列表
+list-style-type   列表项的样式，无序列表默认是实心圆点，有序列表默认为数字
+                    decimal            数字
+                    lower-latin       小写英文
+                    upper-latin       大写英文
+                    upper-roman       大写罗马
+                    lower-roman       小写罗马
+                    lower-greek       希腊字母
+                    disk              实心圆点
+                    circle            空心圆点
+                    square            实心方点
+                    none              没有样式
+list-style-image    使用自定义的图标
+                   list-style-image：url("image1.jpg");
+
+list-style-position 图标的位置
+                    inside     里面
+                    outside    外面
+
+---------------------------------------------------------------------------------
+
+<span></span> 用来单独选取一段文本
+
+页面的布局
+将标签摆放在指定的地方
+
+流布局：html页面的默认布局方式
+       标签按照编写的顺序从上到下，从左到右摆放
+
+       标签的分类：
+                 块级标签：每一个标签无论长度是多少，都会默认占据一行的空间
+                 <h1>...<h6>
+                 <p>
+                 <div>
+                 <ul>
+                 <li>
+                 <ol>
+                 <table>
+                 <hr>
+                 <br>
+
+                 行内标签：多个标签可以在同一行显示
+                 <a>
+                 <span>
+                 <img>
+
+浮动布局：让标签脱离原来的文档流，按照指定的方式浮在原来文档流上
+float:left | right;
+clear:left | right |both;
+
+
+------------------------------------------------------------------------------------
+
+定位布局：
+position；absolute | relative | fixed | static | inherit;
+          绝对定位    相对定位   固定定位 静止定位  继承父级定位
+
+相对定位
+position:relative;
+left:100px;
+top:100px;
+bottom:100px;
+right:200px;
+                 a.不影响元素本身的特性
+                  b.不使元素脱离文档流
+                  c.如果没有定位偏移量，对元素本身没有任何影响
+
+
+
+绝对定位
+position:absolute;
+left:100px;
+top:100px;
+bottom:100px;
+right:200px;
+                  a.不设置偏移值，默认左上
+                  b.使元素完全脱离文档流 提升1级
+                  c.使内嵌支持宽度
+                  d.块属性标签内容撑开宽度
+                  e.如果有定位父级相对于定位父级发生偏移，没有定位父级相对于整个文档发
+                  生偏移,前提是要设置数值。如果没有设置数值，则是按照最近的父级来定位，
+                  无论父级有没有设置定位。
+                  f.相对定位一般配合绝对定位使用
+                  g.两个元素设置绝对定位后，默认后面元素会覆盖前面的元素
+
+
+z-index:定位层级
+        1.只适用于定位元素，只与同级元素比较。
+        2.设置定位元素后，后面的元素会覆盖前面的元素，是一个0-1之间的小数 默认后面的元素
+          定位层级会大于前面的元素，如果设置了z-index的数值，数值越大，层级越高
+
+
+固定定位
+position:fixed;
+        适用于网页头部和脚步的固定，不随滚动条移动。
+        移动端不支持固定定位，需要用绝对定位模拟固定定位。
+
+static：静止定位 默认值
+        静止不动 和偏移量没有关系
+
+inherit：继承定位
+         子元素继承父元素的定位值，若改变父元素的值，子元素也会随之变化；
+         不设置子元素为继承定位，子元素是不会自动去继承父元素的值。
+
+
+
+
+
+光标的CSS样式
+cursor:pointer     手指
+       wait        等待
+       help        帮助
+       progress    等待进度完成
+       copy        复制
+
+
+
+---------------------------------------------------------------------------------
+清浮动：
+第一种     .类选择器名:after{
+          content"";
+          display:block;
+          clear:both;
+          }
+          .类选择器名{
+          zoom:1
+          }
+
+第二种     clear:left | right |both; 是某个方向不允许出现浮动元素 这个标签只针对块元素
+
+第三种     overflow:hidden; 当内容超出模块范围时，将内容隐藏  清除浮动的影响
+
+----------------------------------------------------------------------------------
+
+表单：客户端向服务端提交数据的元素
+
+<form action="提交的服务器地址" mothod="提交方法"></form> 例：<form action="http://www.baidu.com" mothod="get/post"></form>
+
+
+文本输入框                   <input type="text" placeholder="请输入内容" title="请按照正确的格式输入" pattern="[a-zA-Z]+" required="必须输入内容"/>
+                            placeholder 提示性的属性 显示在文本框内的灰色字体
+                                        ::-webkit-input-placeholder{ color:#fff;} 改颜色
+                            title       鼠标移动到文本框会有提示的文字 （放在其他的标签也可以）
+                            pattern     定义输入的格式
+                            required    表示必须填入内容
+
+密码输入框                   <input type="password"/>
+
+按照代码的摆放方式显示则是    <pre></pre>
+
+性别输入框                   <input type="radio"/>男<input type="radio"/>女
+
+单选框                      <input type="radio"name="sex"/> 如果name相同，则是同一组，同一组只能选一个
+
+多选框                      <input type="checkbox" checked/>
+                            checked 表示默认被选中
+                            <input type="checkbox" disabled/>
+                            disabled 表示不允许被选中
+
+文本按钮的关联               如果想要点击“男”或“女”的文本时，也可以被选中，则可以把input放入  <label for="id名"></label> 中
+
+上传框                      <input type="file"/>
+
+提交按钮                    <input type="submit"/>
+
+重置按钮                    <input type="reset"/>
+
+定义按钮                    <input type="button" value="文字"/>
+
+数字框                      <input type="number"min="18" max="150"/>
+
+邮箱框                      <input type="email"/>
+
+图片                         <input type="image"/> 定义一个图片
+
+下拉框                      <select>
+                               <option></option>
+                            </select>
+
+多行文本框                      <textarea rows="5" cols="50"></textarea>
+
+取消默认input以及textarea的默认蓝色边框，可以通过样式 outline:none;
+
+
+表单的分类标签：
+<fieldset></fieldset>  对表单进行分类
+<legend></legend>      表单的排头文
+
+-------------------------------------------------------------------------------------------
+
+以图换字：图片代替文字 再将文字隐藏  便于客户搜索关键字可以搜索出来 一般用于大logo区域
+     h2{
+     width:96px;
+     height:0px;  高度统一设置为0，必须把文字挤出去
+     padding-top:31px; 用padding撑开高度，文字进不去
+     background:url(2.png) no-repeat; 背景图片不占位置，可以展示在padding区域
+     overflow:hidden; 将超出父级的部分隐藏，此时只有文字超出了父级，即将文字隐藏
+     }
+------------------------------------------------------------------------------------
+
+transition  过渡 （要看到那个元素的效果，就加在谁身上 对于低版本不兼容）
+
+transition：1s 3s all | width | height   linear | ease-in | ease-out;
+
+第一个时间代表过渡时间
+第二个时间代表延迟时间 延迟多长的时间执行这个动作
+变化的属性 默认all
+运动的形式  linear    匀速
+           ease-in   先慢速后快速
+           ease-out  先快速再慢速
+
+----------------------------------------------------------------------------------
+
+transform 变化 变幻 转换 2D/3D
+
+transform:rotate(70deg | -70deg);
+          变化角度 正数代表顺时针
+                  负数代表逆时针
+          rotateX 绕X轴旋转
+          rotateY 绕Y轴旋转
+          rotateZ 绕Z轴旋转
+
+transform:scale(2 | 0.5 | 1 | -2);
+
+          缩放    数字代表缩放的倍数
+          1      不变
+          正数    扩大到正数倍数
+          0.5    缩小到一半
+          -2     先缩小再扩大
+
+transform:skewX(20deg) | skewY(20deg);
+          拉伸     里面填写拉伸的度数
+          skewX   水平方向的拉伸
+          skewY   垂直方向的拉伸
+
+transform:translateX（10px | -10px); 沿X轴偏移,正数往右 负数往左
+          translateY（10px | -10px); 沿Y轴偏移,正数往上 负数往下
+          translateZ（10px | -10px); 沿Z轴偏移,正数往前 负数往后
+
+----------------------------------------------------------------------------------
+
+box-shadow 物体阴影
+
+box-shadow:10px -10px 10px 10px red;
+          第一个数值代表水平阴影 正值-向右偏移 负值-向左偏移
+          第二个数值代表垂直阴影 正值-向下偏移 负值-向上偏移
+          第三个数值代表模糊半径
+          第四个数值代表扩展半径
+          第五个数值代表阴影的颜色
+
+----------------------------------------------------------------------------------
+
+3D
+
+transform-style:preserve-3d; 建立3D空间
+
+perspective:800px; 视角800px是最佳视角
+
+transform-origin:left | right | top | bottom;
+          旋转基点
+
+----------------------------------------------------------------------------------------
+
+关键针  动画  从哪里运动到哪里
+
+            @keyframes name{
+                    from{
+                        left:100px;
+                    }
+                    to{
+                        left:500px;
+                    }
+                   }
+
+
+           @keyframes name{
+                     0%{
+                         left:100px;
+                         top:200px;
+                         background:pink;
+                     }
+                     20%{
+                         left:500px;
+                         background:blue;
+                     }
+                     50%{
+                        left:300px;
+                        background:red;
+                     }
+                     56%{
+                        right:30px;
+                        background:yellow;
+                     }
+                     100%{
+                         top:700px;
+                     }
+                    }
+          百分数代表时间段 括号里面的位置 属性都可以随意写 也可以更改颜色 或者其他的属性
+
+
+animation 绑定 让哪个目标运动就绑定在哪个身上
+animation:name 1s 1s linear 3; 名称 运动时间 延迟时间 匀速 运动次数
+                           infinite 运动次数 无限次
+
+-------------------------------------------------------------------------------------
+
+backface-visibility:hidden; 背对屏幕的面 隐藏
+
+---------------------------------------------------------------------------------

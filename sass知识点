@@ -1,0 +1,77 @@
+sass 的 使 用 方 法
+
+定义sass文件，以.scss后缀名结尾
+编译.scss文件：
+	sass style.scss style.css
+	每次更新都要运行
+自动编译，采用单文件监听命名：
+	sass --watch style.scss:style.css
+	监听文件的变化不需要每次运行
+
+注意 每次转换都需要时间！
+
+--------------------------------------------------------------------------------------------
+sass 可以像less一样用变量来写样式，只是将less的 @ 符号改变成了 $ 符号
+
+但是！！ sass比less更多的一种功能叫做可以用变量来做属性。
+
+例如：     $width:100px;
+           $abc:bottom;                            声明变量的时候还是 $变量名字
+           span{
+            width:$width;
+            height: $width;
+            display: block;
+            background: pink;
+            border-#{$abc}: 3px solid #ff0;         #{$abc} 这里是指代 上|下|左|右 四个方向的变量  在属性的变量是用这个格式来书写 #{$变量名字}
+          }
+
+----------------------------------------------------------------------------------------
+sass 嵌 套 写 法
+
+结构为：<ul>
+      <li>
+        <a href="#">123</a>
+      </li>
+    </ul>
+
+sass样式写法：
+                ul{
+                  width: 300px;
+                  height: 300px;
+                  margin: 0px;
+                  padding: 0px;
+                  border: 1px solid #000;
+                  li{
+                    width: 100%;
+                    height: 200px;
+                    background: pink;
+                    a{
+                      color: blue;
+                      &:hover{                       &代表直接父级a
+                        color: red;
+                      }
+                    }
+                  }
+                }
+-----------------------------------------------------------------------------------
+sass 声 明 函 数 样 式 法
+
+@mixin abc{                                         @mixin abc{} 相当于一个有名函数的写法 abc为这组样式的名字   @mixin是声明这个函数的固定写法
+  width: 180px;
+  height: 300px;
+  border: 1px solid #000;
+}
+div{
+  @include abc;                                      @include abc; 调用这组样式的固定写法
+}
+
+传 参 样 式
+
+@mixin abc($w：200px){                                     $w为传入参数
+  width: $w;
+  height: 300px;
+  border: 1px solid #000;
+}
+div{
+  @include abc(300px);                             此时的参数的实参为300px  如果没有参数则直接是默认值200px
+}

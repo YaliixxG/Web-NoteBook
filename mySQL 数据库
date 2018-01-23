@@ -1,0 +1,238 @@
+建表的方式:
+1.右击数据库 employee - New - Table,输入表名 / 字段(列名) / 数据类型
+  主键:唯一且自动增长
+
+2.脚本建表
+CREATE TABLE student
+(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    salary DOUBLE,
+    birth_date DATE
+);
+
+
+----------------------------------------
+2. 新增数据
+  右击 表名 - Table Editor - 点击 + 录入数据 - 点击 Submit(绿色DB)
+
+  新增数据语法:
+  INSERT INTO car(name,price,production_date,mode)
+  VALUES ('玛莎拉蒂',787878.99,'2017-10-10','M-1');
+  INSERT INTO car(name,price,production_date,mode)
+  VALUES ('法拉利',10,'2017-10-09','F-2');
+  INSERT INTO car(name,price,production_date,mode)
+  VALUES ('Audi',8000,'2017-10-20','A-3');
+  INSERT INTO car(name,price,production_date,mode)
+  VALUES ('Benz',600.99,'2017-10-09','B-4');
+
+  tip:只有字符串的值区分大小写,其它都不区分大小写
+
+-----------------------------------------
+3. 修改数据
+  右击 表名 - Table Editor - 直接修改数据 - 点击 Submit(绿色DB)
+
+  修改数据语法:
+  UPDATE car set name='比亚迪',production_date='2017-10-11',
+  price= 1000 WHERE id=5;
+
+-----------------------------------
+4. 删除数据:
+  右击 表名 - Table Editor - 点击 - 删除数据 - 点击 Submit(绿色DB)
+
+  删除数据语法:
+  DELETE FROM car where id=5;
+
+----------------------------------
+5. 删除表和数据
+  右击 表名 - Drop
+
+  语法:
+  drop TABLE car;
+
+  ------------------------------------------------
+6.数据库的查询
+
+-- MySQL 建表 / 新增 / 修改 / 删除
+-- ER图
+-- 商品 product: 编号 id,商品名 name,价格 price,生产日期 create_date,类别 category
+CREATE TABLE product (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(500) NOT NULL ,
+  price DOUBLE ,
+  create_date DATE  ,
+  category VARCHAR(50)
+);
+INSERT INTO product(name, price, create_date, category)
+    VALUES ('fangbianmian',5,'2017-10-9','shiping');
+
+UPDATE product SET name='qiaokeli',price=20 WHERE id=2;
+
+DELETE  from product WHERE id=1;
+
+SELECT  * from product;
+
+-- 删除表
+DROP TABLE product;
+
+-- ****************************************************
+-- 雇员表(员工表) EMP
+  -- empno     雇员编号
+  -- ename    雇员名
+  -- job      工作
+  -- mgr      上级编号
+  -- hiredate 受雇日期
+  -- sal      薪金
+  -- comm     佣金(津贴)
+  -- deptno   部门编号
+
+-- 部门表 DEPT
+  -- deptno 部门编号
+  -- dname  部门名称
+  -- loc    地点
+
+-- **************************************
+-- * 是所有字段
+SELECT * from emp;
+-- 指定字段
+SELECT ename,sal,hiredate from emp;
+
+-- 排序 asc (升序)/ desc (降序)
+SELECT * from emp ORDER BY ENAME;         -- 默认升序
+SELECT * from emp ORDER BY ENAME DESC ;   -- 雇员名降序
+SELECT * from emp ORDER BY sal asc;       -- 薪资升序
+SELECT * from emp ORDER BY DEPTNO desc,ENAME asc; -- 部门编号降序,雇员名升序
+
+-- 给字段或表取别名 / distinct
+SELECT e.ename 雇员名,sal as 薪资,hiredate 入职日期 from emp e; -- 设置别名
+SELECT DISTINCT DEPTNO from emp; -- 去重复值
+
+-- 查询雇员名和工资
+-- comm = null
+-- if(comm == null) comm = 0
+SELECT sal,comm,ifnull(comm,0) 津贴 from emp; -- 当津贴是 null则用 0 表示
+SELECT ename,sal+ifnull(comm,0) 工资 from emp;
+SELECT deptno,if(DEPTNO=10,'男','女') from emp;  -- if..else.. if DEPTNO=10,则为男，否则为女
+
+-- SELECT if(gender='M','男','女') FROM emp;
+
+-- 统计数据总数
+SELECT count(*) from emp;
+SELECT count(empno) from emp;
+
+-- 薪资求和 / 平均工资
+SELECT sum(sal) from emp; -- 29025
+SELECT avg(sal) from emp; -- 2073  -> 2073*14
+
+-- 查询限制条件 = > <   >=   <=   !=  <>
+SELECT * from emp where EMPNO = 7788;
+SELECT * from emp where sal = 3000;
+SELECT * from emp where sal < 3000;
+
+
+-- and / or / like / in / between..and
+SELECT * from emp where SAL = 3000 and ENAME = 'SCOTT'; -- 多个条件 同时 满足
+SELECT * from emp where SAL = 3000 or ENAME = 'SMITH'; -- 满足一个条件
+SELECT * from emp where ENAME like '%S%'; -- 模糊查询  % 任意个字符
+SELECT * from emp where ENAME like '_A%';  -- _ 任意一个字符
+SELECT * from emp where ENAME like '%A%';
+
+SELECT * from emp WHERE JOB = 'CLERK' or JOB = 'SALESMAN' or JOB = 'MANAGER';
+SELECT * from emp WHERE JOB in ('CLERK','SALESMAN','MANAGER'); -- 范围之内,类似于 or
+
+SELECT * FROM emp where sal >= 1600 and sal <= 3000;
+SELECT * FROM emp where sal BETWEEN 1600 and 3000; -- 在 1600 与 3000 之间
+
+-- 子查询(返回一个结果)
+-- 求比 JONES 的薪资还多的所有雇员
+SELECT * FROM emp WHERE SAL > (SELECT SAL FROM emp WHERE ENAME = 'JONES');
+
+-- group / having
+SELECT deptno,sum(sal) from emp GROUP BY deptno; -- 根据部门分组,然后统计该部门薪资和
+SELECT deptno,sum(sal) from emp GROUP BY deptno HAVING sum(sal) > 9000; -- 限制分组条件
+
+-- 显示不带R的员工姓名
+SELECT * FROM emp WHERE ENAME NOT LIKE '%R%';
+-- 列出所有业务人员（CLERK）的姓名编号和部门编号
+SELECT ENAME,DEPTNO,JOB FROM emp WHERE JOB IN ('CLERK');
+SELECT ENAME,DEPTNO,JOB FROM emp WHERE JOB = 'CLERK';
+-- 选择部门30中所有的员工
+SELECT * FROM emp WHERE DEPTNO=30;
+-- 找出佣金高于薪水的员工
+SELECT * FROM EMP WHERE COMM>SAL;
+-- 找出收取佣金低于100的员工
+SELECT * FROM EMP WHERE IFNULL(COMM,0)<100 ;
+-- 找出名字包含“A”的员工
+SELECT * FROM EMP WHERE ENAME LIKE '%A%';
+-- 列出至少有一个员工的所有部门
+SELECT DEPTNO FROM EMP GROUP BY DEPTNO HAVING COUNT(EMPNO)>=1;
+-- 列出薪金比“SMITH”多的所有员工
+SELECT * FROM EMP WHERE SAL>(SELECT SAL FROM EMP WHERE ENAME='SMITH');
+-- 列出MANAGER（经理）的最低薪金
+SELECT JOB,MIN(SAL) FROM EMP GROUP BY JOB HAVING job='MANAGER';
+SELECT min(sal) FROM emp WHERE job='MANAGER';
+
+-- 分组查询: 求每个部门薪水和
+SELECT DEPTNO,SUM(SAL) FROM EMP GROUP BY DEPTNO;
+
+-- 求每个部门的人数
+SELECT DEPTNO,COUNT(*) FROM EMP GROUP BY DEPTNO;
+
+-- HAVING 用于限制分组查询的条件: 求多于 3 人的部门
+SELECT DEPTNO FROM EMP GROUP BY DEPTNO HAVING COUNT(*)>3;
+
+-- 分页查询
+-- LIMIT 10, 5: 10 起始索引 [从 0 开始 pagesize * (pageno - 1)]; 5 每页显示 5 行数据
+SELECT * from emp LIMIT 0,5; -- 第一页 5*(1-1) 起始索引,每页显示 5 行数据
+SELECT * from emp LIMIT 5,5; -- 第二页 5*(2-1)
+SELECT * from emp LIMIT 10,5; -- 第三页 5*(3-1)
+
+-- 数据量大,效率高
+SELECT * FROM emp
+INNER JOIN (
+  SELECT EMPNO FROM emp
+  ORDER BY ENAME asc LIMIT 10, 5
+) AS lim USING(EMPNO);
+
+-- 关联查询
+-- 1:1      一个人一个身份证号码 / 共享单车的二维码
+-- 1:N N:1  商品类别-商品 部门-雇员 房间类型(VIP/普通/总统)-房间
+-- M:N      学生-老师 城市-买房人  角色-菜单
+CREATE TABLE category
+(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100)
+);
+
+CREATE TABLE product
+(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100),
+  price DOUBLE,
+  create_date DATE,
+  category_id INT,
+  CONSTRAINT product_fk FOREIGN KEY (category_id) REFERENCES category (id)
+);
+
+-- 内连接
+select p.name,price,create_date,c.name
+from product p INNER JOIN category c ON p.category_id = c.id;
+
+-- 等值连接
+select p.name,price,create_date,c.name
+FROM product p,category c where p.category_id = c.id;
+
+-- 左外连接 (关键字 LEFT JOIN 左边的表显示全部,右边的表显示公共部门)
+select p.name,price,create_date,c.name
+from product p LEFT JOIN category c ON p.category_id = c.id;
+
+-- 右外连接 (关键字 RIGHT JOIN 右边的表显示全部,左边的表显示公共部门)
+select p.name,price,create_date,c.name
+from product p RIGHT JOIN category c ON p.category_id = c.id;
+
+-- 面试题
+select p.name,price,create_date,c.name
+from product p LEFT JOIN category c ON p.category_id = c.id and p.id=1;
+
+select p.name,price,create_date,c.name
+from product p LEFT JOIN category c ON p.category_id = c.id where p.id=1;

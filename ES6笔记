@@ -1,0 +1,298 @@
+let 命令
+
+用来声明变量。它的用法类似于var，但是所声明的变量，只在let命令所在的代码块内有效。
+      {
+      let a = 10;
+      var b = 1;
+      }
+      a // a is not defined
+      b // 1
+
+      for 循环的计数器，就很适合使用let命令
+
+不存在变量提升。
+var命令会发生”变量提升“现象，即变量可以在声明之前使用，值为undefined。这种现象多多少少是有些奇怪的，按照一般的逻辑，变量应该在声明语句之后才可以使用。
+为了纠正这种现象，let命令改变了语法行为，它所声明的变量一定要在声明后使用，否则报错。
+
+      // var 的情况
+      console.log(foo); // 输出undefined
+      var foo = 2;
+
+      // let 的情况
+      console.log(bar); // 报错ReferenceError
+      let bar = 2;
+
+暂时性死区
+ES6 明确规定，如果区块中存在let和const命令，这个区块对这些命令声明的变量，从一开始就形成了封闭作用域。凡是在声明之前就使用这些变量，就会报错。
+总之，在代码块内，使用let命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区”（temporal dead zone，简称 TDZ）。
+
+不允许重复声明
+let不允许在相同作用域内，重复声明同一个变量。
+
+      // 报错
+      function func() {
+        let a = 10;
+        var a = 1;
+      }
+
+      // 报错
+      function func() {
+        let a = 10;
+        let a = 1;
+      }
+      function func(arg) {
+        let arg; // 报错
+      }
+
+      function func(arg) {
+        {
+          let arg; // 不报错
+        }
+      }
+
+=========================================================================================================
+
+块级作用域
+
+let实际上为 JavaScript 新增了块级作用域。
+
+ES6 允许块级作用域的任意嵌套。 {{{{{let insane = 'Hello World'}}}}};
+
+外层作用域无法读取内层作用域的变量。
+
+内层作用域可以定义外层作用域的同名变量。
+     {{{{
+      let insane = 'Hello World';
+      {let insane = 'Hello World'}
+     }}}};
+
+=======================================================================================================
+
+const 命令
+
+const声明一个只读的常量。一旦声明，常量的值就不能改变。
+
+const的作用域与let命令相同：只在声明所在的块级作用域内有效。
+                          命令声明的常量也是不提升，同样存在暂时性死区，只能在声明的位置后面使用。
+                          也与let一样不可重复声明。
+
+const实际上保证的，并不是变量的值不得改动，而是变量指向的那个内存地址不得改动。
+
+============================================================================================
+
+数组的解构赋值
+
+基本用法：ES6 允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构（Destructuring）。
+
+         let [a,b,c] = [1,2,3]
+
+         let [foo, [[bar], baz]] = [1, [[2], 3]];
+                    foo // 1
+                    bar // 2
+                    baz // 3
+
+          let [ , , third] = ["foo", "bar", "baz"];
+                    third // "baz"
+
+          let [head, ...tail] = [1, 2, 3, 4];
+                    head // 1
+                    tail // [2, 3, 4]
+
+          let [x, y, ...z] = ['a'];
+                      x // "a"
+                      y // undefined
+                      z // []
+
+       对于 Set 结构，也可以使用数组的解构赋值。let [x, y, z] = new Set(['a', 'b', 'c']);
+                                                        x // "a"
+
+对象的解构赋值
+
+对象的解构与数组有一个重要的不同。数组的元素是按次序排列的，变量的取值由它的位置决定；而对象的属性没有次序，变量必须与属性同名，才能取到正确的值。
+
+          let { bar, foo } = { foo: "aaa", bar: "bbb" };
+          foo // "aaa"
+          bar // "bbb"
+
+          let { baz } = { foo: "aaa", bar: "bbb" };
+          baz // undefined
+
+          let { foo: foo, bar: bar } = { foo: "aaa", bar: "bbb" };
+
+          let obj = {
+                      p: [
+                        'Hello',
+                        { y: 'World' }
+                      ]
+                    };
+                    let { p, p: [x, { y }] } = obj;
+                    x // "Hello"
+                    y // "World"
+                    p // ["Hello", {y: "World"}]
+
+          var { message: msg = 'Something went wrong' } = {};
+                   msg // "Something went wrong"
+
+字符串的解构赋值
+因为此时，字符串被转换成了一个类似数组的对象
+          const [a, b, c, d, e] = 'hello';
+          a // "h"
+          b // "e"
+          c // "l"
+          d // "l"
+          e // "o"
+
+可以使用圆括号的情况
+只有一种：赋值语句的非模式部分，可以使用圆括号
+
+          [(b)] = [3]; // 正确
+          ({ p: (d) } = {}); // 正确
+          [(parseInt.prop)] = [3]; // 正确
+          上面三行语句都可以正确执行，因为首先它们都是赋值语句，而不是声明语句；
+          其次它们的圆括号都不属于模式的一部分。第一行语句中，模式是取数组的第一个成员，跟圆括号无关；
+          第二行语句中，模式是p，而不是d；第三行语句与第一行语句的性质一致。
+
+=============================================================================================
+
+解构赋值的用途
+
+1.交换变量的值
+              let x = 1;
+              let y = 2;
+
+              [x, y] = [y, x];
+
+2.从函数返回多个值
+  函数只能返回一个值，如果要返回多个值，只能将它们放在数组或对象里返回。有了解构赋值，取出这些值就非常方便。
+              // 返回一个数组
+
+              function example() {
+                return [1, 2, 3];
+              }
+              let [a, b, c] = example();
+
+              // 返回一个对象
+
+              function example() {
+                return {
+                  foo: 1,
+                  bar: 2
+                };
+              }
+              let { foo, bar } = example();
+
+3.函数参数的定义
+  解构赋值可以方便地将一组参数与变量名对应起来。
+              // 参数是一组有次序的值
+              function f([x, y, z]) { ... }
+              f([1, 2, 3]);
+
+              // 参数是一组无次序的值
+              function f({x, y, z}) { ... }
+              f({z: 3, y: 2, x: 1});
+
+4.提取 JSON 数据
+  解构赋值对提取 JSON 对象中的数据，尤其有用。
+              let jsonData = {
+              id: 42,
+              status: "OK",
+              data: [867, 5309]
+            };
+
+            let { id, status, data: number } = jsonData;
+
+            console.log(id, status, number);
+            // 42, "OK", [867, 5309]
+
+5.函数参数的默认值
+
+
+6.遍历Map结构
+任何部署了 Iterator 接口的对象，都可以用for...of循环遍历。Map 结构原生支持 Iterator 接口，配合变量的解构赋值，获取键名和键值就非常方便。
+
+            const map = new Map();
+            map.set('first', 'hello');
+            map.set('second', 'world');
+
+            for (let [key, value] of map) {
+              console.log(key + " is " + value);
+            }
+            // first is hello
+            // second is world
+            如果只想获取键名，或者只想获取键值，可以写成下面这样。
+
+            // 获取键名
+            for (let [key] of map) {
+              // ...
+            }
+
+            // 获取键值
+            for (let [,value] of map) {
+              // ...
+            }
+
+7.输入模块的指定方法
+加载模块时，往往需要指定输入哪些方法。解构赋值使得输入语句非常清晰。
+
+const { SourceMapConsumer, SourceNode } = require("source-map");
+
+============================================================================================
+
+Symbol
+
+ES6 引入了一种新的原始数据类型Symbol，表示独一无二的值。它是 JavaScript 语言的第七种数据类型，
+前六种是：undefined、null、布尔值（Boolean）、字符串（String）、数值（Number）、对象（Object）。
+Symbol 值通过Symbol函数生成。这就是说，对象的属性名现在可以有两种类型，一种是原来就有的字符串，
+另一种就是新增的 Symbol 类型。凡是属性名属于 Symbol 类型，就都是独一无二的，可以保证不会与其他属性名产生冲突。
+
+            let s = Symbol();
+            typeof s
+            // "symbol"
+
+ 注意，Symbol函数前不能使用new命令，否则会报错。这是因为生成的 Symbol 是一个原始类型的值，不是对象。也就是说，
+ 由于 Symbol 值不是对象，所以不能添加属性。基本上，它是一种类似于字符串的数据类型。
+
+             // 没有参数的情况
+            var s1 = Symbol();
+            var s2 = Symbol();
+
+            s1 === s2 // false
+
+            // 有参数的情况
+            var s1 = Symbol("foo");
+            var s2 = Symbol("foo");
+
+            s1 === s2 // false
+
+            Symbol值不能与其他类型的值进行运算
+            *****************************
+
+            作为属性名的Symbol
+
+            var mySymbol = Symbol();
+
+            // 第一种写法
+            var a = {};
+            a[mySymbol] = 'Hello!';
+
+            // 第二种写法
+            var a = {
+              [mySymbol]: 'Hello!'    在对象的内部，使用 Symbol 值定义属性时，Symbol 值必须放在方括号之中。
+            };
+
+            // 第三种写法
+            var a = {};
+            Object.defineProperty(a, mySymbol, { value: 'Hello!' });
+
+            // 以上写法都得到同样结果
+            a[mySymbol] // "Hello!"
+      *************************************************************
+            注意，Symbol值作为对象属性名时，不能用点运算符。因为点运算符后面总是字符串，所以不会读取mySymbol作为标识名所指代的那个值
+
+            var a = {};
+            var name = Symbol();
+            a.name = 'lili';
+            a[name] = 'lucy';
+            console.log(a.name,a[name]);             //lili,lucy
+
+            Object.getOwnPropertySymbols方法，可以获取指定对象的所有Symbol属性名

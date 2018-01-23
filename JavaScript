@@ -1,0 +1,988 @@
+Web前端的三大基础技术:
+HTML:用来定义页面要显示的内容
+CSS:用来定义HTML的显示方式的
+JavaScript:用来定义HTML和CSS的行为的[交互]
+
+
+《浪潮之巅》
+吴军 ： Google研究员  google亚太区技术副总裁
+        中日韩文搜索的负责人
+
+        腾讯搜搜的总裁
+        天使投资人
+
+  技术线   T
+  管理线   M
+
+  AT&T  [贝尔]  C  UNIX  无线电  通信卫星
+  Inter AMD
+
+
+yahoo  --> alitaba
+NetScape  网景公司
+          网景浏览器
+          LiveScript-->
+NetScape和SUN合作    JavaScript
+ECMA组织             ECMAScript
+
+三屏一云
+[PC、移动/Watch、TV]
+
+
+--------------------------------------------------
+JavaScript语言的组成：
+
+语法:语言的法则，固定的写法用法
+    关键字:一些固定用法的单词
+    标识符:用户自定定义的单词[文件名，变量名，函数名]
+    运算符:= + - * / % > < >= <= !=
+    值的写法:  var a=10;
+              var a='abcd';
+              var a=[1,2,3,4];
+
+逻辑:程序的设计思路
+
+引入JS文件 在title下面 <script src="文件名.js"></script>
+
+-------------------------
+编写第一个JS程序，输出一个HelloWorld
+  第一种输出:  弹出一个框
+              alert("要输出的内容");
+  输出到页面上:
+              document.write("hello World");
+  输出到控制台:
+              console.log("Hello World");
+
+
+使用循环重复的执行某一些代码
+  for(var i=0;i<10;i++){
+    循环的内容;
+  }
+
+*
+**
+***
+****
+*****
+
+*****
+****
+***
+**
+*
+
+
+    *
+   **
+  ***
+ ****
+*****
+
+    *
+   ***
+  *****
+ *******
+*********
+
+
+
+    *
+   ***
+  *****
+ *******
+*********
+ *******
+  *****
+   ***
+    *
+kee
+
+
+作用域：在一定范围内的读写操作
+
+
+---------------------------------------------------------------------------------
+使用if语句有选择的执行
+
+
+-----------------------------------------------------------------------------------------------------------
+获取元素的方法：
+
+Id获取
+
+document.getElementById("div1")                     在整个文档里面 找元素 通过Id
+                                                    父级只能是document 是一个静态的方法
+
+标签获取 TagName     动态获取元素 无论元素在哪里 在这个页面上都能获取
+
+document.getElementsByTagName("div")                在整个文档里面 找一组元素 复数  通过标签名
+document.getElementsByTagName("div")[0]             在整个文档里面 找一组元素中的第一个
+document.getElementsByTagName("div")[1]             在整个文档里面 找一组元素中的第二个
+                                                    父级可以是document 也可以是某个元素 是一个动态的方法
+
+
+console.log(document.getElementById("div1"))        把结果打印在控制台
+
+window.onload=function(){                           浏览器窗口加载事件 等页面上所有元素全部加载完后
+                        }                           再去执行window.onload里面的代码
+
+
+var abc=document.getElementsByTagName("div")       申明一个变量 作为存储数据的容器
+                                                   变量的命名规则 数字字母 下划线 $开头 开头不能纯数字
+
+如果只是申明变量，并没有定义值 他的值为undefined
+
+定义多个变量值  var abc=123,i=456;
+
+定义过的元素不需要包引号
+
+$('#div1')=document.getElementsById('div1')
+$('#div1')=document.getElementsById('#div1.substring(1)')  substring(1)代表把#截掉 只留下#后的值
+$('div')=document.getElementsByTagName('div')
+$(元素，范围) 如果存在两个参数 则是在范围内获取这个元素
+              如果6只有一个参数 则默认在document获取
+
+------------------------------------------------------------------------------------------------
+获取CSS样式
+
+1.getComputedStyle(DIV).width  获取的值是根据CSS的优先级来的 JS/cssText > 行间样式 > 头部样式
+  适用于标准浏览器
+2.DIV.currentStyle.width       获取的值是根据CSS的优先级来的 JS/cssText > 行间样式 > 头部样式
+  适用于IE6 7 8 标准浏览器不兼容
+
+3.    . 与 [] 的区别
+ DIV.style.width="300px"   DIV.onclick=function(){
+                                                  }
+
+ DIV.style['width']="300px"    DIV['onclick']=function(){
+                                                          }
+ 如果用中括号绑定属性或者事件 里面必须是字符串形式 [字符串]
+
+ 4.获取计算后的CSS样式
+  console.log(DIV,'width')
+  function fn(ele,attr){
+      if(ele.currentStyle){
+        return ale.currentStyle[attr]
+      }else{
+        return getComputedStyle(ele)[attr]
+    }
+  }
+  三木写法
+  console.log(DIV,'width')
+  function fn(ele,attr){
+    ele.currentStyle
+        return ele.currentStyle？    写条件
+        ale.currentStyle[attr]:getComputedStyle(ele)[attr] 冒号前写一个结果 冒号后写另一个结果
+  }
+
+
+----------------------------------------------------------------------------------------------
+
+函 数
+
+function(){                                 函数是一个代码块
+
+          }
+
+var abc=document.getElementsById("div1");
+abc.onclick=function(){                      onclick 点击事件
+          alert(123)                         alert   定义一个弹框
+          abc.style.backgroud="ye3llow";      将abc的背景颜色变成黄色
+          abc.style.fontSize="20px";         将字体大小改为20px
+          abc.style.cssText="width:100px;height:100px;background:#f00;border:1px solid #333"; 将作用到同一个元素上的样式整合在一起
+
+}
+
+有名函数  给函数取了名字后 可以在任何地方提取这个名字来调用函数
+
+ABC.onclick=fn1; 则是在点击ABC时 执行“名字”这个有名函数的代码
+
+function 名字(){
+
+}
+
+
+
+名字() 默认为系统调用 自动执行
+
+
+匿名函数不能单独存在 有名函数可以单独存在
+
+
+window.onload=function(){
+
+                     }  当把JS 写在元素上方时 需写在这个系统函数里面，让浏览器跳过这个函数 先读元素
+
+--------------------------------------------------------------------------------------------------
+函 数 传 递 参 数
+
+参数类型（数字 字符串 布尔值 函数 对象 未定义）
+
+数字类型
+
+fn1(2)                       2 实参 实际参数 在函数调用时候确定的
+function fn1(var a ){        a 形参 形式上的参数 定义函数时写的参数
+    alert(a)
+}
+fn2(1,2,3,4)
+function fn2(a,b,c,d){          实参 形参 可以多个
+    alert(a+b+c+d)
+}
+fn3(1,2)
+function fn3(a,b,c,d){          当实参小于形参时 a=1 b=2 而c与d因为没有赋值 则是未定义状态
+    alert(a+b+c+d)              a+b+c+d=NaN
+}
+fn4(1,2，3,4)
+function fn4(a,b){             当实参大于形参时 a=1 b=2 而3与4没有对应的变量 则要调取他们时 需要通过arguments来提取值
+    alert(a+b+arguments[2]+arguments[3])
+}                                              arguments 是所有实参的集合
+                                  a+b+arguments[2]+arguments[3]=10
+
+字符串类型
+
+fn1('我们')
+function fn1(a){
+    alert(a.length) 结果为2
+    alert(a.charAt(0)) 结果为我
+}
+
+对象类型
+
+fn1(window,document)
+function fn1(a,b){
+  a.onload=function(){
+  b.body.innerHTML=123
+  }
+}
+
+函数类型
+
+fn1(function fn2={              实参 function fn2={alert(1)}
+  alert(1)
+})
+function fn1(fn){                形参 fn
+  fn()
+}
+
+函数传参的应用：
+1 先定义一个有名函数 结构一样 可以通过父级获取
+2 把变化的 设置一个形参 调用的时候确定实参
+
+
+return   函数内部的关键字
+
+1.当return后面没有任何值，这个函数的返回值为undefined
+2.当return后面有值，则这个函数的返回值为return后面的值
+  函数名+（）= return的返回值
+3.无论return后面有没有值，都会阻止后面代码的执行
+
+----------------------------------------------------------------------------------------------
+
+作 用 域
+范围 区域 在一定范围内的读写操作
+
+全局域  <script></script>
+JS预解析  首先拿到页面上所有的变量，所有的函数，进行逐行解析
+                                  （在页面上拿到变量和函数时，函数会把变量给替代掉，看最后拿到的是什么；
+            ********                然后再逐行解析，当函数遇到表达式时会进行改值；当逐行解析时再遇到局部作用域里面还有
+                                    变量时，则再次对局部进行预解析；如果局部变量和全局变量是一个名字，并且没有定义var 则局部变量可以改全局变量的值）
+表达式 + - * / ++ --
+
+全局变量  var n=0 定义在<script></script>标签内，没有包在其他的函数作用域内，则这个变量称为全局变量
+         当在局部区域 没有用 var 来定义变量 直接 n=0 则是全局变量
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------------------------
+值的获取：<input type="text" placeholder="123" abc="456">
+
+系统定义的属性：通过 元素.属性名 来获取属性值
+
+自定义属性（自己定义的属性）：通过 元素.getAttribute("abc")
+
+字符串的拼接:元素.属性名+"在"+元素.属性名
+
+如何拿到标签里面的内容？  <p id="p">这是一段文字</p>
+var op=document.getElementById("p")
+op.innerHTML
+innerHTML 获取的是元素开始标签和结束标签的所有内容，包括文本和结构，也可以进行修改 ，每次都会重新渲染页面 不会克隆元素的事件
+op.innerHTML="<span>456</span>"
+
+
+----------------------------------------------------------------------------------------------
+
+  var num=1
+      num++  num+=1  num=num+1  在自身的基础上加一个1
+      num+=10                   在自身的基础上加10
+      num--                     在自身的基础上减1
+      num+"px"                  这只是加个单位而已
+      a++                       先赋值 后自增
+      ++a                       先自增 后赋值
+
+判断语句    if(num<16){         括号里面写条件 布尔值（true or false) 如果里面写阿拉伯数字或者空字符串 0和" "都会被解析成false 其他则为true
+                 num=16        花括号里面写事件
+                    }
+            if(条件){
+              符合条件 则执行这个里面的语句
+            }else{
+             不符合条件 则执行这个里面的语句
+            }
+
+            if(){
+
+            }else if(){      或者    否则再判断
+
+            }else if(){      或者
+
+            }else{          哪个条件都不符合
+
+            }   适用于多种结果的判断
+
+
+
+
+哪些条件不能做判断条件？
+1,color red #000 rgba
+2,图片的src
+当不能做判断条件的时候需要判断时，可以创造一个判断条件
+
+----------------------------------------------------------------------------------------------------
+
+switch 执行语句
+
+switch(变量){
+case 0:    情况       当获取的变量为字符串类型（包在引号里面的东西就是字符串类型）时 要将case后面接的结果类型与变量保持一致 例如字符串类型则"0"
+x="";
+alert(""); 执行代码块 例如执行弹窗代码块 也可以执行其他的代码块
+
+break;跳出循环
+}
+
+parseInt 可以将字符串转换成数字
+
+case 0
+case "我们" case 后面可以接任何你要的结果值
+
+switch (data) {
+    case 0:
+    H="你是第一名";
+    alert("你是第一名")
+    break;
+    case 1:
+    H="你是第二名";
+    alert("你是第二名")
+    break;
+    case 2:
+    H="你是第三名";
+    alert("你是第三名")
+    break;
+    }
+
+=-------------------------------------------------------------------------------------------------
+
+字符串的拼接
+2种方法
+
+一、定义过的部分用 ${} 包起来  整个用``包起来
+
+二、定义过的部分 先进行分割（分割引号） 然后再用+号连接  未定义的用引号包起来
+
+注意：第二种方法，单双引号的应用  外面是双引号 里面就需要单引号  如果外面是单引号 则里面需要用双引号
+
+---------------------------------------------------------------------------------------------------------------
+
+数组  []里面的项用逗号,隔开
+[1,2,3,4]
+[{},{},{},{}]
+['1','2','3','4']
+
+length 个数 查询到数组里一共有多少项
+计算机算数是从0开始，所以1 一般是表示第二个
+arr.push() 往数组里面加东西
+var arr=[];
+var arr=new Array();
+
+数 组 的 方 法
+
+join   将数组转化成字符串 里面也可以写结构
+var arr=['我','你','他']
+arr.join()       '我,你,他'    将数组转成字符串
+arr.join('')     '我你他'
+arr.join('-')    '我-你-他'
+arr.join('我')   '我我你我他'
+
+
+----------------------------------------------------------------------------------------------------
+
+javascript:;  禁止功能
+
+--------------------------------------------------------------------------------------------------
+
+等于号： 一个等于号表示赋值“=”
+        两个等于号表示 是不是？ “==” 仅仅进行值的比较 不比较数据类型
+        三个等于号 “===” 严格 不仅比较值 也比较类型
+        不等于 “!=” 表示 “==”的不等于
+              “!==”表示 “===”的不等于
+
+加等于： +=  是表示在自身的基础上再加上新内容
+
+并且：&& 左右两边条件同时满足 才可以执行代码
+     '1'=='1'&& alert(1) 如果左边条件成立 则执行右边的代码 如果不成立 则不执行 一般用于调用函数 如果条件成立则调用函数
+
+或者：|| 左右两边条件只要有一个满足 则可以执行代码
+
+return 阻止代码进行
+
+-----------------------------------------------------------------------------------------------
+
+for循环
+
+for(var i=0;i<4;i++){  设置变量  判断条件 不让for变成一个死循环 当条件不满足 循环停止
+      代码        先执行代码 再执行判断条件里面的 i++  再判断条件是否满足
+     }
+
+for (var i=0; i<1000; i++){
+   htm+='<input type="button" value="点击">'
+}
+document.body.innerHTML=htm;      当同一个东西要重复多次时 可以设置一个变量先预先整合 再一次性导入
+
+body 和 title 可以直接获取 document.body.innerHTML=","
+
+for循环 速度很快 可以一瞬间批量处理元素  如果循环里面套了函数 函数里面的变量会是最终值 如果要恢复正常使用 只能在函数里面再套一个for循环 有清空功能
+如果里面有innerHTML 因为本身就有清空的功能 所以可以不用再在里面加循环了
+
+for循环里面套for循环  是外层的for循环走一次 里面的for循环要全部执行完  外层循环再继续一次
+
+break  停止整个for循环
+
+continue 只停止当次循环 然后再继续循环
+
+---------------------------------------------------------------------------------------------------------
+
+this 这个    调用函数（方法）的那个对象
+
+INPUT.onclick=function(){
+  this.style.background="red"     这个时候 this 就是用来指代 INPUT  谁触发点击则指向谁
+}
+
+
+
+INPUT.onclick=function(){
+    fn1;
+}
+function fn1(){
+op.innerHTML=this.value;   此时 this 是被fn1调用 但是fn1是被windows调用 所以 this 是被windows调用
+}                          如果想要this 不指向windows 而是指向INPUT 则需要设置一个空变量 var B=null 将空变量赋值于this
+                           即 B=this
+                            var B=null
+                           INPUT.onclick=function(){
+                               fn1;
+                               B=this ;
+                           }
+                           function fn1(){
+                           op.innerHTML=this.value;      此时this则是指向INPUT
+                           }
+
+----------------------------------------------------------------------------------------------------
+
+index 索 引 自定义属性
+        DIV.index=1;
+        DIV.index=red;    自定义属性后面可以任意定义 可以是数值 可以是颜色
+
+        var arrimg=['../img1/1.png','../img1/2.png','../img1/3.png','../img1/4.png']
+    		var arrp=['秃鹰','银发女','橙色异次元','外星人入侵']
+    		for (var i = 0; i < 4; i++) {
+    			LI[i].index=i
+    			LI[i].onclick=function(){
+    					IMG.src=arrimg[this.index]
+    					OP.innerHTML=arrp[this.index]
+    					SP.innerHTML=(this.index+1)+'/'+'4'
+    				}
+    		}   用法：当循环里面套函数 函数里面的变量不能用时 可以设置 点击对象.index=i 这里的index可以看做是下标 则里面可以用 this.index 代替变量
+
+行间自定义属性的获取 DIV.getAttribute('abc')
+通过JS给元素加的自定义属性 例如 DIV.a=1 则获取方式为 DIV.a
+
+
+
+--------------------------------------------------------------------------------------------------
+
+事 件
+
+鼠标点击事件        DIV.onclick=function(){} 这个是默认左键
+鼠标移入事件        DIV.onmouseover=function(){}
+鼠标移出事件        DIV.onmouseout=function(){}
+鼠标摁下事件        DIV.onmousedown=function(){}
+鼠标抬起事件        DIV.onmouseup=function(){}
+鼠标移动事件        DIV.onmousemove=function(){}
+鼠标右键菜单事件    document.oncontextmenu=function(){}
+窗口大小改变事件    window.onresize=function(){}
+
+--------------------------------------------------------------------------------------------------------
+
+取 模（取余）
+
+取模规则 A%B 余数为0-B之间的循环数 不包含B
+
+取 整
+Math.floor(2.9) 向下取整 只保留整数部分    结果为2
+Math.ceil(2.9)  向上取整 小数去掉整数加一  结果为3
+Math.round(2.9) 四舍五入                  结果为3
+          (2.2)                          结果为2
+Math.random()     随机取数 范围0-1之间的随机数 小数
+Math.random()*10          范围0-10之间的随机数
+Math.abs(-10)     取绝对值 结果只有正数
+Math.max(a,b,c,d)        取最大值
+Math.min(a,b,c,d)        取最小值
+Math.sqrt(36)   就是根号36  值为6
+Math.row(1,3)   就是某个数的几次方  1的三次方
+
+
+-------------------------------------------------------------------------------------------
+
+数 据 类 型
+
+数字
+字符串
+布尔值
+对象
+函数
+未定义
+
+typeof 检测数据类型
+var a=1
+console.log(typeof a)   number 数字类型
+
+var a='1'
+console.log(typeof a)        string  字符串类型
+console.log(a.length)        字符串可以通过length获取长度
+console.log(a.charAt(0))     charAt(下标)通过下标拿字符
+
+var a=true
+console.log(typeof a)        boolran 布尔值类型 true false
+
+var a=document
+console.log(typeof a)        object 对象类型 文档 元素
+var arr=[1,2,3]
+console.log(typeof a)        object 对象类型 数组
+var a={b:1,c:1}
+console.log(typeof a)        object 对象类型 对象
+var a=null
+console.log(typeof a)        object 对象类型 空对象
+var a=function fn1(){}       函数表达式的写法
+console.log(typeof a)        function 函数类型
+var a
+console.log(typeof a)        undefined 未定义类型
+只有对象类型才有方法和属性 字符串除外
+
+
+
+数据类型的转换
+
+隐试类型的转换
+var a='1'+1 字符串+数字  加号会把数字转换成字符串 变成字符串拼接 结果为11
+var a='10'-1 var a='10'/2 var a='10'*2 当字符串 减 乘 除 数字  会把字符串转化成数字 结果为 9 5 20
+var a='1' a++ a-- 都是将字符串转换成数字
+
+字符串的比较 每一位的比较 '5'>'30'
+字符串与数字比较 是把字符串转成了数字 ‘30’>20
+!取反 例如 !1 会将右边的值变成了布尔值
+alert(1==1) alert会把结果转换成布尔值
+
+
+显示类型的转换（强制转换）
+var a='23.4567元'
+Number(a)       将值转换成数字类型 保留小数 不能识别文字
+                可以将空数字[]转成0 将true转换成1  将false转换成0
+parseInt(a)     将字符串转换成数字类型 不保留小数和文字
+parseFloat(a)   将字符串转换成数字类型 保留小数 并且把单位去掉
+
+NaN not a number 不是个数字的数字类型 并且自己与自己不相等
+isNaN           是不是不是数字？ 内置Number转换器 可以将带数字的字符串'2'或者数组或者布尔值转换成数字类型  只要是数字类型 就是false 错
+
+Boolean()       把值转换成布尔值
+Boolean('1')    把有值的字符串转化成true
+Boolean('')     把空字符串转化成false
+Boolean([1,2,3])把数组转化成true
+Boolean(0)      把数字0转化成false
+Boolean(2)      把除了0的数字全部转化成true
+Boolean(NaN)    flase
+Boolean(function fn1()) true
+Boolean(2-'px') 把非法运算转化成false
+
+String()        把值转化成字符串
+值.toString     把值转化成字符串
+
+--------------------------------------------------------------------------------------------
+定 时 器
+
+1.重复定时器         重复执行多次
+setInterval(function(){     设置重复定时器
+
+},1000)                    1000的单位为毫秒 这里代表是1秒 每秒执行一次
+
+clearInterval(定时器名字)   停止重复定时器
+
+2.延迟定时器         只执行一次
+setTimeout(function(){     设置延迟定时器
+
+},1000)                    1000的单位为毫秒 这里代表是1秒 延迟1秒执行
+
+clearTimeout(定时器名字)   停止延迟定时器
+
+延迟定时器：经常应用于从主菜单移入至子菜单的应用，移入时清除定时器，移出时延迟消失
+
+注意：在定时器的使用时，用到的this是指向window
+
+setInterval(function(a,b){
+  console.log(a,b)
+}1000,3,4)       时间过后的值都是实参
+
+setInterval(fn1,1000,3,4)
+
+--------------------------------------------------------------------------------------
+
+日 期 对 象
+
+通过new的方法定义对象、函数、对象、本机时间
+var arr=[];
+var arr=new Array();     对象
+var fn=function{};
+var fn=new Function();   函数
+var obj={a:1,b:2};
+var obj=new Object();    对象
+
+
+var time=new Date();     本机时间
+time.getFullYear();      年份
+time.getDate();          日期
+time.getDay();           星期几 星期天是0
+time.getMonth()+1;       月份
+time.getHours();         小时
+time.getMinutes();       分钟
+time.getSeconds();       秒
+
+----------------------------------------------------------------------------------------------
+
+ 字 符 串 的 方 法
+
+
+toString()                      将其他类型转换成字符串类型
+ var str='牛耳教育'
+ str.length                      字符长度
+ str.charAt(下标)                通过下标找字符 不写下标 默认为0下标
+ str.charCodeAt()               通过下标找字符对应的编码 不写下标 默认为0下标
+ string.fromCharCode(编码)      通过编码找字符
+
+ str.indexOf('我')              通过indexOf找它的位置 如果存在就返回它的位置 不存在则返回-1  indexOf找到了一个以后就不会再往后去找了
+ str.indexOf('我',2)            如果有第二个参数，则是代表默认从第几位开始往后去找 如果参数为负数，则会将负数默认转成0
+
+ str.substring(0,2)             字符串的截取 截取0-2之间的字符 不包含2  这个截取的为“牛耳”
+                                如果只写一个参数 则是从参数位置开始把后面的全部截取
+ str.substring(2,0)             如果第二个参数比第一个参数要小 会默认交换位置变成(0,2)
+                                参数为负数的话，会转成0
+
+str.slice(0)                   截取的是牛耳教育
+str.slice(0,2）                截取的是牛耳
+str.slice(0,-2)                截取的是牛耳
+str.slice(-4,-2)               截取的牛耳  slice可以接受负数 所以它会倒着去数字符串 没有-0
+str.slice(-4,-1)               截取的牛耳教  会倒着数 从-4开始 找到-1之间的字符串 不包括-1
+str.slice(-7,2)                截取的是牛耳  超出参数会变成0
+
+
+ var str="www.baidu.com"
+ str.toUpperCase                转成大写字母
+ str.toLowerCase                转成小写字母
+
+ var str='牛耳教育'             将字符串转成数组
+ str.split()                    [牛耳教育]
+ str.split("")                  ['牛','耳','教','育']  括号里面写分隔符 则会把每个字符分割开来
+ str.split('牛')                ['','耳教育']   括号里面写了一个存在的字符和分隔符，则是把这个字符切掉 将左边的为一半 右边为一半
+ str.split(2)                   [牛耳教育]  括号里面写一个不存在的字符 则是显示全部
+ str.split('我')                ['牛耳教育']
+ var str='2017-07-18'
+ str.split('-')                 ['2017','07','18']
+ str.split('-',2)               ['2017','07']   2代表为只保留两项
+ var str='/www.baidu.com/'
+ str.split('/')                 ['','www.baidu.com','']
+
+ ----------------------------------------------------------------------------------------------
+
+  数 组 的 方 法
+  var arr=[1,2,3]
+
+  往数组添加项
+  arr.push(5)      arr=[1,2,3,5] 往数组 后 面添加值 也可以返回数组的长度为4
+  arr.unshift(5)   arr=[5，1,2,3]往数组 前 面添加值 也可以返回数组的长度为4
+
+  删除数组项（不接受参数）
+  arr.shift()       括号里不能写参数 删除了数组的 第一项   并且返回删除项的值
+  arr.pop()         括号里不能写参数 删除了数组的 最后一项 并且返回删除项的值
+
+  获取数组项（接受参数） 不会改变原数组，只是返回获取项
+  arr.slice(0,4)    从第0项开始，获取到下标为4项，但是不包括第4项
+                    原来的数组并不会受影响
+
+  删除并添加               返回值是删除的项，如果没有删除则没有返回值
+  var arr=[1,2,3,4]
+  arr.splice(从什么时候开始,删除几项，添加项，添加项...)  返回值都是删除的项
+  arr.splice(0)           arr=[]      只有一个参数 则默认从什么开始 全部删除
+  arr.splice(0,2)         arr=[3,4]   从0开始删除2项 返回值为删除的那2项
+  arr.splice(从什么时候开始,删除几项,添加在删除位置上的项)  从第三位开始全部为添加项
+  arr.splice(0,2,5)       arr=[5,3,4]   三个参数  第三个参数为添加项 并且是在删除的位置上添加
+
+  数 组 去 重
+
+  var arr=[2,2,4,4,1,2]
+  for (var i = 0; i < arr.length; i++) {
+    for (var j = i+1; i < arr.length; j++) {
+        if (arr[i]==arr[j]) {
+          arr.splice(j,1)
+        }
+        j--
+    }
+  }
+
+
+ 数 组 排 序
+ var arr=['b','a','c']
+ var arr1=['2','3','1']
+ arr.sort()      arr1=['1','2','3'] 先将数组的每一项转成字符串 再按照数字编码从小到大排列
+
+ arr.sort(function(a,b){        随机选数组里面没有比过的数来进行比较  当相减大于0时，双方交换位置，如果小于0，则不交换位置
+   return a-b
+ })                         arr1=['1','2','3'] 从小到大排列
+
+ arr.sort(function(a,b){
+   return b-a
+ })                         arr1=['3','2','1'] 从大到小排列
+
+ arr.sort(function(a,b){
+   return Math.random()-0.5
+ })                         arr1=['2','1','3'] 随机排列
+
+ arr.reverse()              arr=['c','a','b'] 将数组颠倒个顺序
+
+
+ 数 组 concat 连 接 数 组  不会改变原数组的数据，经过运算生成一个新数组
+
+var arr1=[1,2,3]
+var arr2=[2,3,5]
+var arr3=[]
+arr1.concat(arr2)     生成一个新数组 arrm=[1,2,3,2,3,5]
+                      原来的数组不会改变 arr1=[1,2,3]
+arr1.concat(arr3)     生成一个新数组 arrm=[1,2,3]
+                      这样可以用来复制数组
+
+数组变字符串
+var arr=[1,2,3]
+arr.toString()       arr='1,2,3'
+
+ -------------------------------------------------------------------------------------------------
+ json
+
+ var obj={a:1,b:2}         类型是对象类型  a和b叫做key值  key是唯一的  冒号后的数据叫做value值
+ var obj={'a':1,'b':2}     可以打引号
+
+ for(var attr in obj){
+      console.log(obj[attr])                   通过for...in循环来拿到obj里面的属性和value值
+   for(var i=0;i<obj[attr].length;i++ ){       如果是数组 再通过for循环拿到数组里面的值
+                   }
+                    }
+---------------------------------------------------------------------------------------------------
+
+  字面量定义 与 new定义
+
+  var arr=[]             字面量定义  更简洁
+
+  var arr=new Array(3)   new定义 括号里面写的是数字 则是代表数组的项数，长度
+      arr[0]=1
+      arr[1]=2
+      arr[2]=3
+
+---------------------------------------------------------------------------------------------------------
+正 则 表 达 式
+
+字面量定义                   var re=/正则/标识;                字面量定义会自动转成字符串，不需要打引号
+实例化定义                   var re=new RegExp('字符'，'标识');  实例化定义不能将字符解析为字符串，必须打引号
+标识                        g  全局匹配
+                           i  忽略大小写
+特性                       1.懒惰性    默认只匹配一次
+                           2.贪婪性   加了 + 量词 竟可能匹配多的字符 re=/a+/g
+
+test                     正则去匹配字符串，如果匹配成功则返回true,不成功则为false
+test写法                 正则.test(字符串)  re.test(str)
+\转义字符                把字符转成特殊意义，失去字符本来的意义
+
+match                   把匹配的字符，转成数组  ['字符','字符']
+match写法               字符.match(正则)  str.match(re)
+
+exec                    正则匹配字符  全局匹配时 不能一次性找出来 需要有多少个字符 就需要多找几次
+exec写法                re.exec(str)
+
+match 与 exec的异同：   写法的不同  str.match(re)  re.exec(str)
+                       找到匹配成功的字符，当成数组的第一项，如果有很多匹配成功的字符，exec需要调用很多次方法
+                       如果进行匹配子项() 一旦在全局中去匹配子项 match的匹配子项功能会失灵，而exec不会，依然可以匹配
+
+search                 正则去匹配字符 如果匹配成功 则返回匹配的字符下标 不成功则返回-1
+                       g 全局匹配不起作用
+search写法             字符.search(正则) str.search(re)
+
+lastIndex              从哪里开始找 返回出来是开始找的下标
+lastIndex写法           re.lastIndex
+
+
+
+replace                替换  匹配成功的那个字符替换成新字符
+replace的写法          字符.replace(re,'替换内容')  str.replace(re,'替换内容') 第二个参数可以使替换内容，也可以是回调函数
+                      str.replace(re,function(a){
+                      函数的第一个参数，就是匹配成功的那个字符
+                      var n=''
+                       for(var i=0;i<a.length;i++){
+                       n+=''
+                       }
+                       return n
+                       })
+                      如果要匹配多个字符 需要在正则里面这样写 re=/你|我|他/
+
+[字符]                [字符]中括号中的字符表示一个字符
+                      [abcd]表示a或者b或者c或者d
+
+----------------------------------------------------------------------------------------------------------------------
+D O M 文档对象模型
+
+获取节点     childNodes                   只能获取第一级子元素 这个元素可以是不同类型
+            children                     只能获取第一级子元素，这个子元素是元素节点
+            nodeType                     获取类型
+            getElementsByTagName('abc')  这个只能通过元素上有name属性并且取了名字的 abc就是名字 name='abc'
+            firstChild                   获取第一个子节点
+            firstElementChild            获取第一个元素类型的子节点
+            lastElementChild             获取最后一个元素类型的子节点
+            nodeValue                    获取文本本身
+            innerText                    获取文本本身
+            innerHTML                    获取结构+文本本身
+            document.nodeName            获取节点属性 只读不赋值
+            nextSibling                  获取下一个兄弟节点
+            previousSibling              获取上一个兄弟节点
+            nextElementSibling           获取下一个元素的兄弟节点
+            previousElementSibling       获取上一个元素的兄弟节点
+            parentNode                   获取离他最近的父级节点 可以连续获取
+            offsetParent                 获取离他最近的定位属性的父级节点 如果没有定位属性父级，则是默认body
+            offsetLeft|offsetTop         获取自己到当前离他最近的定位父级元素的偏移值 如果没有定位父级，则是到html的距离
+            offsetHeight|offsetWidth     获取元素style.height+padding|获取元素style.width+padding
+            nodeName                     节点名称标签名 不过是大写 比如li是LI
+
+添加元素     document.createElement()     固定写法 创建元素
+            appendChild                  添加元素
+            removeChild                  删除元素
+            replaceChild(元素1,元素2)    替换元素  第一个为替换后的元素 第二个是被替换的元素
+            insertBefore(元素1,元素2)    插入元素  第一个是需要插入的元素  第二个是被插到前面的元素  就是元素1插入到元素2前面
+            getAttribute('属性名')        获取系统自带属性和自定义属性值
+            setAttribute('属性名',修改值) 设置修改属性值
+
+添加事件    addEventListener('事件',函数，是否捕获)      事件不能加‘on’
+                                                       同一个元素相同的事件，如果有两个不同的处理函数，不会覆盖，会都执行
+移除事件    removeEventListener('事件',函数，是否捕获)   事件不能加‘on’
+           统一第三个参数如果不写 默认为false 不捕获
+
+冒泡        当元素接收到一个事件，把事件往上一级冒泡，如果上一级正好有这个事件,那么就会触发（不要理解的太复杂，这个概念太智障）
+            <div1>
+               <div2>
+                   <div3>
+                   </div3>
+                </div2>
+            </div1>
+                                  addEventListener('事件'，函数，是否捕获)  如果是不捕获则是冒泡事件false，例如 三个div都有点击事件
+                                  如果点击<div3>则会向上冒泡，先执行<div3>再<div2>再<div1>
+                                  如果是捕获true 点击<div3>则会捕获，先执行<div1>再<div2>再<div3>
+阻止冒泡  stopPropagation()
+         ev事件对象
+         要引入ev || event事件对象（用于记录数据） 作为参数
+         ev.stopPropagation();阻止冒泡（多用于高版本，如果IE浏览器的话，则用event.stopPropagation();）
+         event.cancelBubble=true; 阻止冒泡（多用于IE）
+         var e=ev || event; 也可以用个变量这样来写用于处理兼容问题
+         ev.target 事件源 找到这个事件的源头
+         ev.clientX  鼠标触发事件时 在可视区X轴的距离
+         ev.clientY  鼠标触发事件时 在可视区Y轴的距离
+
+--------------------------------------------------------------------------------------------------------------
+
+表 单 事 件
+
+onchange 输入框的值发生变化时触发（其实有光标的都可以）失去光标后执行
+oninput  输入框只要发生变化就会触发，不需要等到失去焦点后再执行
+onfocus  得到焦点（光标）时触发
+onblur   失去焦点（光标）时触发
+onsubmit 当表单要提交时触发  如果在表单里写了action='www.baidu.com'或者没写 都会默认提交到地址
+         可以阻止这个默认事件 当输入框或者其他的内容为空时 return false 阻止浏览器默认事件 这个阻止事件必须包在事件函数中才有用
+onreset  当表单要重置时触发
+         重置时需要作出判断 一般重置按钮摁下后会弹出一个框 这个框用confirm('需要重置么')来设置
+         return false 阻止浏览器默认事件
+         return true  不阻止浏览器默认事件
+         需要重置 true 默认行为
+         不需要重置 false 阻止默认行为
+         可以直接用 return comfirm('需要重置么')
+
+--------------------------------------------------------------------------------------------------------------------
+B O M 浏览器对象模型
+
+窗 口 事 件
+
+onscroll                                                    当滚动条发生滚动的时候触发
+onresize                                                    当窗口大小发生变化时触发
+document.documentElement.clientWidth                        窗口可视区宽 不包含滚动条
+document.documentElement.clientHeight                       窗口可视区高 不包含滚动条
+document.body.scrollTop|scrollLeft                          滚动条top距离值|left距离值 （除了火狐不可用）
+document.documentElement.scrollTop|scrollLeft               滚动条top距离值|left距离值 （只限火狐可用）
+document.body.scrollWidth|scrollHeight                      如果内容高度>可视区高度 则获得的是内容高度
+                                                            如果内容高度<可视区高度 则获得的是可视区高度
+
+键 盘 事 件
+
+onkeydown                                                   当键盘摁下去的时候所触发的事件
+onkeyup                                                     当键盘摁键抬起的时候所触发的事件
+ev.keyCode                                                  这个键的编码 数字类型
+ev.ctrlkey                                                  当摁下ctrl键 如果摁下是个true 如果没有摁下的话 则为false
+ev.shiftkey                                                 当摁下shift键 如果摁下是个true 如果没有摁下的话 则为false
+ev.altkey                                                   当摁下alt键 如果摁下是个true 如果没有摁下的话 则为false
+
+DIV 按键移动                                                 用执行语句来写 switch()
+
+阻止默认事件                                                 是因为谁产生的，就阻止它
+                                                            return false
+                                                            ev.preventDefault() (不适用于低版本)
+                                                            ev.returnValue()    (适用于低版本)
+
+---------------------------------------------------------------------------------------------------------------------
+闭 包 函 数
+
+匿名函数自执行   (function(形参){
+                  alert(形参)
+                       })(实参)
+1.函数是一个闭包函数
+2.函数嵌套函数
+3.内部的变量和方法可以访问外部的变量和方法
+
+在什么情况下使用闭包函数？
+定义一个简单的函数就是使用闭包函数；匿名函数的自执行
+
+关于this对象
+
+闭包函数中的this指向是window
+
+块级作用域（私有作用域）：可以利用匿名函数自执行建立块级作用域，在块级作用域中建立的变量，命名，代码都是属于这个私有作用域，出了这个这个作用域，不能
+                        被访问，这样可以避免变量命名相同的冲突，以及全局变量的濡染，有封装的概念，常用于大型项目中。
+
+---------------------------------------------------------------------------------------------
+
+同步交互 异步交互
+
+同步交互：指发送一个请求，需要等待返回，然后才能够发送下一个请求，有个等待的过程
+异步交互：指发送一个请求，不需要等待返回，随时可以再发送下一个请求，即不需要等待
+
+定时器为异步交互

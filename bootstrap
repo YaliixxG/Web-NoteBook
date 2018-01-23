@@ -1,0 +1,334 @@
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="stylesheet" href="../wocss/bootstrap.min.css">
+<script src='../wojs/YaliiG.js'></script>
+<script src='../wojs/bootstrap.min.js'></script>
+
+--------------------------------------------------------------------------------------
+ 容器
+container-fluid  流体
+container  固定
+                lg 1170    当分辨率大于1200
+                md 970     当分辨率为>=992
+                sm 750     当分辨率为>=768
+                xs auto    <768  宽度为100% 自适应整个屏幕
+
+--------------------------------------------------------------------------------------
+表单
+
+1.根据不同的分辨率，不同的屏幕大小需要的大小来定义整个宽度。
+  例如我在lg上需要占6个格子，在md上需要占8个格子，在sm上占10个格子，在xs上占满整个屏幕
+  所以：<div class='col-lg-6 col-md-8 col-sm-10 col-xs-12'></div>
+
+2.如果一行只有一个元素且与父级宽度一样，则无需特别设置
+  如果一行有两个元素或者多个元素，则需要根据元素的大小来分配12个格子
+  注意：需要现在外面设置一个<div class='row'></div>这样来去除默认的padding样式，再在里面设置几个DIV 来分配12个格子
+  <form class='form-group'></form>来默认上下间距
+
+3.当占满一行的输入框时 无需定义row  直接用<form class='form-group'></form>来书写，可以有默认的上下间距。
+
+tabindex=1 | 2 | 3... 这个是用键盘的tab键来切换输入框光标  后面的数字为顺序
+
+-------------------------------------------------------------------------------------------------
+
+字 体 图 标
+
+一般常用内联标签来设置 <a></a> <i></i> <span></span>
+
+给图标设置大小： icon-large icon-2x icon-3x icon-4x
+
+按钮上有字和图标： <a 按钮><i 字体图标>字</i></a>
+
+----------------------------------------------------------------------------------------------
+
+下 拉 菜 单
+
+<div class="dropdown">                                                            定义一个下拉菜单的容器 父级
+  <a href="#" class="btn btn-primary" data-toggle="dropdown">触发器按钮</a>        定义一个触发器
+  <ul class="dropdown-menu">                                                      定义一个下拉菜单
+  <li>下</li>
+  <li>拉</li>
+  <li>菜</li>
+  <li>单</li>
+  </ul>
+</div>
+
+------------------------------------------------------------------------------------------------------------
+按 钮 组 btn-group
+
+<div class="btn-toolbar">                          将多个按钮组放在一个按钮工具集合里 便于管理
+  <div class="btn-group btn-group-lg">             默认是水平摆放按钮 如果要设置为垂直放置按钮 则是 class="btn-group-vertical"
+    <a href="#" class="btn btn-success">1</a>
+    <a href="#" class="btn btn-danger">2</a>
+  </div>
+  </div>
+
+-------------------------------------------------------------------------------------------------------------------------
+导 航
+
+<nav class='navbar navbar-default' role="navigation">      这个role="navigation"只是起到给搜索引擎搜索的作用  navbar定义一个基本的导航栏
+  <a href='#' class="navbar-brand">HOME</a>                navbar-brand 这个是将字体放大
+  <a href='#'>1</a>
+  <a href='#'>2</a>
+</nav>
+
+垂直的胶囊式导航菜单
+在使用 class .nav、.nav-pills 的同时使用 class .nav-stacked，让胶囊垂直堆叠。
+两端对齐的导航
+在分别使用 .nav、.nav-tabs 或 .nav、.nav-pills 的同时使用 class .nav-justified，让标签式或胶囊式导航菜单与父元素等宽。在更小的屏幕上，导航链接会堆叠。
+带有下拉菜单的标签
+以一个带有 class .nav 的无序列表开始。
+添加 class .nav-tabs。
+添加带有 .dropdown-menu class 的无序列表带有下拉菜单的胶囊
+
+分 页 导 航
+
+<ul class="pagination">                            定义分页 矩形的样式
+  <li><a href="#">1</a></li>
+  <li><a href="#">2</a></li>
+  <li><a href="#">3</a></li>
+  <li><a href="#">4</a></li>
+  <li><a href="#">5</a></li>
+</ul>
+
+<ul class="pager">                                定义分页 圆角居中的样式
+  <li><a href="#">1</a></li>
+  <li><a href="#">2</a></li>
+  <li><a href="#">3</a></li>
+  <li><a href="#">4</a></li>
+  <li><a href="#">5</a></li>
+</ul>
+
+------------------------------------------------------------------------------------------------
+进 度 条
+
+<div class="progress">                            定义进度条
+  <div class="progress-bar" style="width:60%">    style里面是进度
+
+  </div>                                          样式出来是个蓝色的进度条
+</div>
+
+交 替 进 度 条
+<div class="progress">                                                      定义一个交替的进度条
+  <div class="progress-bar progress-bar-success" style="width:20%"></div>
+    <div class="progress-bar progress-bar-danger" style="width:10%"></div>   可以有很多div来表示进度 但是进度之和不能超过100%
+</div>
+
+动 画 进 度 条
+
+<div class="progress active progress-striped ">        定义一个动画进度条
+  <div class="progress-bar" style="width:60%"></div>
+</div>
+
+----------------------------------------------------------------------------------------------------------
+面 板
+
+<div class="panel panel-default">                     定义一个面板 panel-default是灰色 面板可以改成其他颜色 但是只能改第一行的颜色 其他的颜色还是默认灰色
+  <div class="panel-heading">  <h1>面板</h1>          定义一个面板头部区域  这个区域可以直接写标题在DIV中 也可以通过h1-h6标签来定义标题，这样字体会大一些，
+                                                                          也可以修改样式 并且带有访问功能
+  </div>
+  <div class="panel-body">基本面板身体</div>           定义一个面板身体区域
+  <div class="panel-footer">基本面板脚部</div>         定义一个面板脚部区域
+</div>
+
+登 录 面 板
+
+<div class="container">
+  <div class="row">
+    <div class="col=md-5 col-sm-5">
+      <div class="panel panel-primary">
+        <div class="panel-heading"><h2 class='title'>登录</h2></div>
+        <div class="panel-body">
+          <form class="form-group">
+          <label>名字</label>
+          <input type="text" class='form-control'>
+          <div class="alert alert-warning">内容不能为空</div>             alert alert-warning 定义一个警告框
+        </form>
+          <form class="form-group">
+          <label>Password</label>
+          <input type="text" class='form-control'>
+        </form>
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+           <span class="text-info">忘记密码</span>                       text-info是文字提醒 也可以换颜色比如text-danger红色
+          </div>
+          <div class="col-md-6 col-sm-6">
+          <a href="#" class="btn btn-primary pull-right">按钮</a>
+          </div>
+        </div>
+        <div class="paner-footer"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+表 格 面 板
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+   表格面板
+  </div>
+  <div class="panel-body">
+   <table class="table">                    表格table可以加在body区域 也可以不写body区域直接加在heading下
+     <tr>
+       <td>1</td>
+       <td>2</td>
+       <td>3</td>
+     </tr>
+   </table>
+  </div>
+</div>
+
+--------------------------------------------------------------------------------------------------------------
+模 态 框
+
+<div class="btn btn-primary" data-toggle="modal" data-target="#abc">按钮</div>  触发器 识别模态框
+<div class="modal fade" id="abc" tabindex=-1>  fade是渐变的颜色 设置ID是为了可以识别它  tabindex=-1是为了让它变成焦点事件，按住ESC键可以关闭模态框
+  <div class="modal-dialog">                   这是最外面的父级 可以控制宽度 并且有动画渐入的效果
+    <div class="modal-content">                模态框容器
+      <div class="modal-header">               模态框头部
+        这是模态框的头部
+      </div>
+      <div class="modal-body">                 模态框主体
+        这是模态框的主体
+      </div>
+      <div class="modal-footer">               模态框尾部
+        <a href="#" class="btn btn-default" data-dismiss="modal">关闭按钮</a>         data-dismiss="modal"想利用那个按钮关闭模态框，就把它加在谁身上
+        <a href="#" class="btn btn-primary">提交更改</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+backdrop  模态框外部灰色背景 默认为true,如果不需要这个背景层可以将其调为false.  backdrop:false;
+keyvoard  模态框是否可以用键盘esc关闭 默认为true，如果想限制ESC不能关闭的话，就设置为false   keyvoard:false
+show      如果自动调用，show的默认为true为显示，如果不想一开始为显示，想隐藏，就设置为false   show:false
+
+模 态 框 选 项 卡  tab插件
+
+<ul class="nav nav-tabs">                                                 导航标签形式
+  <li><a href="#a1" data-toggle="tab">1</a></li>                          标签的切换
+  <li><a href="#a2" data-toggle="tab">2</a></li>
+  <li><a href="#a3" data-toggle="tab">3</a></li>
+  <li><a href="#a4" data-toggle="tab">4</a></li>
+</ul>
+<div class="tab-content">                                                  主要内容部分
+  <div class="tab-pane fade in active" id="a1">这是第一块内容</div>         active 是默认这一栏出现
+  <div class="tab-pane fade" id="a2">这是第二块内容</div>                   fade 渐变形式出现
+  <div class="tab-pane fade" id="a3">这是第三块内容</div>
+  <div class="tab-pane fade" id="a4">这是第四块内容</div>
+</div>
+-----------------------------------------------------------------------------
+
+模 态 框 警 告 框 alert插件
+
+<div class="alert alert-warning">                                          设置警告框
+  <button class="close" data-dismiss="alert">&times;</button>              设置关闭按钮  data-dismiss="alert"想利用那个按钮关闭警告框，就把它加在谁身上
+  该内容不能为空
+</div>
+<div class="alert alert-danger">                                           设置警告框
+  <button class="close" data-dismiss="alert">&times;</button>              设置关闭按钮
+  该内容不能为空
+</div>
+
+模 态 框 折 叠 框 collapse插件
+
+<div class="panel-group" id="abc">                                        总父级设置id 让需要折叠的触发项指向它
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <a href="#one" data-toggle="collapse" data-parent="#abc">           这里如果是a标签 则可以利用它的锚点作用，则再href里面写上你这个
+        点击我展开 再次关闭</a>                                             要控制的折叠面板id即可，如果不是a标签，要控制你需要折叠的面板主
+    </div>                                                                 体内容，则需要data-target="" 里面写上你内容的ID
+                                                                          data-parent="#abc" 是指向父元素
+
+    <div class="panel-collapse collapse" id="one">                         这个里面的 collapse 属性是让其默认隐藏     collapse in 默认展开
+      <div class="panel-body">
+        这是第一部分的内容
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <a href="#two" data-toggle="collapse" data-parent="#abc">
+        点击我展开 再次关闭</a>
+    </div>
+    <div class="panel-collapse collapse.in" id="two">                     这个里面的 collapse.in 属性是让其默认显示
+      <div class="panel-body">
+        这是第二部分的内容
+      </div>
+    </div>
+  </div>
+</div>
+--------------------------------------------------------------
+
+模 态 框 轮 播  carousel 插 件
+
+<body style="background:#000;">
+  <div class="carousel slide" id="abc" data-ride="carousel"data-interval=1000>  data-ride="carousel"  用css方法实现自动轮播
+                                                                                如果需要轮播效果是划入的效果 在父级上加上slide 默认是马上变化的
+                                                                                data-interval="1000" 每过1秒来切换图片  如果不设置定时器时间 默认5s
+    <ul class="carousel-inner">                                                 carousel-inner 给项目区域加上class="carousel-inner"
+                                                                                               目的 超出父级进行隐藏
+      <li class="item active"><img src="文艺青年图片/东京塔.jpg"></li>            active 给第一项加上active  让第一项先出现
+      <li class="item"><img src="文艺青年图片/富士山.jpg"></li>                   每一项加上item 目的是隐藏
+      <li class="item"><img src="文艺青年图片/拍立得.jpg"></li>
+      <li class="item"><img src="文艺青年图片/神社.jpg"></li>
+    </ul>
+    <ol class="carousel-indicators">                                            carousel-indicators  轮播图上的指示标 一个一个圆点的样式
+      <li class="active"data-slide-to="0" data-target="#abc"></li>              data-slide-to来向轮播传递一个原始滑动索引，索引从 0 开始计数。
+      <li data-slide-to="1" data-target="#abc"></li>                            data-target="#abc" 里面的每一项都指向父级
+      <li data-slide-to="2" data-target="#abc"></li>
+      <li data-slide-to="3" data-target="#abc"></li>
+    </ol>
+    <div class="carousel-control left" data-target="#abc" data-slide="prev">    定义轮播上的左右按钮 .carousel-control 然后分别
+                                                                                加上.left 和.right指向data-target
+     <span class="glyphicon glyphicon-chevron-left"></span>
+    </div>
+    <div class="carousel-control right" data-target="#abc" data-slide="next">   data-slide=“prev/next“点击左右按钮切换代表“上一张/下一张”
+    <span class="glyphicon glyphicon-chevron-right"></span>                     glyphicon glyphicon-chevron-right 箭头样式
+    </div>
+  </div>
+</body>
+
+$('#abc').carousel()               调用轮播插件 让图片自动轮播
+$('#abc').carousel({
+				interval:500
+			})                          每隔0.5s进行播放 对应的css  data-interval:500
+
+$('#abc').carousel('pause')      默认定时器是停止的
+$('#abc').carousel('next')      让轮播图 初始部分在下一张
+$('#abc').carousel('prev')      让轮播图 初始部分在上一张
+$('#abc').carousel(2)           让图片停留在哪个 地方
+--------------------------------------------------------------------------------------
+
+
+模 态 框 滚 轮 文 章 监 听 切 换  affix 插件
+
+<body data-spy="scroll">                                                        data-spy="scroll" 滚轮的监听，因为是控制整个文档 所以就加在body上
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3">                                                    data-spy="affix" 监听插件 是哪一部分来监听控制主体 就加在它身上
+        <ul class="nav nav-pills nav-stacked" data-spy="affix">                 nav-pills 胶囊式导航  nav-stacked 垂直排列
+          <li class="active"><a href="#one">第一部分</a></li>                    要控制谁 则再a标签里写谁的ID 主要是起到锚点作用 定位位置
+          <li><a href="#two">第二部分</a></li>
+          <li><a href="#three">第三部分</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-9">
+       <h2 id="one"style="margin:0;">第一部分</h2>
+           <p style="background:black;">“空山新雨后，自挂东南枝”</p>
+          <hr>
+          <h2 id="two">第二部分</h2>
+              <p style="background:gray;">“空山新雨后，自挂东南枝”</p>
+             <hr>
+             <h2 id="three">第三部分</h2>
+                 <p style="background:yellow;">“空山新雨后，自挂东南枝”</p>
+  </div>
+    </div>
+  </div>
+</body>
+
+-----------------------------------------------------------------------------------------------------------------
+
+hidden-xs | sm | md |  lg      在不同的分辨率下隐藏
+visible-xs | sm | md |  lg     在不同的分辨率下可见

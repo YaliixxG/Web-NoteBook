@@ -1,0 +1,297 @@
+微信小程序开发步骤：
+                 1.在app.json文件中的page进行新建网页，一定要保存，否则不会自动产生页面文件
+                   设置tabbar、networkTimeout网络超时设置等等
+                2.自动滑动图片
+                  准备图片
+                  me.js
+                  初始化图片数据
+                  点击图片事件处理
+                  me.wxml
+                  swiper
+                  显示图片
+
+
+
+
+
+
+1.app.json  配置文件
+
+page      第一项即为首页
+window    为系统设置
+"window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle":"black",
+    "enablePullDownRefresh": true                                    是否下拉刷新
+  }
+  
+
+"networkTimeout": {                                                  网络超时设置    
+     "request": 20000,                                               请求数据需要多少时间
+     "connectSocket": 20000, 连接个数
+     "uploadFile": 20000,    上传文件个数
+     "downloadFile": 20000   下载文件个数
+   }
+
+"tabBar": {                                                           底部图标区域设置
+    "color": "#000000",                                               文本颜色
+    "selectedColor": "#56abe4",                                       选中时的文本颜色
+    "backgroundColor": "#fff",                                        tabBar的背景颜色
+    "borderStyle": "white,"                                           tabBar边框颜色 
+    "position":"bottom | top"                                         tabbar的位置，默认底部，可以设置为顶部
+    "list": [{                                                        图标列表设置，不能少于两个对象，否则会报错
+      "pagePath": ",",                                                页面路径
+      "text": "text",                                                 文本
+      "iconPath": "iconPath",                                         未选中时的图标路径
+      "selectedIconPath": "selectedIconPath"                          选中时的图标路径
+    },{},{                                                            示例如下：
+      "pagePath": "pages/latest/latest",          
+      "text": "最新",
+      "iconPath": "images/latest.png",
+      "selectedIconPath": "images/latest_on.png"
+    }]   有几个就表示有几个tab
+  }
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------
+事件：
+
+touchstart                手指触摸
+touchmove                 手指触摸后移动
+touchcancel               手指触摸动作被打断，如弹窗和来电提醒
+touchend                  手指触摸动作结束
+tap                       手指触摸后离开
+dbtap                     手指双击
+longtap                   手指触摸后后，超过350ms离开
+
+事件绑定：
+
+事件绑定的写法同组件的属性，以 key、value 的形式。
+key 以bind或catch开头，然后跟上事件的类型，如bindtap, catchtouchstart
+value 是一个字符串，需要在对应的 Page 中定义同名的函数。不然当触发事件的时候会报错。 
+bind事件绑定不会阻止冒泡事件向上冒泡，catch事件绑定可以阻止冒泡事件向上冒泡。
+
+-------------------------------------------------------------------------------------------------
+登录框验证用户名和密码：
+
+1.表单提交事件(点击登录按钮)
+  formSubmit: function (e) {
+    获取表单控件的参数值，e为事件对象
+    var params = e.detail.value
+    console.log(e)
+    控制台输出：{username:'admin',password:'admin',控件名:'控件名的值'}
+    console.log(params)
+    验证数据是否合法，自定义的方法 mysubmit
+    this.mysubmit(params)  
+  }
+
+2.数据合法则向云端发送请求
+  mysubmit: function (params) {
+    自定义方法，用来验证传进来的表单参数是否合法：checkUsername checkPassword
+    var flag = this.checkUsername(params) && this.checkPassword(params)
+    if (flag) {
+ 
+      6.向云端发送请求，验证用户名和密码是否正确     这里是第六步的开始，结合第六步来理解
+      自定义的方法
+      this.setLoginData()                        模拟云端处理过程
+      this.checkUserInfo(params)                 模拟云端验证用户名和密码是否正确（这里是验证与云端数据是否一致）
+                                                 
+    }
+  }
+
+3.验证用户名的Email或者手机号是否合法(用户名和密码是否正确必须在云端+MySQL验证)
+
+  用正则表达式来进行验证，因为验证的方法不仅仅用于登录页面，在其他的页面也需要被引用，所以将其写在util.js中
+  util.js用来写公共的方法和工具
+
+  Email和手机的正则表达式
+  function regexConfig(){
+  var reg = {
+    email:/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/,
+    phone:/^1(3|4|5|7|8)\d{9}$/
+  }
+  return reg
+}
+ 写了方法以后须导出，才能被其他地方引用
+ module.exports = {
+  formatTime: formatTime,
+  //把方法数据导出
+  transLocalTime: transLocalTime,
+  regexConfig: regexConfig
+}
+
+4.验证用户名的Email或者手机号是否合法(用户名和密码是否正确必须在云端+MySQL验证)
+
+    checkUsername: function (params) {
+
+    从工具中获取验证规则（就是把第三步骤的规则引入）
+    var email = util.regexConfig().email   
+    var phone = util.regexConfig().phone
+
+    //trim()去掉首尾空格
+    var inputUsername = params.username.trim()
+    if (email.test(inputUsername) || phone.test(inputUsername)) {
+      return true
+    } else {
+      //弹窗形态一：显示静态弹窗
+      wx.showModal({
+        title:'提示',
+        showCancel:false,                      showCancel 是否需要取消按钮
+        content:'请输入正确的email或手机号码'
+      })
+      //弹窗形态二：消息提示框
+      /*wx.showToast({
+        title: '请输入正确的email或手机号码',
+        icon: 'success',
+        //image 优先级高于icon
+        //image:'../../images/username.png',
+        duration: 2000
+      })*/
+      return false
+    }
+  }
+
+  5.验证密码是否合法
+  checkPassword:function(params){
+   var inputPassword = params.password.trim()
+   if(inputPassword.length == 0){
+     wx.showModal({
+       title: '提示',
+       showCancel: false,
+       content: '请输入密码'
+     })
+     return false
+   }
+   return true
+  }
+
+ 6.模拟云端处理过程
+  setLoginData: function(){
+   this.setData({
+     loginBtnTxt: '登录中',
+    loginBtnBgColor: '#0099ff',
+     loginBtnBgColor: '#999',
+     btnLoading:!this.data.btnLoading,
+     disable:!this.data.disable
+   })
+  },
+  //模拟云端验证用户名和密码是否正确
+  checkUserInfo:function(params){
+   var username = params.username.trim()
+   var password = params.password.trim()
+
+   var that = this //当前网页
+   //模拟云端的用户名和密码的数据 实际中是用wx.request()来获取云端数据
+   if((username=='admin@gmail.com' || username == '15802594038')&& password =='admin'){
+     //计时器模拟云端验证用户名和密码是否正确的耗时
+     setTimeout(()=>{
+      wx.showToast({
+        title: '成功',
+        icon:'success',
+        duration:1500
+      })
+       that.redirectTo(params)
+     },2000)
+   }else{
+    wx.showModal({
+      title: '提示',
+      showCancel:false,
+      content: '错误的用户名和密码'
+    })
+    this.setData({
+      loginBtnTxt: '登录',
+      loginBtnBgColor: '#0099ff',
+      btnLoading: !this.data.btnLoading,
+      disable: !this.data.disable
+    })
+   }
+  }
+
+  7.登录成功后跳转至指定网页
+   redirectTo:function(params){
+    //需要将 json对象:params转换为字符串
+    params = JSON.stringify(params)
+
+    //navigateTo 与 redirectTo 区别          
+    wx.navigateTo({
+      //参数必须是字符串形式，不能是JSON格式    带参数
+      url: '../main/main?params='+params,
+    })
+   }
+})
+
+
+
+
+----------------------------------------------------------------------
+
+navigateTo 与 redirectTo 区别   
+都是a标签的功能
+navigateTo 可以回到原来网页，会在上方有一个返回键
+redirectTo 不可以回到原来网页，没有返回键
+
+-----------------------------------------------------------------------------
+
+云端数据接口文件：
+
+在utils中新建文件 api.js 专门用来存放云端数据接口
+
+1.知乎，头条图片
+
+例如：
+知乎公共域名
+var HOST_ZHIHU = 'http://news-at.zhihu.com/api/4/'  
+
+知乎头条图片   
+var IMAGES_URL = 'news/latest'
+
+定义方法，将IP和域名接起来构成完整URL地址
+function _getZhihuImgs(){
+  return HOST_ZHIHU + IMAGES_URL
+}
+
+将方法暴露、导出
+module.exports = {
+
+外部接口:内部接口（函数）
+  getZhihuImgs: _getZhihuImgs
+}
+
+2.
+
+若要在其他Js文件中访问URL地址，则需要将这个文件引入
+在其他文件中引入 ：   const api = require('../../utils/api.js')  
+-----------------------------------------------------------------------------------
+import 与 require 与 link 的区别：
+
+import 是用来导入内容
+require是用来导入方法
+link   是引入网页文件
+
+-----------------------------------------------------------------------------------------------
+
+效果显示方法：
+1.加载中。。。
+        
+        <loading hidden= false | true>     添加hidden来表示这个效果的显示与隐藏  
+        加载中...
+        </loading>
+
+
+
+-------------------------------------------------------------------------------------
+循环：
+
+在A中进行循环，item代表每一项 
+A.forEach((item) => {  
+           
+         })

@@ -1,0 +1,197 @@
+XHTML:可扩展超文本置标语言。是在HTML的基础上向XML过渡的东西，和HTML最大的区别就在于它更严谨而且语义化更强。
+
+
+标签大集合
+
+内嵌标签/行内标签：1.宽高由内容撑开
+                 2.换行产生间隙
+                 3.不支持宽高的设置
+                 <a></a> <span></span> <em></em> <strong></strong>
+
+块标签：          1.不设置宽度，宽度由浏览器决定
+                 2.支持宽高的设置
+                 3.换行不会产生空隙
+                 div ul li ol dl dt dd p h1-h6 nav header footer table tr td
+
+内连块标签：      1.不设置宽高，宽高由自身大小决定
+                 2.支持宽高的设置
+                 3.换行会产生间隙
+                 img input select
+
+display:转变 将一种类型的标签转换成另一种类型的标签
+display:block:块
+display:inline-block：内联块
+display:inline：行内/内嵌
+display:none;让元素消失，其他元素会占据其的位置
+visibility:hidden; 让元素隐藏 保留其位置
+visibility:visible;让元素出现
+
+字体大小粗细标签,数字越大，字体越小，越细
+<h1></h1>
+<h2></h2>
+<h3></h3>
+<h4></h4>
+<h5></h5>
+<h6></h6>
+
+斜体标签 <em></em>
+
+
+段落标签 <p></p>
+
+分隔线标签 <hr/>
+    <hr width="512px|50%" align="left|center|right" size="5px" color="red|#FF0000">
+     width 代表宽度 512px表示是一种绝对数值 px代表像素 50%表示是一种相对数值
+     align 代表位置 left表示靠左对齐 center表示居中 right表示右对齐
+     size  代表厚度 5px即表示5个像素的厚度
+     color 代表颜色 可以用直接的英文单词表示颜色 但是英文单词的颜色是无法表示完全所有颜色
+                    所以用16进制来代表颜色
+                    0123456789ABCDEF  6个数字代表RGB三种颜色
+                    6个0代表黑色 6个F代表白色 当6个数字相同时则代表灰色
+
+换行标签 <br/>
+
+插入超链接 <a></a>
+
+字符集标签<meta /> 元数据标签
+         <meta charset="gbk"/> 声明页面的字符集
+         <meta name="keywords" content="html,css,javascript,java"/>
+         <meta name="discription" content="这是一个摘要"/>
+         keywords 表示关键词 content表示内容
+         discrption 表示描述
+         这些属性是不会被显示出来，只是给搜索引擎进行内容抓取
+         <meta http-equiv="refresh" content="5;www.baidu.com"/>  这个是表示5秒钟后刷新页面进入百度
+         <meta http-equiv="refresh" content="5"/> 这个是表示5秒钟刷新本页面
+
+
+图像标签 <img src="凸守早苗.jpg" width="300px" height="200px" title="凸守早苗图集" alt="图片加载失败" />
+        src="" 图片文件的路径
+        路径:
+
+       绝对路径：从根磁盘开始计算的路径
+           C:\Users\Administrator\Desktop\20170517\images\aa.png
+       相对路径:相对于当前文件的路径
+
+         D:\aa\20170517\images\aa.png
+         D:\aa\20170517\demo1.html
+       图片相对于html文件的路径：images/aa.png
+
+         D:\aa\20170517\aa.png
+         D:\aa\20170517\web\demo1.html
+       图片相对于html文件的路径：../aa.png
+
+         D:\aa\20170517\image\aa.png
+         D:\aa\20170517\web\demo1.html
+       图片相对于html文件的路径：../images/aa.png
+
+       相对路径中“..”代表返回上一级 ；相对路径中是使用“/”
+
+        width="300px" 图片的宽度
+        height="200px"图片的高度
+        title="提示"  鼠标放到图片上的提示信息
+        alt="提示"    图片加载中或加载失败的时候显示的信息
+
+清楚图片的默认样式     border:none;
+                     vertical-align:top; 去掉上下图片的间隙
+
+
+表格标签 <table></table> 代表表格
+        <table border="1" cellspacing="10" cellpadding="10">
+        border-collapse:collapse; 边框合并(样式)
+        cellspacing 表示单元格之间，单元格和<table>之间的间距 如果设置为0 也可以合并单元格 只是表格边框为2px
+        cellpadding 表示单元格与内部内容之间的间距
+        border 代表边框粗细
+        <tr></tr> 代表行
+        <td></td> 代表单元格或者列 内容自动居左 上下居中
+        <th></th> 代表标题单元格标签 跟td唯一的区别就是显示方式会加粗居中的标题式样显示
+        <caption></caption> 代表表格的标题标签
+
+        表格合并 <table rowspan="2"></table>
+                 <table colspan="2"></table>
+                 rowspan="2" 合并2个行单元格
+                 colspan="2" 合并2个列单元格
+
+
+       <table border="1">
+           <caption>歌曲金榜</caption>
+           <tr>
+               <th>排名</td>
+                     <th>歌曲</td>
+                     <th>歌手</td>
+           </tr>
+           <tr>
+               <td>1</td>
+               <td>灰色的彩虹</td>
+               <td>范玮琪</td>
+           </tr>
+           <tr>
+              <td>2</td>
+                    <td>非常完美</td>
+              <td>张韶涵</td>
+           </tr>
+           <tr>
+              <td>3</td>
+                    <td>与爱情无关</td>
+              <td>游鸿明</td>
+           </tr>
+     </table>
+
+列表标签：
+      有序列表
+      <ol>
+        <li></li>
+        <li></li>
+      <ol>
+
+      <ol type="A"> type是用来改变序号的显示（不写type是默认1.2.3.4..)
+
+      无序列表
+      <ul>
+        <li></li>
+        <li><li>
+      <ul>
+      无序列表前面不是用序列显示，而是用“.”表示
+
+     定义列表
+      <dl>
+        <dt></dt>
+        <dd></dd>
+      </dl>
+       <dt>一般定义为标题，<dd>这一行会为<dt>这一行转行并留出空格
+
+
+
+
+锚点（超链接、定义锚点）标签：<a></a>
+
+       作用：
+       1.用来定义超链接，可以对文本和图片添加超链接
+         超链接到一个页面
+         <a href="xianhualiping.html">鲜花礼品</a> 这个是表示跳转到xianhualiping页面的超链接
+         <a href="#">鲜花礼品</a>   #是表示跳转到本页面 当前页面
+         超链接到当前页面的一个锚点 <a href="#ABC">返回顶部</a>
+         超链接到其他页面一个锚点 <a href="xianhualiping.html#xianhua3">鲜花礼品</a>
+       2.定义锚点
+         <a name="ABC">文本或者图片</a>
+         ABC这是给锚点取名字，可以任意取
+
+
+
+置入标签
+定义按钮 <input type="button" value="文字"/>
+定义文本 <input type="text"/> 可以自动获取光标
+
+
+导航列表标签：<nav></nav>
+
+头部标签：<header></header>
+
+删除标签：<del></del> 效果为字的中间有根删除线
+
+插入标签：<ins></ins> 效果为字的底部有下划线
+
+地址标签：<address></address> 效果为斜体
+
+上标标签：<sup></sup> 字体会变小，与字的顶部位置齐平，出现在右上方向
+
+下标标签：<sub></sub> 字体会变小，与字的底部位置齐平，出现在左下方向

@@ -1,0 +1,10 @@
+module exports = XXX   声明需要调用的函数 不声明会显示未定义
+module.exports = fn1   这种写法只是支持一个函数的声明
+module.exports = {
+    fn1:function(){
+
+    }，
+    fn2:function(){
+
+    }
+}                      这种写法支持多个函数的声明

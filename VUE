@@ -1,0 +1,769 @@
+vue是一个js的框架，采用声明式渲染
+核心：是一个允许采用简洁的模板语法来声明式的将数据渲染进DOM
+声明式渲染：只关注结果，不关注如何实现
+命令式渲染：既关注结果，还要关注如何实现
+
+渲 染
+var arr=[1,2,3] //[2,4,6]
+var newArr=[];
+for (var i = 0; i <  arr.length; i++) {
+  newArr.push(arr[i]*2)
+}
+                                                 //命令式渲染
+
+var newArr=arr.map(function(item){
+return item*2
+})
+                                               //声明式渲染
+
+
+-----------------------------------------------------------------------------------------------
+vue 的 书 写
+
+<div id="demo">                                 首先定义一个模板
+                                                                1 html模板
+                                                                2 字符串模板
+                                                                3函数模板
+   {{message}}                                {{}} 文本插值  当成字符串解析出来  就算内容是结构也会看成一串字符
+                                              双大括号标签会把里面的值全部当作字符串来处理，替换实例上的属性值，当值发生改变时，插值内容自动更新
+<div v-on:click=fn1()>{{message}}</div>
+</div>
+
+var obj={                                        数据层
+
+}
+
+<script>
+  var vm=new Vue({                              实例化对象
+    el:'#demo',                                 挂载点  要监听谁 就挂载哪个元素
+    data:{
+      message:'123'
+    },
+    methods:{
+      fn1:function(){
+        alert(1)
+      }
+    }
+  })
+  </script>                                    当数据发生变化 驱动视图发生变化
+                                               核心 数据驱动视图发生变化
+
+
+-------------------------------------------------------------------------------------------
+字 符 串 模 板     之前的内容都替换成字符串
+
+<div class="app">
+  {{abc}}
+</div>                                                             如果你不知道如何拼接字符串结构或者结构过于多时，将html结构写在一对script标签中
+                                                                   type=“x-template” 只能写在本页面中 script  不能通过外联 为了解决当结构非常多时
+                                                                    例如  <script type='x-template'  id="temp">
+                                                                        <div>456<span>
+                                                                        hello</span></div>
+                                                                      </script>
+<script type="text/javascript">
+var str=`<div>456<span>hello world!</span></div>`    声明一个字符串
+                                                     字符串可以是结构也可以是字符串，但是写结构 根节点只能有一个，并且记住要进行拼接
+var vm=new Vue({
+  el:'.app',
+  data:{
+    abc:123
+  },
+  template:str                                      template:选项对象的属性
+                                                              1模板将会替换挂载的元素，挂载元素的内容都将被忽略
+                                                              2 根节点只能有一个  有多个节点只能是嵌套的模式
+})
+</script>
+
+---------------------------------------------------------------------------------------------
+指 令
+
+v-html:                  将代码解析成html结构
+                                             <div class="demo">
+                                              <p v-html="info"></p>
+                                             </div>
+                                             <script>
+                                              var vm=new Vue({
+                                              el:".demo",
+                                              data:{
+                                              info:'<div>123</div>'
+                                              }
+                                              })
+                                             </script>
+v-on:                    绑定函数  onclick onmouseover onchange 简写方式 “@”
+v-bind:                  值  将值绑定    简写方式  “:”
+                                                      <div class="app">
+                                                        <a :name='names' :id='ids' :href="hrefs">123</a>
+                                                      </div>
+                                                      <script type="text/javascript">
+                                                      var vm=new Vue({
+                                                        el:".app",
+                                                        data:{
+                                                          names:'abc',
+                                                          ids:'nanan',
+                                                          hrefs:'http://www.baidu.com'
+                                                        }
+                                                      })
+
+</script>
+v-model=                 双向绑定 监听表单元素 当表单元素的值发生变化
+                         用来在input、select、text、checkbox、radio等表单元素上创建双向数据绑定。在表单元素上修改值会被model监听到
+                         根据空间类型v-model自动选取正确的方法更新元素
+
+                         单选框radio model监听radio的变化，当单选被选中时，就会把radio上的value值拿到，如果没有写value值，则无法体现
+                         多选框checkbox  model监听它的变化，当单选被选中时，会体现出布尔值true,没有选中则为false 会把布尔值存在信息中
+
+                        select 定义一个下拉菜单 在下拉菜单中发生了监听 不要使用selected 这两种会冲突报，当下拉菜单的选项中有设定value值时（必须是通过
+                        v-bind绑定），则监听反映的是value值，如果没有设置value值，则监听反映的是下拉选项内容
+
+                        <input type="checkbox" :true-value="123" :false-value="456" v-model="info" />
+                        当多选框被选中时是 :true-value="123"   多选框没被选中时是:false-value="456"
+
+
+v-if:                    判断语句  根据表达式的值在DOM中生成或移除一个元素。如果v-if表达式赋值为false，对应的元素就会从DOM中删除；
+                                   否则，对应元素将被重新插入DOM中。
+v-els:                    e就是JavaScript中else的意思，它必须跟着v-if或v-show，充当else功能
+
+v-show=                  根据表达式的值来显示或者隐藏HTML元素。当v-show赋值为false时，元素将被隐藏。查看DOM时，会发现元素上多了
+                         一个内联样式style=”display:none” 节点依然存在
+v-for=
+                         循环
+                        <ul id="demo">
+                          <li v-for='(item,index) in info'>{{info[index].text}}</li>  //(item,index) in info 中的info是你要循环的数组名
+                                                                                        (item,index)即是(循环成功的数组每一项，下标)
+                        </ul>                                                           info[index].text   通过数组的下标。属性名 确定数组的值
+                        <script type="text/javascript">
+                        var vm=new Vue({
+                          el:'#demo',
+                          data:{
+                            info:[                                                     数组为info
+                              {text:1},
+                              {text:2},
+                              {text:3}
+                            ]
+                          }
+                        })
+                        </script>
+
+  循 环 里 面 再 套 循 环
+                        <table>
+                          <tr v-for="item in info">
+                              <td v-for="items in item">{{items}}</td>
+                          </tr>
+                        </table>
+
+
+v-text=                 <div>{{message}}</div> 其实就是相当于 <div v-text="message"></div>
+ref=                    给元素加一个 ref="值" 相当于给元素身上加一个标识 通过这个标识来获取元素
+                        好处：减少DOM的操作 减少消耗
+                        例如：
+                        <div id="app" ref="sone" @click="created"></div>
+                        <script type="text/javascript">
+                        var vm=new Vue({
+                          el:"#app",
+                          methods:{
+                            created:function(){
+                              console.log(this.$refs.sone)                   this指向Vue  $refs代表所有标识
+                            }
+                          }
+                        })
+                        </script>
+
+自 定 义 指 令     Vue.directive('指令名'，对象)
+
+<div class="demo">
+  <input type="text" v-abc/>                 将自定义的指令写在元素中 v-abc
+</div>
+
+ <script type="text/javascript">
+  Vue.directive('abc',{                       Vue.directive('指令名'，对象)
+    inserted:function(el){                    在对象参数中 插入函数
+      el.focus()
+    }
+  })
+  var vm=new Vue({
+    el:".demo"                                 实例化
+  })
+ </script>
+
+**自定义指令必须搭配钩子函数使用**
+钩 子 函 数：
+1 inserted 是在页面加载时被调用 解析到这一行时才被调用
+2 bind     是在页面加载中被调用 不会逐行解析 所以会直接去读取它 一开始就被调用
+3 update   模板发生更新时被调用
+4 componentUpdated  模板完成更新时被调用
+5 unbind   只调用一次 当元素结构消失了才会调用这个函数
+
+binding          是一个对象 就是自定义命令的本身
+binding的属性     .name          获取的是指令名 不包括“v-”前缀
+                 .value         获取的是指令的绑定值
+                 .expression    获取的是指令的绑定值，并且将它解析成字符串
+
+---------------------------------------------------------------------------------------------
+class 的 绑 定
+
+1.直接给class写一个动态的值
+
+<div id="app" :class='info'></div>             :class 绑定一个class info为一个动态的值
+<script>
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      info:"newer"                             给info赋值
+    }
+  })
+</script>
+
+2.绑定的class值是对象形式
+
+判断形式为布尔值
+<div id="app" :class='{info:isActive,info1:isActive1}' class='box'></div>     普通的class与v-bind绑定的class是可以共存的
+<script>
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      isActive:true,                通过对象中属性对应的值,这个值如果结果为true 就绑定
+      isActive1:false               反之 false就没有绑定
+    }
+  })
+</script>
+
+判断形式为条件
+<div id="app" :class='{info:isActive==1,info1:isActive1}' class='box'></div>     info:isActive==1 是否等于1
+<script>
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      isActive:2,                  属性对应的值 不一定是一个布尔值,我们可以对值得结果进行判断,如果结果为true就绑定 反之 就没有绑定
+      isActive1:true
+    }
+  })
+</script>
+
+3.如果绑定形式为对象，并且有多个class值绑定，可以将其取一个名字
+<div id="app" :class='objs' class='box'></div>         :class='objs' objs则为这个对象的名称
+<script>
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      objs:{
+        info:true,
+        info1:false
+      }
+    }
+  })
+</script>
+
+4.绑定形式为数组
+<div id="app" :class='[info,info1]' class='box'></div>      :class='[info,info1]' 数组形式的绑定，则再行间直接体现的是绑定的值
+<script>
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      info:'A',                                             数组的值
+      info1:'B'
+    }
+  })
+</script>
+
+5.数组形式中包含对象
+ 数组里面也可以引入对象 对象的属性是否当成class值插入到元素中,就看属性对应的值的结果是true 还是false
+<div id="app" :class='[info,{info1:isActive,info2:isActive1}]' class='box'></div>    在数组的项中插入对象
+<script>
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      info:'A',
+      isActive:true,
+      isActive1:false
+    }
+  })
+</script>
+
+7.数组形式中的三木写法
+<div id="app" :class='[info,isA?info1:""]' class='box'></div>    写成一个数组的形式
+<script>                                                         三木写法 isA?info1:""  isA?是否为true 如果为true则引入info1，反之则为""
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      info:'A',
+      info1:'B',                                 判断数组的那一项 是否插入元素中也可以用三木的方法来判断
+      isA:true
+    }
+  })
+</script>
+
+-----------------------------------------------------------------------------------------------
+style 的 绑 定
+
+vue来绑定样式的好处 通过数据来驱动视图变化,而不需要操作节点,节省DOM节点在操作过程中的消耗，因为操作DOM是昂贵的
+
+<div id="app" :style='{width:w,height:h,border:c,fontSize:b}'></div>            fontSize 在vue中必须采用驼峰式写法
+<script>                                                                        样式的绑定采用对象形式的写法，后面的值为变量
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      w:'200px',                                                                赋值
+      h:'200px',
+      c:'2px solid #000',
+      b:'25px'
+    }
+  })
+</script>
+既然是对象写法，同样也可以为对象取个名字  :style='objs'  赋值 objs:{  width:'200px',                                                                赋值
+                                                                  height:'200px',
+                                                                  border:'2px solid #000',
+                                                                  fontSize:'25px'}
+---------------------------------------------------------------------------------------------------------
+vue 事 件
+
+1.this 的指向
+<div @click="fn1" id="app">123</div>
+<script>
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      info:123
+    },
+    methods:{
+      fn1:function(){
+        alert(this.info)          this的指向始终是挂载点，也就是'#app'
+      }
+    }
+  })
+</script>
+
+2.传参
+  可以进行传递参数 在行间加上方法名时 方法名的后面加上括号,括号中写上实参
+<div @click="fn1('hi')" id="app">123</div>                         @click="fn1('hi')"     hi为实参
+<script>
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      info:123
+    },
+    methods:{
+      fn1:function(a){                                         a为形参
+        alert(a)
+      }
+    }
+  })
+</script>
+
+3.传入参数为事件对象
+<div @click="fn1" id="app">123</div>              传入参数为事件对象时，fn1后面可以不写括号，如果要写的话是写 fn1($event)
+<script>
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      info:123
+    },
+    methods:{
+      fn1:function(event){                                 event 事件 对象
+						alert(event.clientX)
+  					alert(event.target.tagName)  弹出当前元素的标签名大写的
+      }
+    }
+  })
+</script>
+
+4.传入参数不止一个，为多个时
+<div @click="fn1($event,'hi')" id="app">123</div>           @click="fn1($event,'hi')" 传入多个参数用逗号隔开
+<script>
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      info:123
+    },
+    methods:{
+      fn1:function(event,a){
+       alert(event.clientX)
+        alert(a)
+      }
+    }
+  })
+</script>
+
+--------------------------------------------------------------------------------------------
+计 算 属 性 computed
+
+当其依赖属性的值发生变化时，这个属性的值会自动更新，与之相关的DOM部分也会同步自动更新 vue中提供了一个计算属性computed
+
+计算属性里面默认带有一个get，get是拿到计算表达式的值 return是将其返回出来然后存进abc
+
+computed:{
+   abc:
+  * {                                  *里面的内容可以不写，一般只有需要设置的时候才写
+    set:function(newValue){
+
+    },                           set 是设置属性
+    get:function(){}             get 是获取属性值的变化
+   }*
+   function(){                       abc是一个自定义的名字，用来储存计算出来的返回值
+    return 计算表达式                     return是返回计算表达式的值
+   }
+}
+                        例：  <div class="app">
+                           <label>
+                             桌腿数量：
+                             <input type="range" v-model="info"/>
+                           </label>
+                           <label>
+                             桌子数量：
+                             <input type="text" v-model='b'/>
+                           </label>
+                           <p>桌腿有{{info}}条，桌子有{{b}}张。</p>
+                         </div>
+                         <script type="text/javascript">
+                         new Vue({
+                           el:'.app',
+                           data:{
+                             info:'',
+                           },
+                           computed:{
+                             b:{
+                               get:function(){
+                               return  this.info/4
+                             },
+                             set:function(info1){
+                               this.info=info1*4
+                             }
+                           }
+                           }
+                         })
+                         </script>
+
+-----------------------------------------------------------------------------------------------------
+
+组 件   是一个自定义标签
+
+在用组件之前，必须在实例的上面去注册组件。
+
+全局注册:    Vue.component('自定义组件名称',{
+                                      data:function(){         这个data其实作用就是和VUE实例中的data是一样的，但是这个必须是函数形式
+                                      return{
+                                        info:false             data这个里面的代码是一个独立的数据，只作用于当时的这个组件-
+                                      }
+                                      }
+                                      props:['自定义属性名1'，'自定义属性名2']
+                                      template:`组件代码`
+                                      }),
+                                      methods:{
+                                      fn1:function(){
+                                      this.$emit('父组件的自定义事件名','传递父组件关心的内容')
+                                      }
+                                      }
+                         props 是自定义属性关键词，后面接数组形式，自定义属性名不能是横杠写法。在用到这个自定义属性时必须以 动态绑定 的形式
+                               例如   :value="自定义属性名" 这个是写在组件代码中
+                               它的作用只要是用于修改值，但是又不会影响到其他用到这个组件的地方
+                         自定义组件命名规则：在vue中接受驼峰命名或者横杠命名，但是html只接受横杠命名，为了不出错，直接自由不用横杠或者驼峰都可以
+                         字符串模板 template 将组件的代码放进template里面
+
+                         在html中要用到组件时，就用你自己自定义的组件名称标签即可
+
+                         在html中写法 <abc-d baby="搜索"></abc-d>       abc-d是自定义组件名   baby是自定义属性名
+                                     <abc-d baby="注册"></abc-d>
+
+
+局部注册： 定义在实例里面  这套自定义的组件只能用在这个实例的挂载点上  components为局部注册的关键词
+          new Vue({
+           el:'#app',
+           components:{
+             组件名称：{
+                template:`组件代码`
+             }
+           }
+          })
+
+父组件--->子组件： props是父组件传子组件的重要关键词   实例中的data(即vm中的data)是直接传给挂载点，然后再通过挂载点往下传到子组件，所以要通过props
+
+子组件--->父组件：需要用到自定义事件，父组件使用$on监听自定义事件(@自定义事件名)，$emit触发父组件所关心的的自定义事件
+                  $emit写在子组件的methods中
+
+
+    	1.首先子组件发生操作 父组件通过自定义事件去接收
+    	2.本例子中可以理解成子组件有点击动作后
+      3.父组件就需要关心当前li元素的一些信息,信息就用自定义事件去沟通,
+  		4.连接桥梁 拿到父组件关心的信息后,父组件这边也有对应的函数,
+      5.那么这个函数就写在自定义事件的函数中 比如说本例中拿到值 后去改值
+
+
+is 扩 展
+
+自定义组价<abc-d></abc-d>在放进html中，像ul ol table 这种受限制的标签，里面只能规定放li tr td th 这种子标签，
+如果强硬需要放进这个结构中，必须这么做：  <table>
+                                       <tr is="abc-d"></tr>
+                                       </table>              也就是必须在里面放它可以接受的标签，再用is="自定义组件标签名"来扩
+                                                             展原生JS
+
+
+------------------------------------------------------------------------------------------------------
+
+数 据 监 控 watch
+
+
+
+浅度监控：只能监控第一层数据的变化
+            watch:{
+             info:function(){                 info为它监控的对象
+              alert(1)                        监控触发的行为代码
+             }
+            }
+深度监控：可以监控层数多的数据，例如对象      handler和deep为深度监控的两个关键词
+          watch:{
+           info:{
+                handler:function(){     handler其实就是浅度监控默认自带的关键词，但是如果涉及到深度监控，必须写出来
+                  console.log(1)
+                },
+                deep:true             是否深度监控
+           }
+-------------------------------------------------------------------------------------------------------
+
+事 件 修 饰 符
+
+@click.stop                   阻止冒泡
+
+@click.capture               设置捕获事件
+
+@contextmenu.prevent         阻止某个事件的默认事件    （@contextmenu为右键菜单事件）
+
+@click.self                  会判断这个事件是不是这个本身所作用触发的事件，如果不是自己作用触发的，则会跳过
+
+
+键 盘 事 件 修 饰 符
+
+@keydown.键编码               @keydown.13 则是按住‘enter’键才能触发这个事件
+@keydown.enter                如果 你不记得编码，也可以这样写
+
+--------------------------------------------------------------------------------------------------
+数 据 流
+
+1.单向数据流    数据从父组件流向子组件,只能是单向绑定.自组件内部不能修改父组件传来的数据
+               改变props情况
+                           作为data中局部数据的初始值使用
+                           作为子组件中computed的使用
+
+<div id="app">
+  <h1>自定义组件</h1>
+  <custom :count="mes"></custom>
+</div>
+<script>
+  Vue.component('custom',{
+    props:['count'],
+    data:function(){
+      return {
+        num:this.count                //作为局部组件的初始值
+      }
+    },
+    computed:{
+      num1:function(){
+        return this.num
+      }
+    } ,                            //计算属性中getter是依靠data的变化而变化
+    template:`
+      <div>
+        <input type="button" value="改变count的值" @click="fn1"/>
+        <p>我是自定义的内容</p>
+        {{num1}}
+      </div>
+      `,
+      methods:{
+        fn1:function(){
+          this.num++
+        }
+      }
+  })
+
+  new Vue({
+    el:'#app',
+    data:{
+      mes:0
+    }
+  })
+</script>
+
+2.子组件到父组件的数据流
+<div id="app">
+  <p>父组件上也要用count</p>
+  {{mes}}
+  <h1>自定义组件</h1>
+  <custom :count="mes" @fn2="changeCount"></custom>
+</div>
+<script>
+  Vue.component('custom',{
+    props:['count'],
+    data:function(){
+      return {
+        num:this.count   //作为局部组件的初始值
+      }
+    },
+    computed:{
+      num1:function(){
+        return this.num
+      }
+    } ,//计算属性中getter是依靠data的变化而变化
+    template:`
+      <div>
+        <input type="button" value="改变count的值" @click="fn1"/>
+        <p>我是自定义的内容</p>
+        {{num1}}
+      </div>
+      `,
+      methods:{
+        fn1:function(){
+          this.num++,
+          this.$emit('fn2',this.num)
+                                          //fn2为父组件的自定义事件名   this.$emit('fn2',this.num)这一步是将子组件发生变化的
+        }                                   信号发给父组件
+      }
+  })
+  //1 设置了自定义事件fn2 通过自定义事件监控子组件的动作
+  //只要子组件有动作了 通过fn2 会把信号告诉父组件
+  //父组件每次接收 到信号后 都会促发changeCount 函数
+  new Vue({
+    el:'#app',
+    data:{
+      mes:0
+    },
+    methods:{
+      changeCount:function(val){
+        //alert(val)
+        this.mes=val;
+      //	return this.mes++
+        //拿到信号去执行代码
+      }
+    }
+  })
+  //子组件传过来的数据 父组件都是通过参数的形似接受的
+</script>
+
+-------------------------------------------------------------------------------------------------
+Slot 插 槽 及 内 容 分 发
+       使用一种方式混合父组件的内容与子组件的自己的模板,这个过程被称为内容分发,在子组件中使用特殊的<slot></slot>元素作为内的插槽
+
+<slot></slot>为组件中的内容插槽标签，写在组件的结构中，将父组件自定义标签中的结构及内容插入到子组件中来。
+
+例如： 父组件自定义标签<abc-d></abc-d>
+      如果在自定义标签中插入一些内容   <abc-d>
+                                        <div>123</div>
+                                        <div slot="one">123</div>  slot="one"
+                                              </abc-d>
+      我想把div插入到子组件中，则需要用到 <slot></slot>
+
+      Vue.component('custom',{
+				template:`
+					<div>
+					 	<slot name="one"></slot>           name="one" 有name属性命名的slot叫做具名插槽，
+                                                          它的位置是留给父组件 slot="one"中的结构内容的
+						<p>
+							<slot name="two"></slot>         name="two" 我们看到父组件中并没有slot="two"的结构内容，所以这个位置空着
+						我是第一条内容</p>
+						<p>我是第二条内容</p>
+						<p>我是第三条内容</p>
+            <slot></slot>                     <slot></slot>没有name属性命名的插槽则是用来安放 除了具名以外剩下的匿名父级结构内容
+					</div>
+				`
+			})
+			new Vue({
+				el:'#app'
+			})
+
+      如果父组件自定义标签中的内容过多，可以用一个<template slot="two"></template>标签来写在一起
+
+                                            例如：<template slot="two">
+                                                      <div>我是替换内容1</div>
+                                                      <div>我是替换内容1</div>
+                                                      <div>我是替换内容1</div>
+                                                      <div>我是替换内容1</div>
+                                                      <div>我是替换内容1</div>
+                                                 </template>
+
+单个slot:
+            在子组件模板中有slot标签,被看为备用内容,在父组件部提供内容的情况下使用
+            如果父组件提供内容,则把整个内容片断插入到所在DOM位置,替换到slot标签本身
+            子组件模板没有slot标签,父组件提供的内容会被抛弃
+具名slot:
+            Slot元素可以用一个特殊的属性name 配置如何分发内容
+匿名slot:
+            可以使用一个匿名的slot 处理那么没有对应slot的内容
+编译作用域:
+            父组件模板的内容在父组件作用域中编译
+            子组件模板的内容在子组件作用域内编译
+
+-------------------------------------------------------------------------------------------
+自 定 义 过 滤 器
+
+在插值中定义过滤器 {{插值 | tags}}   tags是自定义的过滤器名字
+
+例如：将首字母改成大写
+<div class="app">
+   <ul>
+     <li v-for='item in mes'>                               item in mes  在mes数据中的循环
+     {{item | cap}}
+   </li>
+   </ul>
+</div>
+<script>
+  Vue.filter('cap',function(values){                               Vue.filter('自定义过滤器名字',function(abc){})
+    return values.charAt(0).toUpperCase()+values.slice(1)            abc为参数，是指的数据里面的每一项
+  })
+                                                                 // 数据.charAt(0).toUpperCase+数据.splice(1)
+                                                                 //values  要过滤的数据
+  new Vue({
+    el:'.app',
+    data:{
+      mes:['name','age','sex']
+    }
+  })
+</script>
+
+
+例如：limitBy过滤器的转换 主要可以用于循环中，本来要循环10项，我可以只循环5项出来
+<div id="app">
+  <ul>
+    <li v-for="item in caps">                        item in caps 注意 这个是在计算属性中的自定义过滤器中循环
+      {{item|cap}}
+    </li>
+  </ul>
+</div>
+<script>
+  new Vue({
+    el:'#app',
+    data:{
+      mes:['name','age','sex']
+    },
+  computed:{
+      caps:function(){                                  caps为自定义的过滤器名字
+        return this.mes.slice(0,2)                      截取数据中的前两项
+      }
+  }
+  })
+</script>
+
+例如：filterBy过滤器的转换 主要用于搜索出带有我们想要的关键字的数据
+<div id="app">
+  <ul>
+    <li v-for="item in caps">                        item in caps 注意 这个是在计算属性中的自定义过滤器中循环
+      {{item|caps}}
+    </li>
+  </ul>
+</div>
+<script>
+  new Vue({
+    el:'#app',
+    data:{
+      mes:['nme','age','sex']
+    },
+  computed:{
+      caps:function(){
+        return this.mes.filter(function(users){     因为是要搜索数据中的每一项，所以是 this.mes.filter(function(users){ })
+          return users.indexOf('a')!==-1            过滤器中的参数都是指数据中的每一项 users就是指mes数据中的每一项
+          在这个里面如果有this是指向的window
+          如果要改变指向，必须把前面的this存进一个
+          变量中  })                               users.indexOf('a')!==-1  是用了 str.indexof()这个方法，括号里面
+      }                                           写上你要搜索的字符串，如果没有搜到则返回-1，所以返回的是不等于-1的那些数据项
+  }
+  })
+
+                                                     //查询某个字符在字符串中是否存在
+                                                     //str.indexOf('a')  -1
+</script>

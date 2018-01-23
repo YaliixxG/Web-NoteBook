@@ -1,0 +1,99 @@
+
+在meta定义移动端
+
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,
+maximum-scale=1">
+
+name="viewport"      视口
+width=320 | device-width   设备的宽度
+initial-scale=1      初始缩放比例
+minimum-scale=1      最小缩放比例
+maximum-scale=1      最大缩放比例
+user-scalable=no     不允许用户缩放
+
+
+<script>
+    document.getElementsByTagName("html")[0].style.fontSize=document.documentElement.clientWidth/16+"px"
+    1rem=40px
+</script>
+
+------------------------------------------------------------------------------------
+固定定位:
+
+PC端  position:fixed;
+      left:10px;
+      top:10px;    但是fixed不支持部分安卓手机和ios端
+
+移动端
+overflow:hidden | scroll | auto;
+         hidden:  超出父级部分自动隐藏
+         scroll:  无论有没有超出 都会出现滚动条
+         auto:    超出父级部分出现滚动条 显示在父级范围内 没有超出的部分则不出现滚动条
+
+--------------------------------------------------------------------------------------
+怪异盒模型:自动计算宽高，总体不会超过我们设置的宽高值
+
+box-sizing:border-box;
+
+标准盒模型：
+
+box-sizing:content-box;
+
+---------------------------------------------------------------------------------------
+手 指 事 件  （事件绑定不支持on的绑定，用addEventlistener，手指事件只能在移动端使用）
+
+touchstart                                    手指按下
+touchmove                                     手指在屏幕上移动
+touchend                                      手指在屏幕上离开
+
+ev.changedTouches                             获取在屏幕上手指列表（可以获取屏幕上有几根手指，是获取的数量）
+ev.changedTouches[0]                          代表任意一个手指
+var ev=ev.changedTouches[0] 将当前这个手指存进ev中
+    ev.pageX 当前手指到达屏幕左端的距离
+
+abc.addEventlistener('touchstart',函数,false) 三个参数：事件，事件函数，是否捕获
+
+==============================================================================================================
+
+1.	移动端头部定义决定你写出的页面是否与各种机型适配；
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width= device-width,initial-scale=1,minimum-scale=1,maximum-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/public.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <script src="js/jquery-3.2.1.min.js"></script>
+
+    <script>  
+        document.getElementsByTagName("html")[0].style.fontSize = document.documentElement.clientWidth / 18.75 + "px";  
+    </script>
+    <title>首页</title>
+
+</head>
+
+其中的rem布局计算的html的fontsize是你整个网页rem与px的核心换算；
+比如：这个网页，我想要px除以40来换算成rem,此时你就要看UI给你的设计图的原图大小宽度为多少？ UI给我的宽度是750px,那750/40=18.75,则上面代码中则定义18.75rem;
+
+2.	手指事件集合
+    touchstart：触摸开始的时候触发
+    touchmove：手指在屏幕上滑动的时候触发
+    touchend：触摸结束的时候触发
+    而每个触摸事件都包括了三个触摸列表，每个列表里包含了对应的一系列触摸点（用来实现多点触控）：
+    touches：当前位于屏幕上的所有手指的列表。
+    targetTouches：位于当前DOM元素上手指的列表。
+    changedTouches：涉及当前事件手指的列表。
+    每个触摸点由包含了如下触摸信息（常用）：
+    identifier：一个数值，唯一标识触摸会话（touch session）中的当前手指。一般为从0开始的流水号（android4.1，uc）
+    target：DOM元素，是动作所针对的目标。
+    pageX/pageX/clientX/clientY/screenX/screenY：一个数值，动作在屏幕上发生的位置（page包含滚动距离,client不包含滚动距离，screen则以屏幕为基准）
+
+3.	touchstart事件在触屏时会和click事件产生冲突，所以需要阻止浏览器的默认事件
+    e.preventDefault()
+
+    浏览器有许多默认事件，都需要阻止
+
+4.	页面的跳转 window.location.href = “index.html”
+    页面的回跳 window.history.back()
+
+5.	页面的文件引入： CSS 在头部引入；JS在底部引入；JQ文件在头部引入，因为Js文件需要JQ的依赖，否则会显示$未定义。
+

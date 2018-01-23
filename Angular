@@ -1,0 +1,359 @@
+基 本 格 式
+
+MVC模式： M为数据层  V为视图层  C为控制器
+
+<script>
+function Aaa($scope,$rootScope){                    $scope 系统形参不能改变，是局部作用域对象
+  $scope.name='123'
+  $rootScope.age='456'                             $rootScope 系统形参不能改变，是全局作用域对象
+}
+</script>                                           数据层
+
+<div ng-controller="Aaa">                          ng-controller="Aaa" 将视图层与数据层搭建起来的控制器
+       <p>{{name}}</p>
+       <p>{{age}}</p>
+</div>                                             视图层
+
+首先现在自己的作用域找相对的属性的解析，如果局部作用域没有找到，则再全局作用域找它的解析；
+
+-------------------------------------------------------------------------------------------
+作用域  angular scope
+
+Scope(作用域)是应用在HTML（视图）和JS（控制器）之间的纽带；它是一个对象，有可用的方法和属性；可应用在视图和控制器上。
+
+当你在angular创建控制器时，你可以将$scope对象当做一个参数传递，视图（HTML）可以获取这些属性。
+视图中，你不需要添加$scope前缀，只需要添加属性民即可：如 {{name}}
+
+
+
+根作用域 $rootScope
+
+它可以作用在ng-app指令包含的所有HTML元素中，是各个controller中scope的桥梁。用rootScope定义的值，可以在各个controller中使用。
+
+
+----------------------------------------------------------------------------------------
+定 时 器
+
+function Aaa('$scope',$timeout,$interval){} 用的时候需在里面传入参数
+
+$timeout(function(){},1000)        相当于原生中的setTimeout,因为原生的定时器无法驱动视图层的变化
+$interval(function(){},1000)       相当于原生中的setInterval,因为原生的定时器无法驱动视图层的变化
+$scope.$apply(function(){})        如果想用原生中的方法，可以在原生方法的代码里面包一层这个$scope.$apply(function(){})
+                                    setTimeout(function(){
+                                     $scope.$apply(function(){             包一层
+                                      $scope.name=2
+                                     })
+                                    })
+$interval.cancel(定时器名称)         清除定时器
+------------------------------------------------· -----------------------------------------
+指 令
+
+ng-                          指令
+ng-app                       初始化，只有初始化才能正确的解析angular代码.
+                             只能解析普通的写法，如果数据是写成模块的形式，就需要加上具体的模块名称 ng-app='myAPP'
+                             如果有多个模块，则只会默认第一个模块初始化
+                             写在html中作用于整个页面，也可以写在某个元素身上，作用在某个元素的范围使用
+                             这个指令也是告诉 angular，谁是angular应用程序的所有者
+ng-init                      初始化数据 ng-init="a=1;b=2"
+ng-controller                控制器
+ng-model                     双向绑定 监听
+ng-click="函数名()"          点击事件 其他的事件也是按照这个格式来进行挂载
+ng-repeat                    循环，遍历 和VUE中的v-for是一样的
+                             no-repeat="items in mes"
+                             mes是写在JS中的数据 $scope.mes=[1,2,3]
+                             {{$index}}  代表循环成功的下标
+                             {{$first}}  代表如果循环的是第一项，则返回值为true,不是的第一项，则返回false
+                             {{$middle}} 代表如果循环的是除了首尾以外的中间部分，则返回值为true,首尾则返回false
+                             {{$last}}   代表如果循环的是最后一项，则返回值为true,不是的最后一项，则返回false
+                             {{$even}}   奇数项返回true，偶数项返回false
+                             {{$odd}}    偶数项返回true，奇数项返回false
+ng-repeat-start              从哪里开始循环，使用于兄弟节点
+ng-repeat-end                从哪里开始结束，使用于兄弟节点
+ng-selected                  用于下拉菜单，如果你需要哪一项默认被选中，则在该项中加入 ng-selected='true'
+                             <option ng-selected="true">123</option>
+ng-change                    这条指令用于输入框上，当输入框里面的值改变的时候，触发这条指令
+ng-readonly                  在输入框或者textarea文本框加入这条命令 ng-readonly='true' 则是只能读，不能写；值为false时，则可读可写
+ng-disabled                  可以用在按钮、输入框等等表单元素上，值为true 也是有禁止操作的功能，并且有灰色的背景颜色；false则是可以操作的
+ng-checked                   是否是选中状态
+ng-value                     和value差不多，只是ng-value不受电脑运行速度的影响，而value会受电脑运行速度的影响，可能不会这么快解析出来
+ng-class                     后面接的是对象形式，对象里面可以放多个class值 ng-class={active:true,active1:false},
+                             也可以写成变量插值ng-class={{class1}},在控制器JS里面写 $scope.class1='{active:true,active1:false}'
+ng-style                     样式 ng-style="{background:'yellow',color:'blue'}"
+                             也可以写成变量插值ng-style={{styles}},在控制器JS里面写 $scope.styles="{background:'yellow',color:'blue'}"
+ng-href                      语法与上面一样，只是引入链接
+ng-attr                      自定义属性 ng-attr-abc="{{}}" 或者一些没有在angular里面定义的系统属性，如title都可以自定义写出来  ng-attr-title="{{}}"
+ng-show                      ng-show='true' 表示被显示 ng-show='false'被隐藏，行间会加入class='ng-hide' 元素并没有被移除
+ng-hide                      ng-hide='true' 表示被隐藏 ng-hide='false'被显示，行间会加入class='ng-show' 元素并没有被移除
+ng-if                        ng-if='true' 表示节点被插入至文档中  ng-if='false' 表示节点从文档中被移除
+ng-switch on                 效果等同于if..else..
+                              <div ng-switch on="作用的东西">
+                              <div ng-switch-defaul>defaul值默认为true 走这条</div>
+                              <div ng-switch-when="false">值为false 走这条</div>
+                              </div>
+
+自 定 义 指 令
+
+ml.directive('abc',function(){           derective('自定义指令名字',函数)    第一个参数是自定义指令的名字
+  return{
+    restrict='EAC',                      自定义指令类型：E代表元素，就是可以用标签的形式来引用这个自定义指令  <abc></abc>
+                                                        A代表属性，在标签中用属性的形式来引用这个自定义指令  <div abc></div>
+                                                        C代表class值，在标签中用class值来引用这个自定义指令 <div class='abc'></div>
+    template:'<div>456</div>',           模板，后面写模板代码
+    replace:true,                         true,则是代表模板结构会替代你写的自定义指令的标签，false(系统默认)的是模板结构插入你写的自定义指令标签里
+    templateUrl:'外面引入的模板链接',      用链接引入的模板只能在后台www中查看（阿帕奇）
+    scope:true | {}                      scope:true是搭配ng-init='name="hi"' 来使用，用来定义作用域
+                                         true是代表定义一个独立的作用域，表示这里的name的值，只作用于我们进行初始化的标签上，不会影响其他自定义标签同样定义
+                                             了name的值
+                                         {}代表隔离作用域，自定义标签如果没有name的值，即使父级上面有name的值，也无法继承父级的值。隔离作用域不会沿着自己的
+                                           作用域链往上面找值，所以需要自己来定义值，就要用到控制器controller
+                                          controller:['$scope',function($scope){
+                                                      $scope.name="hi"
+                                                     }]    用于给隔离作用域设置数据，但是这个数据属于共享数据，所有用到{{name}}的地方都会用到"hi"的值
+                                          如果要隔离作用域的controller里面的数据不共享要在scope:{传入'@' '=' '&'这几个参数,其中&是用来绑定事件}
+                                          例子：  1、      template:`<div id="{{myId}}">{{myData}}</div>`,
+                                                        scope:{
+                                                          myId:'@',
+                                                          myData:'@'      当对应数据 bi gi 为普通的字符串时，则是用 @ 参数
+                                                        },
+                                                  2、    template:`<div id="{{myId}}">{{myData}}</div>`,
+                                                                scope:{
+                                                                  myId:'@',
+                                                                  myData:'=' },   当对应数据 bi gi 为变量时，则是用 = 参数，并且将对应的变量所对应
+                                                                                  的值写在控制器 ml.controller 里面
+                                                                                  ml.controller('a',function($scope){
+                                                                                    $scope.name='hello'
+                                                                                    $scope.bi='11111111'
+                                                                                    $scope.gi='222222'
+                                                                                  })
+                                          对应的结构    <div ng-controller="a">
+                                                      <hello my-id='div1' my-data="bi"></hello>
+                                                      <hello  my-id='div2' my-data="gi"></hello>
+                                                      </div>
+
+    link:function($scope,element,attr,recontroller){                     element代表获取模板中的元素  attr代表获取模板中的属性
+       element.delegate('input','click',function(){         这里的'input'是指成功循环的每一项的'input'
+        里面可以写JQ代码
+       })
+    }
+  }
+})
+
+transclude:true                          如果自定义标签<abc><div>123</div></abc>中间有内容，这个内容会加载到模板中有ng-transclude的标签中，
+                                         并将它里面
+
+-------------------
+<div ng-controller="a">
+   <abc></abc>
+   <div abc></div>
+   <div ng-init='name="hi"'></div>      ng-init='name="hi"'这个是设置初始化的数据，如果没有搭配scope:true来使用，
+                                                           则会让其他的自定义指令都变成初始化的值
+</div>
+
+----------------------------------------------------------------------------------------------
+过 滤 器                      {{name | 过滤器1 | 过滤器2}
+
+currency                     对数字进行格式的处理，默认为$美元符号，如果要改成其他的符号 可以 currency:'￥'
+number                       对数字进行格式的处理，12,345,678.101  小数方面默认只会保留三位，第三位会四舍五入后面的小数
+                             number:2  这样可以更改小数的保留位数，保留两位
+limitTo                      截取，limitTo：3 代表截取3项
+json                         对数据格式进行处理，让阅读更加方便。必须搭配<pre></pre>来使用 <pre>{{name | json}}</pre>
+orderBy                      对数据进行排序，默认是升序排序。加true则是降序排列
+                             $scope.name=[{text:1,color:'yellow'},{text:1,color:'red'}]
+                             {{name | orderBy:'text'}} 这个代表按照text的值来排序，升序排列
+                             {{name | orderBy:'text'：true}} 这个代表按照text的值来排序，降序排列
+lowercase                    改小写
+uppercase                    改大写
+filter                       主要用于查找数组数据,从数组中选择一个子集。获取属性后面对应的value值，不过滤属性值，{{name | filter:"e"}}  找这个数据中含有"e"的数据
+                             {{name | filter:"e":true}} 如果在后面加个true，则不是获取value值含有'e'的数据，而是获取value值是“e”的数据
+
+在Js中使用过滤器               $filter('lmitTo')($scope.name,3) 第一括号里面写过滤器名称，第二个括号写过滤的数据，后面的数字是代表过滤器的功能
+                                                               在此处则是代表截取三项
+                             在JS中这样写后，则不需要在插值中再写过滤器了，直接写{{name}}
+                             但是在JS中必须传入$filter功能参数才可以，m1.controller('a',function($scope,$filter){})
+自定义过滤器                  模块下的方法
+                             var ml=angular.module('myAPP',[]);
+                                 ml.filter('自定义过滤器名称',function(){
+                                 return function(str){                              函数返回值必须为函数，str是要过滤的数据形参
+                                 return str.charAt(0).toUpperCase()+str.slice(1)    方法代码
+                                 }
+                                 })
+
+
+
+-----------------------------------------------------------------------------------------------------
+监 控 数 据
+
+$scope.$watch(监听对象,function(a,b){              函数中间的两个参数a与b，分别对应的是 监控对象的 新数据 与 旧数据
+
+
+},是否深度监控)
+}
+$scope.$watch(iphone.sum,function(){               默认浅度监控
+  console.log(1)
+})
+}
+
+$scope.$watch(iphone,function(){                   深度监控   'iphone' 是表示监控iphone里面所有的数据
+  console.log(1)
+},true)
+}
+
+----------------------------------------------------------------------------------------
+模 块 化  angular.module
+
+两个方法： controller() | run([])
+
+1.首先要创建模块，括号中有两个参数 a模块的名称 b 空数组（里面可以写需要以来的模块）
+  返回结果是对象
+                   var m1=angular.module('myAPP',[]);
+
+2.创建一个控制器   m1.controller('Aaa',function($scope){
+                                $scope.name=1
+                              })
+
+3.在元素行间还是得调用一下控制器   <div ng-controller='Aaa'>
+                                           {{name}}
+                                  </div>
+
+4.压缩的问题，涉及到上线的话，可以将压缩受到影响的代码挑出来 以字符串的形式写在前面，并且用数组将函数包起来
+                        m1.controller('Aaa',['$scope',function($scope){
+                          $scope.name=1                                             '$scope'这个就是挑出来的代码
+                        }])
+
+5.如果不想用controller控制器    m1.run(['$rootscope',function($rootscope){
+                                $rootscope.name=1
+                              }])                           这个方法可以不用在行间调用,但是必须用全局 $rootscope
+                                                            属性必须挂载在全局对象上
+
+--------------------------------------------------------------------------------------
+方 法
+
+angular.bind(document,show)(1,2,3)                           改变this的指向问题   括号里面第一个参数是写需要指向的对象，第二个参数是调用的方法 后面的括号是写实参
+angular.copy(obj) | angular.copy(obj,obj1)                   拷贝，括号里写要拷贝的对象,如果括号里面有两个对象，则第一个对象会覆盖第二个对象，拷贝出来的值都是第一个对象的值
+angular.extend(obj,obj1)                                     扩充，括号里面两个参数，第一个参数会继承第二个参数的数据，将第二个参数的数据扩充进来；第二个参数还是自己本身
+                                                               如果两个参数中K值是唯一的，如果有相同的K值，则会被第二个参数的K值所替代
+angular.isArray(arr)                                         判断是不是一个数组，返回值为布尔值，是数组 true 不是数组 false
+angular.isDate(time)                                         判断是不是一个日期对象，返回值为布尔值，是日期对象 true 不是日期对象 false
+angular.isFunction() | isObject() | isString() | isNumber()  判断是不是一个函数 | 对象 | 字符串 | 数字  返回值为布尔值，是则 true 不是则 false
+angular.isElement()                                          判断是不是一个DOM元素节点，括号里面可以写原生JS，也可以写JQ
+angular.equals(a,b)                                          判断a与b的值是不是一样的，如果一样则是true,不一样则false，类型不一样则肯定是false
+                                                              注意：在原生JS里面 NAN与自己不相等，但是在安哥拉里面是相等的
+                                                                    数组也是一样的，如果里面值一样则是相等的
+angular.forEach(循环对象，函数)                                循环，有三个参数  第一个参数：循环的对象
+                                                                              第二个参数：函数 function(item,index){}
+                                                                              第三个参数：一个数组，可以拿到结果，这个时候的this指向第三个参数
+                                                              this指向，指向window;由第三个参数，则指向第三个参数
+angular.fromJason() | toJason()                               fromJason() 把字符串的Jason格式转成Jason格式
+                                                              toJason()   把Jason格式转成字符串格式的Jason
+angular.lowerCase() | upperCase()                             大小写
+angular.element(oDiv)                                         获取元素进行操作  angular.element(oDiv).css('background','red')
+angular.bootstrap(document,['myAPP1'，'myAPP2'])              如果有多个模块需要初始化，可以用这个来初始化
+                                                              document 代表html 也可以绑定在元素身上
+                                                              后面的空数组里面写需要初始化的模块名称
+
+------------------------------------------------------------------------------------------------------------------------
+跨  域
+
+$http 同域、跨域访问后台数据,只能请求函数形式的数据
+$http是angular应用中最常用的服务，服务向服务器发送请求，应用相应服务器传送过来的数据。
+
+
+同源数据 GET POST
+ml.controller('a',function($http,$scope){
+  $http({
+    method:'GET',
+    url:'data.php'
+  }).success(function(data,state){
+     console.log(data)
+  }).error(function(data){
+    console.log(data)
+  })
+  })
+
+确定了获取数据的方法，可以直接简写
+  ml.controller('a',function($http,$scope){
+  $http.get('data.php').success(function(data){
+     console.log(data)
+   }).error(function(data){
+     console.log(data)
+   })
+  })
+
+  不同源数据 JSONP
+  ml.controller('a',function($http,$scope){
+
+   $http({
+     method:'JSONP',
+     url:'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy
+     /su?wd='+关键字参数+'&sugmode=2&cb=JSON_CALLBACK'
+                                                百度为例，其他网站的关键字不一样
+                                                怎么拿外网数据？ F12，先清空数据clear,点击NetWork，左下角有数据地址，看地址上是否有
+                                               su?wd= 有这个就证明是正确的地址，这个时候右键地址 open in newtab（在新窗口打开），再
+                                               复制地址栏就可以了。
+                                               外网数据链接:wd=关键字，cb=回调函数，如果是安哥拉来拿数据，回调函数后面要改成
+                                                          cb=JSON_CALLBACK, ‘wd=关键字’后面的内容一直到‘cb=JSON_CALLBACK’前面
+                                                          都是网站自带的内容，可以去掉，用'&'隔开
+   }).success(function(data,state){             state状态参数：正常200 | 报错 404 文件找不到 |报错 500以上 后台的问题
+      console.log(data.s)
+      $scope.data=data.s
+   }).error(function(data){
+     console.log(data)
+   })
+    })
+
+跨域标签：<img src='' />
+         <link href='' />
+         <script><script/>
+         <a href=''></a>
+
+---------------------------------------------------------------------------------------------------
+原生JS写法
+
+
+哈 希 值          地址栏信息 # 后面的值 不会刷新页面
+
+
+window.location.href                                  获取浏览器地址栏的信息，信息通过编码后的地址
+window.location.hash                                  获取哈希值，并且包含#
+window.location.hash="abc"                            设置哈希值，不需要写#，会自动在值的前面加上#
+                                                      也可以在HTML结构中，直接写href="#abc" 例如：<a href="#abc"></a>
+
+search 值        地址栏信息 ? 后面的值 会刷新页面
+
+window.location.search                                获取search值，并且包含?
+window.location.search="abc"                          设置search值，不需要写?，会自动在值的前面加上?
+                                                      也可以在HTML结构中，直接写href="?abc" 例如：<a href="?abc"></a>
+
+angular写法
+
+哈 希 值
+
+ml.controller('Aaa',function($location){               通过服务注入
+        console.log($location.absUrl())
+})
+$location                                              通过服务注入 angular写法
+$location.absUrl()                                     获取完整的地址
+$location.hash('abc')                                  设置哈希值，不需要写#，会自动在值的前面加上#
+$location.hash()                                       获取哈希值，不包含#
+
+search 值
+
+$location.search('abc') | $location.search('name':'hello')  设置search值，不需要写?，会自动在值的前面加上?
+$location.search()                                          获取search值，search值是以对象形式来存在的
+                                                                          {abc:true | false} 判断是否存在，用布尔值来判断
+                                                                          {name:"hello"}     判断是否存在，用“hello” 来判断
+$location.url()                                             获取地址栏中 # 后面的部分，包含hash值和search值
+
+-----------------------------------------------------------------------------------
+
+angular 中 的 服 务
+
+系 统 服 务
+
+$scope  $rootscope  $timeout  $interval  $location  $http
+
+自 定 义 服 务
+
+ml.factory('自定义名称',function(){       定义好服务以后，要在控制器中进行服务注入 ml.controller('Aaa',function(自定义服务名称){
+          return 功能代码                                                                 console.log(自定义服务名称)
+          })                                                                                    })
