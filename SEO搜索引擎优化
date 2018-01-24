@@ -6,7 +6,16 @@ SEO有三条最重要的规律:
                       2.高质量的外部链接
                       3.持之以恒适度的优化
 
-
+SEO 优化
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- SEO -->
+    <title>Style Guide</title>
+    <meta name="keywords" content="your keywords">
+    <meta name="description" content="your description">
+    <meta name="author" content="author,email address">
+</head>
 -------------------------------------------------------------------------------------------
 具体措施：
 
