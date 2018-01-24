@@ -1,3 +1,88 @@
+
+一、什么是LESS?
+
+ESS是一个CSS预处理器，可以为网站启用可自定义，可管理和可重用的样式表。 LESS是一种动态样式表语言，扩展了CSS的功能。 LESS也是跨浏览器友好。
+CSS预处理器是一种脚本语言，可扩展CSS并将其编译为常规CSS语法，以便可以通过Web浏览器读取。 它提供诸如变量，函数， mixins 和操作等功能，可以构建动态CSS。
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+二、安装less 和 使用less 小实例
+
+   步骤(1):我们需要NodeJ运行LESS示例。 要下载NodeJ，请打开链接 https://nodejs.org/en/ ，下载zip文件的最新功能版本。
+
+   步骤(2):接下来，运行安装程序以在系统上安装 Node.js 。
+
+   步骤(3):接下来，通过NPM(节点程序包管理器)在服务器上安装LESS。 在命令提示符下运行以下命令。
+           npm install -g less
+           这样就成功安装了。
+        
+   * 使用实例： 建立一个html文件  hello.htm
+                            <!doctype html>
+                            <head>
+                                <link rel="stylesheet" href="style.css" type="text/css" />
+                            </head>
+                            <body>
+                                <h1>Welcome to W3Cschool</h1>
+                                <h3>Hello!!!!!</h3>
+                            </body>
+                            </html>
+
+                建立一个LESS文件  style.less
+                            @primarycolor: #FF7F50;
+                            @color:#800080;
+                            h1{
+                            color: @primarycolor;
+                            }
+                            h3{
+                            color: @color;
+                            }
+              
+              使用以下命令将 style.less 文件编译为 style.css :
+                            lessc style.less style.css
+              当您运行上述命令时，它将自动创建 style.css 文件。 无论何时更改LESS文件，都需要在cmd中运行上面的命令，然后更新 style.css 文件。
+              运行以上命令时， style.css 文件将具有以下代码:
+                                                            h1 {
+                                                            color: #FF7F50;
+                                                            }
+                                                            h3 {
+                                                            color: #800080;
+                                                            }
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 设置样式嵌套写法
 
 结构为 <div><span></span></div>
