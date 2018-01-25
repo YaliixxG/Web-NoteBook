@@ -50,52 +50,312 @@ CSS预处理器是一种脚本语言，可扩展CSS并将其编译为常规CSS�
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 
+三、Less嵌套规则
 
+    设置样式嵌套写法
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-设置样式嵌套写法
-
-结构为 <div><span></span></div>
-如果要给两个写样式，less写法：
-div{
-    width:200px;
-    height:200px;
-    border:1px solid #000;
-    span{                                    可以按照结构的嵌套来写样式
-    width:10px;
-    height:20px;
+    结构为 <div><span></span></div>
+    如果要给两个写样式，less写法：
+    div{
+        width:200px;
+        height:200px;
+        border:1px solid #000;
+        span{                                    可以按照结构的嵌套来写样式
+        width:10px;
+        height:20px;
+        }
     }
-}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+四、Less操作
+
+   LESS支持一些算术运算，例如加号(+)，减号( - )，乘法(*)和除法(/)，它们可以对任何数字，颜色或变量进行操作。 操作节省了大量的时间，当你使用变量，让感到就像是简单的数学工作。
+   
+  
+   style.less文件
+
+                    @fontSize: 10px;
+                    .myclass {
+                    font-size: @fontSize * 2;
+                    color:green;
+                     }
+
+  编译后，style.css文件
+                    .myclass {
+                    font-size: 20px;
+                    color: green;
+                    }
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+五、Less 转义
+
+   它动态构建选择器，并使用属性或变量值作为任意字符串。
+
+   style.less文件
+                p {
+                color: ~"green";
+                }
+
+  编译后，style.css文件
+                p {
+                color: green;
+                }
+
+  在将LESS代码编译为CSS代码之后，〜“some_text"中的任何内容将显示为 some_text 。
+
+  --------------------------------------------------------------------------------------------------------------------------------------------------
+
+  六、Less函数
+
+      style.less文件
+
+                    @color: #FF8000;
+                    @width:1.0;
+                    .mycolor{
+                    color: @color;
+                    width: percentage(@width);   
+                    }
+
+     编译后，style.css文件
+                    .mycolor {
+                        color: #FF8000;
+                        width: 100%;
+                        }
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+七、Less 命名空间和访问器
+
+   它用于将mixins分组在通用名称下。 使用命名空间可以避免名称冲突，并从外部封装mixin组。
+
+   style.less文件
+                .class1 {
+                .class2 {
+                    .val(@param) {              //相当于是传参
+                    font-size: @param;          //参数变量
+                    color:green;
+                    }
+                }
+                }
+
+                .myclass {
+                .class1 > .class2 > .val(20px);
+                }
+
+  编译后，style.css文件
+               .myclass {
+                        font-size: 20px;
+                        color: green;
+                        }
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+八、Less 变量范围
+
+   变量范围指定可用变量的位置。 变量将从本地作用域搜索，如果它们不可用，则编译器将从父作用域搜索。
+
+   style.less文件
+                @var: @a;
+                @a: 15px;                 //相当于是全局变量
+
+                .myclass {
+                    font-size: @var;
+                    @a:20px;             //局部变量改变全局变量的值
+                    color: green;
+                    }
+
+  编译后，style.css文件
+               .myclass {
+                    font-size: 20px;
+                    color: green;
+                    }
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+九、Less 注释
+
+   注释使代码清晰，并允许用户轻松地理解。 您可以在代码中使用块样式和行内注释，但是当编译LESS代码时，单行注释不会显示在CSS文件中。
+
+   style.less文件
+                /* It displays the
+                green color! */
+                .myclass{
+                color: green;
+                }
+                // It displays the blue color
+                .myclass1{
+                color: red;
+                }
+  编译后，style.css文件
+               /* It displays the
+                green color! */
+                .myclass {
+                color: green;
+                }
+                .myclass1 {
+                color: red;
+                }
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+十、Less 导入
+
+    它用于导入LESS或CSS文件的内容。
+
+    创建文件 myfile.less 
+
+    在style.less文件中导入myfile.less文件，语法为： @import "//www.w3cschool.cn/less/myfile.less"; 
+
+    再将style.less编译成style.css
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+十一、Less变量
+
+    LESS允许使用 @ 符号定义变量。 变量分配使用冒号(:)完成。
+
+    1.变量概述  多次重复相同的值，通常在您的样式表中可看到。不用多次使用相同的值，可以使用变量。它使代码的维护更容易，并且可以从单个位置控制这些值。
+  
+      style.less文件
+                @color1: #ca428b;
+                .div1{
+                background-color : @color1;
+                }
+                .div2{
+                background-color : @color1;
+                }
+     编译后，style.css文件
+               .div1 {
+                background-color: #ca428b;
+                }
+                .div2 {
+                background-color: #ca428b;
+                }
+    2.Less 变量插值 {}  变量插值是评估包含一个或多个变量的表达式或文字的过程，产生其中变量用其对应值替换的输出。变量也可以在其他地方使用，如选择器名称，属性名称，URL和@import语句。
+
+                ------Less 选择器  选择器可以引用任何变量，它是在编译时构建的。变量名称必须放在用@符号前缀的花括号（{}）内。
+
+                    style.less文件
+                            @selector: h2;
+
+                                @{selector} {
+                                background: #2ECCFA;
+                                }
+                    编译后，style.css文件
+                            h2 {
+                                background: #2ECCFA;
+                                }
+
+                ------Less URL  变量可用于保存URL。
+                    
+                    style.less文件
+                            @images: "http://www.w3cschool.cn";
+
+                                .myclass {
+                                background : url("@{images}/less/images/less_variables/birds.jpg");
+                                width:800px;
+                                height:500px;
+                                }
+                    编译后，style.css文件
+                            .myclass {
+                                background: url("//www.w3cschool.cn/less/images/less_variables/birds.jpg");
+                                width: 800px;
+                                height: 500px;
+                                }
+
+                ------Less Import语句  import语句可以具有保存路径的变量。当你引用一个普通的父目录时，这是非常有用的
+                    
+                            @path : "//www.w3cschool.cn/less";   //父目录存进一个变量
+                            @import "@{path}/external1.less";    //引用父目录
+                            .myclass{
+                            color : #A52A2A;
+                            }
+ 
+                ------Less 变量插值属性  变量可以由属性引用。
+                    
+                    style.less文件
+                            @my-property: color;                //把属性存进一个变量
+                            .myclass {
+                            background-@{my-property}: #81F7D8; //引用
+                            }
+                    编译后，style.css文件
+                            .myclass {
+                            background-color: #81F7D8;
+                            }
+
+    3.Less 变量名称  我们可以定义变量名称由一个值组成的变量。
+
+      style.less文件
+               .myclass{ 
+                @col: #ca428b;                 //将颜色值存进一个变量中              
+                @color: "col";                 //值是一个变量
+                background-color: @@color;    //双层变量
+                }
+     编译后，style.css文件
+              myclass {
+                background-color: #ca428b;  
+                }
+
+    4.Less 变量延迟加载  在延迟加载中，即使它们尚未声明，也可以使用变量。在前面使用了这个变量，但没有定义，但可以在后面给他定义出来，不影响输出。
+
+      style.less文件
+               p {
+                font-size: @a;     //此时的@a尚未定义
+                color: #ca428b;
+                }
+                @a: @b;           
+                @b: 25px;
+     编译后，style.css文件
+              p {
+                font-size: 25px;
+                color: #ca428b;
+                }
+
+-------------------------------------------------------------------------------------------------------------------------
+
+十二、Less扩展  Extend是一个LESS伪类，它通过使用:extend 选择器在一个选择器中扩展其他选择器样式。
+
+      style.less文件
+               h2 {
+                &:extend(.style);       //给h2 扩展 style这个类的样式，让h2拥有style这个类的样式
+                font-style: italic;
+                }
+                .style {
+                background: green;
+                }
+     编译后，style.css文件
+              h2 {
+                font-style: italic;
+                }
+                .style,h2 {
+                background: green; 
+                }
+    扩展语法：扩展放置在规则集中或附加到选择器。 它类似于包含一个或多个类的伪类，它们之间用逗号分隔。 使用可选的关键字全部，可以跟踪每个选择器。
+             
+             .style:extend(.container, .img)  //给style这个类加上container和img这两个类的样式
+                                              //括号里面的是你要添加扩展的样式，冒号前面是被扩展的对象
+
+        ------LESS-nth表达式   nth表达式的形式在扩展中很重要，否则它将选择器视为不同。 nth表达式1n + 2和n + 2是等效的，但扩展将该表达式视为不同。
+
+              style.less文件
+              :nth-child(n+2)
+                {
+                color: #BF70A5;
+                font-style: italic;
+                }
+                .child:extend(:nth-child(1n+2)){}      
+       编译后，style.css文件
+              :nth-child(n+2) {                //并没有扩展成功，因为扩展将该表达式1n + 2和n + 2视为不同。
+                color: #BF70A5;
+                font-style: italic;
+                }
+
+
+
+
+
 -----------------------------------------------------------------------------------------------
 设置样式变量：
 
