@@ -365,7 +365,7 @@ CSS预处理器是一种脚本语言，可扩展CSS并将其编译为常规CSS�
 
 .abc{                       在less文件中定义一个样式 名字abc随意取
  width:100px;
- height100px;
+ height:100px;
  background:red;
 }
 div{

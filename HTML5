@@ -1,35 +1,97 @@
 Canvas
 
-var c=document.getElementById("myCanvas");
-var ctx=c.getContext("2d");
-
-getContext()     返回一个用于在画布上绘图的环境
-
-语法：Canvas.getContext(contextID)
-      参数 contextID 指定了您想要在画布上绘制的类型。当前唯一的合法值是 "2d"，它指定了
-      二维绘图，并且导致这个方法返回一个环境对象，该对象导出一个二维绘图 API。
-
-ctx.fillStyle = color|gradient|pattern
-                color  指示绘图填充色的CSS颜色值
-                gradient 用于填充绘图的渐变对象（线性或放射性）
-                pattern 用于填充绘图的pattern对象
-
-ctx.font = "24px Helvetica"  属性设置或返回画布上文本内容的当前字体属性。
-
-ctx.textBaseline = "top"     属性设置或返回在绘制文本时的当前文本基线。
-
-ctx.textAlign = "left"       属性根据锚点，设置或返回文本内容的当前对齐方式。
 
 
 
-fillText() 方法在画布上绘制填色的文本。文本的默认颜色是黑色。
-context.fillText(text,x,y,maxWidth);
-text	       规定在画布上输出的文本。
-x	           开始绘制文本的 x 坐标位置（相对于画布）。
-y	           开始绘制文本的 y 坐标位置（相对于画布）。
-maxWidth	   可选。允许的最大文本宽度，以像素计。
+-----------------------------------------------------------------------------------------------------------
+
+HTML5新特性：
+            用于绘画的 canvas 元素
+            用于媒介回放的 video 和 audio 元素
+            对本地离线存储的更好的支持
+            新的特殊内容元素，比如 article、footer、header、nav、section
+            新的表单控件，比如 calendar、date、time、email、url、search
+
+--------------------------------------------------------------------------------------------------------------
+
+语义要素
+HTML5 添加了很多语义元素如下所示：
+
+<article>	              定义页面独立的内容区域。|块标签
+<aside>	              定义页面的侧边栏内容。|块标签
+<bdi>	                    允许您设置一段文本，使其脱离其父元素的文本方向设置。
+<command>	              定义命令按钮，比如单选按钮、复选框或按钮
+<details>	              用于描述文档或文档某个部分的细节
+<dialog>	              定义对话框，比如提示框
+<summary>	              标签包含 details 元素的标题
+<figure>	              规定独立的流内容（图像、图表、照片、代码等等）。|块标签
+<figcaption>	        定义 <figure> 元素的标题
+<footer>	              定义 section 或 document 的页脚。|块标签
+<header>	              定义了文档的头部区域 |块标签
+<mark>	              定义带有记号的文本。
+<meter>	              定义度量衡。仅用于已知最大和最小值的度量。
+<nav>	                    定义导航链接的部分。|块标签
+<progress>	              定义任何类型的任务的进度。
+<ruby>	              定义 ruby 注释（中文注音或字符）。
+<rt>	                    定义字符（中文注音或字符）的解释或发音。
+<rp>	                    在 ruby 注释中使用，定义不支持 ruby 元素的浏览器所显示的内容。
+<section>	              定义文档中的节（section、区段）。|块标签
+<time>	              定义日期或时间。
+<wbr>	                    规定在文本中的何处适合添加换行符。
+
+
+自定义新元素标签           
+document.createElement("myHero")   <myHero>我的第一个新元素</myHero> 要把新标签写在HTML中
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Internet Explorer 浏览器问题
+
+HTML5能适用于现代所有浏览器，但是IE只有IE9可以适用，IE6-IE8不适用
+
+如果遇到IE浏览器怎么处理呢？
+将这段代码添加至头部区域：
+                        <!--[if lt IE 9]>
+                        <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+                        <![endif]-->
+                       以上代码是一个注释，作用是在 IE 浏览器的版本小于 IE9 时将读取 html5.js 文件，并解析它。
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+新 元 素
+
+<canvas>            它是一个画布标签，只是作为一个图形容器，必须使用脚本来绘制图形。
+
+                       var c=document.getElementById("myCanvas");
+                        var ctx=c.getContext("2d");
+
+                        getContext()     返回一个用于在画布上绘图的环境
+
+                        语法：Canvas.getContext(contextID)
+                              参数 contextID 指定了您想要在画布上绘制的类型。当前唯一的合法值是 "2d"，它指定了
+                              二维绘图，并且导致这个方法返回一个环境对象，该对象导出一个二维绘图 API。
+
+                        ctx.fillStyle = color|gradient|pattern
+                                    color  指示绘图填充色的CSS颜色值
+                                    gradient 用于填充绘图的渐变对象（线性或放射性）
+                                    pattern 用于填充绘图的pattern对象
+
+                        ctx.font = "24px Helvetica"  属性设置或返回画布上文本内容的当前字体属性。
+
+                        ctx.textBaseline = "top"     属性设置或返回在绘制文本时的当前文本基线。
+
+                        ctx.textAlign = "left"       属性根据锚点，设置或返回文本内容的当前对齐方式。
 
 
 
-window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器在下一次重绘之
-前调用指定的函数来更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。
+                        fillText() 方法在画布上绘制填色的文本。文本的默认颜色是黑色。
+                        context.fillText(text,x,y,maxWidth);
+                        text	       规定在画布上输出的文本。
+                        x	           开始绘制文本的 x 坐标位置（相对于画布）。
+                        y	           开始绘制文本的 y 坐标位置（相对于画布）。
+                        maxWidth	   可选。允许的最大文本宽度，以像素计。
+
+
+
+                        window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器在下一次重绘之
+                        前调用指定的函数来更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。
