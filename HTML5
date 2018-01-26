@@ -1,9 +1,4 @@
-Canvas
 
-
-
-
------------------------------------------------------------------------------------------------------------
 
 HTML5新特性：
             用于绘画的 canvas 元素
@@ -96,7 +91,7 @@ HTML5能适用于现代所有浏览器，但是IE只有IE9可以适用，IE6-IE8
 
 ---------------------------------------------------------------------------------------------------------------------------------------
 
-HTML5 内联 SVG     <svg>...</svg>
+内联 SVG     <svg>...</svg>
 
                         什么是SVG？
                         SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
@@ -115,7 +110,7 @@ HTML5 内联 SVG     <svg>...</svg>
 
 ------------------------------------------------------------------------------------------------------------------------------------------
  
- HTML5 MathML   <math>...</math>
+MathML   <math>...</math>
 
  实例： <body>
            <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -133,7 +128,7 @@ HTML5 内联 SVG     <svg>...</svg>
 
 -----------------------------------------------------------------------------------------------------------------------------
 
-HTML5 拖放（Drag 和 Drop）
+拖放（Drag 和 Drop）
 
 拖放是一种常见的特性，即抓取对象以后拖到另一个位置。在 HTML5 中，拖放是标准的一部分，任何元素都能够拖放。
 
@@ -207,3 +202,171 @@ HTML5 拖放（Drag 和 Drop）
       var data=ev.dataTransfer.getData("Text");
       ev.target.appendChild(document.getElementById(data));
       }
+
+      //触发ondrop事件通过event.dataTransfer.getData("Text")来得到上面event.dataTransfer.setData("Text",ev.target.id)
+      //的img的id,通过event.target.appendChild(document.getElementById(data))来把img放到div中，注意这里event.target指的是div，不是上面的img了。至此，页面的拖动完成了。
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+地理定位 Geolocation  
+
+HTML5 Geolocation API 用于获得用户的地理位置。鉴于该特性可能侵犯用户的隐私，除非用户同意，否则用户位置信息是不可用的。
+
+这个用法可以参照 w3cschool 上的实例，实例上有如何定位经纬度，如何在地图上显示位置等等。
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+Video(视频)
+
+            <video width="320" height="240" controls>           //width 和 height 属性控制视频的尺寸          
+                  <source src="movie.mp4" type="video/mp4">     //中间可以连入多个source, 浏览器会选择第一个支持的文件来播放
+                  <source src="movie.ogg" type="video/ogg">
+                  您的浏览器不支持Video标签。                    //标签之间插入的内容是提供给不支持 video 元素的浏览器显示的。
+            </video>
+
+            <video>..</video> 元素提供了 播放、暂停和音量控件来控制视频。
+
+            格式	 MIME-type
+            MP4	  video/mp4
+            WebM	  video/webm
+            Ogg	  video/ogg
+
+          具体用法可以参照 w3cschool  
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Audio(音频)  
+
+            <audio controls>                                     //control 属性供添加播放、暂停和音量控件
+                  <source src="horse.ogg" type="audio/ogg">      //中间可以连入多个source, 浏览器会选择第一个支持的文件来播放
+                  <source src="horse.mp3" type="audio/mpeg">
+                  您的浏览器不支持 audio 元素。                   //标签之间插入的内容是提供给不支持 audio 元素的浏览器显示的。
+            </audio> 
+
+            格式	   MIME-type
+            MP3	     audio/mpeg
+            Ogg	     audio/ogg
+            Wav	     audio/wav
+
+            具体用法可以参照 w3cschool 
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Input 类型
+ 
+      color                   从拾色器中选择一个颜色
+      date                    定义一个时间控制器，允许你从一个日期选择器选择一个日期
+      datetime                定义一个日期和时间控制器（本地时间）
+      datetime-local          定义一个日期和时间 (无时区)
+      email                   在提交表单时，会自动验证 email 域的值是否合法有效
+      month                   定义月与年 (无时区)
+      number                  定义一个数值输入域(限定)   数量 ( 1 到 5 之间 ): <input type="number" name="quantity" min="1" max="5">
+                                                            max- 规定允许的最大值
+                                                            min - 规定允许的最小值
+                                                            step - 规定合法的数字间隔（如果 step="3"，则合法的数是 -3,0,3,6 等）
+                                                            value - 规定默认值                           
+      range                   定义一个不需要非常精确的数值（类似于滑块控制）   <input type="range" name="points" min="1" max="10">  
+                                                            max- 规定允许的最大值
+                                                            min - 规定允许的最小值
+                                                            step - 规定合法的数字间隔（如果 step="3"，则合法的数是 -3,0,3,6 等）
+                                                            value - 规定默认值 
+      search                  定义一个搜索字段 (类似站点搜索或者Google搜索)
+      tel                     定义输入电话号码字段
+      time                    定义可输入时间控制器（无时区）
+      url                     定义输入URL字段
+      week                    定义周和年 (无时区)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+表单元素
+
+<datalist>                   规定输入域的选项列表
+
+                             <form action="/statics/demosource/demo-form.php" method="get">
+                              <input list="browsers" name="browser">
+                              <datalist id="browsers">
+                              <option value="Internet Explorer">
+                              <option value="Firefox">
+                              <option value="Chrome">
+                              <option value="Opera">
+                              <option value="Safari">
+                              </datalist>
+                              <input type="submit">
+                              </form>
+
+<keygen>                     提供一种验证用户的可靠方法,规定用于表单的密钥对生成器字段
+                             当提交表单时，会生成两个键，一个是私钥，一个公钥。
+                             私钥（private key）存储于客户端，公钥（public key）则被发送到服务器。公钥可用于之后验证用户的客户端证书（client certificate）。
+
+                             <form action="demo_keygen.asp" method="get">
+                              用户名: <input type="text" name="usr_name">
+                              加密: <keygen name="security">
+                              <input type="submit">
+                              </form>
+
+<output>                     用于不同类型的输出，比如计算或脚本输出
+       
+                             <form oninput="x.value=parseInt(a.value)+parseInt(b.value)">0
+                              <input type="range" id="a" value="50">100 +
+                              <input type="number" id="b" value="50">=
+                              <output name="x" for="a b"></output>
+                              </form>
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+表单属性  
+
+HTML5 的 <form> 和 <input>标签添加了几个新属性.
+
+<form>新属性：
+                  autocomplete         当用户填写过一些内容后，再次刷新后，点击此处，会显示前面已经输入过的内容（比如账号之类的）
+                                       适用于 <form> 标签，以及以下类型的 <input> 标签：text, search, url, telephone, email, password, datepickers, range 以及 color。
+                                       autocomplete="on | off"  
+
+                  novalidate           规定在提交表单时不应该验证 form 或 input 域。 只要添加该属性，则此form或者input不需要验证；此属性是一个布尔值属性
+                                       <form action="demo-form.php" novalidate> 
+
+<input>新属性： 
+                  autocomplete         同form一样
+
+                  autofocus            规定在页面加载时，域自动地获得焦点，此属性是一个布尔值属性  <input type="text" name="fname" autofocus>
+
+                  form                 规定输入域所属的一个或多个表单。
+                                        <form action="demo-form.php" id="form1"> 
+                                          First name: <input type="text" name="fname"><br> 
+                                          <input type="submit" value="Submit"> 
+                                          </form> 
+
+                                          Last name: <input type="text" name="lname" form="form1">     这一个input虽然不在form1这个表单里面，但是添加此属性可以关联这个表单，成为它的一部分
+
+                  formaction         
+
+                  formenctype
+
+                  formmethod
+
+                  formnovalidate
+
+                  formtarget
+
+                  height and width
+
+                  list
+
+                  min and max
+
+                  multiple
+
+                  pattern (regexp)
+
+                  placeholder
+
+                  required
+
+                  step
+
+
+
+
+
+
