@@ -162,5 +162,149 @@ status
 
 ====================================================================================================================================
 
-六、
+AJAX 阿贾克斯 只刷新局部页面的技术
+
+自己电脑的主机IP地址 127.0.0.1
+
+工具方法
+                    $.ajax()                  ★★★★★
+                    什么是ajax
+                    提交数据   ,  查询数据
+                    url
+                    success
+                    Type  get/post
+                    data   查询的数据
+                    Error     404   // 500  跟前端没关系
+                    dataType
+                    async
+
+
+            $.ajax({                                      用对象的形式来写
+              url:'user.php',                             发送请求的地址
+              data:{'name':$(this).val()},                请求的数据
+              type:'GET',                                 提交方式有GET和POST 两种
+              datatype:'json'                             如果后台是按照JSON格式来写字符串的话，则可以直接在数据类型这里填写json,这样就可以直接用data
+              success:function(data){                     传入参数，接受后台传递的数据
+                if(data==1){
+                  $('div').html('已经有人注册了！')        判断语句
+                }else{
+                  $('div').html('注册成功！')
+                }
+              },
+              error:function(){
+                console.log(222)
+              }
+            })
+
+$.parseJSON(data)              将后台的字符串转为json格式，此时data必须是严格按照json格式来书写的
+$.parseHTML(data)              将后台的字符串转为元素节点
+async:true|false               异步：发送请求后不等返回结果，由回调函数处理结果,不会影响下面代码的执行
+      异步 |同步                同步：等上面执行完代码后，再执行下面的代码
+
+jQuery load() 方法
+                                jQuery load() 方法是简单但强大的 AJAX 方法。
+                                load() 方法从服务器加载数据，并把返回的数据放入被选元素中。
+                                语法：
+                                $(selector).load(URL,data,callback);
+                                  必需的 URL 参数规定您希望加载的 URL。
+                                  可选的 data 参数规定与请求一同发送的查询字符串键/值对集合。
+                                  可选的 callback 参数是 load() 方法完成后所执行的函数名称。
+
+GET vs POST
+                                  两种在客户端和服务器端进行请求-响应的常用方法是：GET 和 POST。
+                                  GET - 从指定的资源请求数据
+                                  POST - 向指定的资源提交要处理的数据
+                                  GET 基本上用于从服务器获得（取回）数据。注释：GET 方法可能返回缓存数据。
+                                  POST 也可用于从服务器获取数据。不过，POST 方法不会缓存数据，并且常用于连同请求一起发送数据。
+
+
+======================================================================================================================================
+
+在写ajax之前，1.必须先要后端写好接口，接口是做什么的，里面的数据是什么，这些地址上的参数代表什么意思，怎么改，然后这个接口它回复的结果是什么？最好有文档。
+             2.认真，仔细看ajax的api，仔细，先复制过来都没事。别有啥格式写错了，按照标准格式写，注意数组和对象的区别。
+             3.思路 前后端交互 调试的整体思路
+
+前端传输数据到后端：1. 需要知道两个接口，一个传输的接口，一个总的显示的地址，问清楚地址上的参数哪些是可以修改的，什么意思？
+                  2. 然后直接在传的地址栏写死一些必须的参数，回车。然后看总的显示整个数组的地址栏的页面里面有没有新出来这条数据，如果没这条数据，那么后端没写对。
+                  3. 先用get方式写，注意ajax的格式不要错漏了
+                  4. 然后你格式写对了，在memroy里面有一个关于发送成功的项，我忘记了，不过很容易找到，那里要显示200
+                  5. 要有后端写好的回馈信息
+                  6. 当然这是在你认为格式写对，后端接口没错误下，可是偏偏没有发送过去情况下，进行的验证，在network
+                  7. 大概就这样了，要注意问详细接口作用、参数！！！  多沟通， 格式别粗心
+
+
+======================================================================================================================================
+
+跨域： 
+
+要理解跨域，先要了解一下“同源策略”。所谓同源是指，域名，协议，端口相同。所谓“同源策略“，简单的说就是基于安全考虑，当前域不能访问其他域的东西。
+
+JSONP:
+
+是 JSON with padding（填充式 JSON 或参数式 JSON）的简写。
+JSONP实现跨域请求的原理简单的说，就是动态创建<script>标签，然后利用<script>的src 不受同源策略约束来跨域获取数据。
+JSONP 由两部分组成：回调函数和数据。回调函数是当响应到来时应该在页面中调用的函数。回调函数的名字一般是在请求中指定的。而数据就是传入回调函数中的 JSON 数据。
+
+动态创建<script>标签，设置其src，回调函数在src中设置：
+
+                                var script = document.createElement("script");
+                                script.src = "https://api.douban.com/v2/book/search?q=javascript&count=1&callback=handleResponse";
+                                document.body.insertBefore(script, document.body.firstChild);
+
+在页面中，返回的JSON作为参数传入回调函数中，我们通过回调函数来来操作数据。
+
+                                function handleResponse(response){
+                                // 对response数据进行操作代码
+                                }
+        
+ 实例： 
+        <script type="text/javascript">
+                function handleResponse(response){
+                        console.log(response);
+                }
+                </script>
+                <script type="text/javascript">
+                window.onload = function() {
+
+                var oBtn = document.getElementById('btn');
+
+                oBtn.onclick = function() {     
+
+                        var script = document.createElement("script");
+                        script.src = "https://api.douban.com/v2/book/search?q=javascript&count=1&callback=handleResponse";
+                        document.body.insertBefore(script, document.body.firstChild);
+
+                };
+                };
+        </script>
+-------------------------------------------
+
+jQuery封装JSONP实现跨域：
+
+对于经常用jQuery的开发者来说，能注意到jQuery封装的$.ajax中有一个dataType属性，如果将该属性设置成dataType:"jsonp"，就能实现JSONP跨域了。
+需要了解的一点是，虽然jQuery将JSONP封装在$.ajax中，但是其本质与$.ajax不一样。
+
+      <script type="text/javascript">
+    $(function(){
+        $("#btn").click(function(){
+
+            $.ajax({
+                async : true,
+                url : "https://api.douban.com/v2/book/search",
+                type : "GET",
+                dataType : "jsonp", // 返回的数据类型，设置为JSONP方式
+                jsonp : 'callback', //指定一个查询参数名称来覆盖默认的 jsonp 回调参数名 callback
+                jsonpCallback: 'handleResponse', //设置回调函数名
+                data : {               //参数数据
+                    q : "javascript", 
+                    count : 1
+                }, 
+                success: function(response, status, xhr){
+                    console.log('状态为：' + status + ',状态是：' + xhr.statusText);
+                    console.log(response);
+                }
+            });
+        });
+    });
+</script>
 

@@ -58,8 +58,6 @@ HTML5能适用于现代所有浏览器，但是IE只有IE9可以适用，IE6-IE8
 
 -------------------------------------------------------------------------------------------------------------------------------
 
-新 元 素
-
 <canvas>            它是一个画布标签，只是作为一个图形容器，必须使用脚本来绘制图形。
 
                        var c=document.getElementById("myCanvas");
@@ -95,3 +93,117 @@ HTML5能适用于现代所有浏览器，但是IE只有IE9可以适用，IE6-IE8
 
                         window.requestAnimationFrame() 方法告诉浏览器您希望执行动画并请求浏览器在下一次重绘之
                         前调用指定的函数来更新动画。该方法使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+HTML5 内联 SVG     <svg>...</svg>
+
+                        什么是SVG？
+                        SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
+                        SVG 用于定义用于网络的基于矢量的图形
+                        SVG 使用 XML 格式定义图形
+                        SVG 图像在放大或改变尺寸的情况下其图形质量不会有损失
+                        SVG 是万维网联盟的标准
+
+                        SVG优势
+                        与其他图像格式相比（比如 JPEG 和 GIF），使用 SVG 的优势在于：
+                        SVG 图像可通过文本编辑器来创建和修改
+                        SVG 图像可被搜索、索引、脚本化或压缩
+                        SVG 是可伸缩的
+                        SVG 图像可在任何的分辨率下被高质量地打印
+                        SVG 可在图像质量不下降的情况下被放大
+
+------------------------------------------------------------------------------------------------------------------------------------------
+ 
+ HTML5 MathML   <math>...</math>
+
+ 实例： <body>
+           <math xmlns="http://www.w3.org/1998/Math/MathML">
+                  <mrow>
+                        <msup><mi>a</mi><mn>2</mn></msup>
+                        <mo>+</mo>                                    
+                        <msup><mi>b</mi><mn>2</mn></msup>
+                        <mo>=</mo>                                    
+                        <msup><mi>c</mi><mn>2</mn></msup>
+                  </mrow>                              
+                  </math>                        
+            </body>
+
+            运算出来的结果：a2 + b2 = c2 （a的平方 + b的平方 = c的平方）
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+HTML5 拖放（Drag 和 Drop）
+
+拖放是一种常见的特性，即抓取对象以后拖到另一个位置。在 HTML5 中，拖放是标准的一部分，任何元素都能够拖放。
+
+                  <script>
+                  function allowDrop(ev)
+                  {
+                        ev.preventDefault();                            //取消事件的默认动作
+                  }
+
+                  function drag(ev)
+                  {
+                        ev.dataTransfer.setData("Text",ev.target.id);
+                  }
+
+                  function drop(ev)
+                  {
+                        ev.preventDefault();
+                        var data=ev.dataTransfer.getData("Text");
+                        ev.target.appendChild(document.getElementById(data));
+                  }
+                  </script>
+                  </head>
+
+                  <body>
+
+                  <p>拖动 w3cschool.cn 图片到矩形框中:</p>
+
+                  <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                  <br>
+                  <img id="drag1" src="/statics/images/logo.png" draggable="true" ondragstart="drag(event)" width="336" height="69">
+
+                  </body>
+
+
+  1. 设置元素为可拖放
+
+     首先，为了使元素可拖动，把 draggable 属性设置为 true ：
+     <img draggable="true">
+
+ 2. 拖动什么 - ondragstart 和 setData()
+
+    然后，规定当元素被拖动时，会发生什么。
+    在上面的例子中，ondragstart 属性调用了一个函数，drag(event)，它规定了被拖动的数据。
+
+    dataTransfer.setData() 方法设置被拖数据的数据类型和值：
+
+      function drag(ev)
+      {
+      ev.dataTransfer.setData("Text",ev.target.id);
+      } 
+      在这个例子中，数据类型是 "Text"，值是可拖动元素的 id ("drag1")。
+
+3. 放到何处 - ondragover
+      ondragover 事件规定在何处放置被拖动的数据。
+
+      默认地，无法将数据/元素放置到其他元素中。如果需要设置允许放置，我们必须阻止对元素的默认处理方式。
+
+      这要通过调用 ondragover 事件的 event.preventDefault() 方法：
+
+      event.preventDefault()
+
+4. 进行放置 - ondrop
+
+      当放置被拖数据时，会发生 drop 事件。
+
+      在上面的例子中，ondrop 属性调用了一个函数，drop(event)：
+
+      function drop(ev)
+      {
+      ev.preventDefault();
+      var data=ev.dataTransfer.getData("Text");
+      ev.target.appendChild(document.getElementById(data));
+      }
