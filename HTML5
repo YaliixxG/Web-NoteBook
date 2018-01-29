@@ -35,7 +35,7 @@ HTML5 添加了很多语义元素如下所示：
 <wbr>	                    规定在文本中的何处适合添加换行符。
 
 
-自定义新元素标签           
+自定义新元素标签
 document.createElement("myHero")   <myHero>我的第一个新元素</myHero> 要把新标签写在HTML中
 
 -------------------------------------------------------------------------------------------------------------------------
@@ -109,19 +109,19 @@ HTML5能适用于现代所有浏览器，但是IE只有IE9可以适用，IE6-IE8
                         SVG 可在图像质量不下降的情况下被放大
 
 ------------------------------------------------------------------------------------------------------------------------------------------
- 
+
 MathML   <math>...</math>
 
  实例： <body>
            <math xmlns="http://www.w3.org/1998/Math/MathML">
                   <mrow>
                         <msup><mi>a</mi><mn>2</mn></msup>
-                        <mo>+</mo>                                    
+                        <mo>+</mo>
                         <msup><mi>b</mi><mn>2</mn></msup>
-                        <mo>=</mo>                                    
+                        <mo>=</mo>
                         <msup><mi>c</mi><mn>2</mn></msup>
-                  </mrow>                              
-                  </math>                        
+                  </mrow>
+                  </math>
             </body>
 
             运算出来的结果：a2 + b2 = c2 （a的平方 + b的平方 = c的平方）
@@ -178,7 +178,7 @@ MathML   <math>...</math>
       function drag(ev)
       {
       ev.dataTransfer.setData("Text",ev.target.id);
-      } 
+      }
       在这个例子中，数据类型是 "Text"，值是可拖动元素的 id ("drag1")。
 
 3. 放到何处 - ondragover
@@ -208,7 +208,7 @@ MathML   <math>...</math>
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
-地理定位 Geolocation  
+地理定位 Geolocation
 
 HTML5 Geolocation API 用于获得用户的地理位置。鉴于该特性可能侵犯用户的隐私，除非用户同意，否则用户位置信息是不可用的。
 
@@ -218,7 +218,7 @@ HTML5 Geolocation API 用于获得用户的地理位置。鉴于该特性可能�
 
 Video(视频)
 
-            <video width="320" height="240" controls>           //width 和 height 属性控制视频的尺寸          
+            <video width="320" height="240" controls>           //width 和 height 属性控制视频的尺寸
                   <source src="movie.mp4" type="video/mp4">     //中间可以连入多个source, 浏览器会选择第一个支持的文件来播放
                   <source src="movie.ogg" type="video/ogg">
                   您的浏览器不支持Video标签。                    //标签之间插入的内容是提供给不支持 video 元素的浏览器显示的。
@@ -231,29 +231,29 @@ Video(视频)
             WebM	  video/webm
             Ogg	  video/ogg
 
-          具体用法可以参照 w3cschool  
+          具体用法可以参照 w3cschool
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-Audio(音频)  
+Audio(音频)
 
             <audio controls>                                     //control 属性供添加播放、暂停和音量控件
                   <source src="horse.ogg" type="audio/ogg">      //中间可以连入多个source, 浏览器会选择第一个支持的文件来播放
                   <source src="horse.mp3" type="audio/mpeg">
                   您的浏览器不支持 audio 元素。                   //标签之间插入的内容是提供给不支持 audio 元素的浏览器显示的。
-            </audio> 
+            </audio>
 
             格式	   MIME-type
             MP3	     audio/mpeg
             Ogg	     audio/ogg
             Wav	     audio/wav
 
-            具体用法可以参照 w3cschool 
+            具体用法可以参照 w3cschool
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
 Input 类型
- 
+
       color                   从拾色器中选择一个颜色
       date                    定义一个时间控制器，允许你从一个日期选择器选择一个日期
       datetime                定义一个日期和时间控制器（本地时间）
@@ -264,12 +264,12 @@ Input 类型
                                                             max- 规定允许的最大值
                                                             min - 规定允许的最小值
                                                             step - 规定合法的数字间隔（如果 step="3"，则合法的数是 -3,0,3,6 等）
-                                                            value - 规定默认值                           
-      range                   定义一个不需要非常精确的数值（类似于滑块控制）   <input type="range" name="points" min="1" max="10">  
+                                                            value - 规定默认值
+      range                   定义一个不需要非常精确的数值（类似于滑块控制）   <input type="range" name="points" min="1" max="10">
                                                             max- 规定允许的最大值
                                                             min - 规定允许的最小值
                                                             step - 规定合法的数字间隔（如果 step="3"，则合法的数是 -3,0,3,6 等）
-                                                            value - 规定默认值 
+                                                            value - 规定默认值
       search                  定义一个搜索字段 (类似站点搜索或者Google搜索)
       tel                     定义输入电话号码字段
       time                    定义可输入时间控制器（无时区）
@@ -305,7 +305,7 @@ Input 类型
                               </form>
 
 <output>                     用于不同类型的输出，比如计算或脚本输出
-       
+
                              <form oninput="x.value=parseInt(a.value)+parseInt(b.value)">0
                               <input type="range" id="a" value="50">100 +
                               <input type="number" id="b" value="50">=
@@ -314,53 +314,53 @@ Input 类型
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-表单属性  
+表单属性
 
 HTML5 的 <form> 和 <input>标签添加了几个新属性.
 
 <form>新属性：
                   autocomplete         当用户填写过一些内容后，再次刷新后，点击此处，会显示前面已经输入过的内容（比如账号之类的）
                                        适用于 <form> 标签，以及以下类型的 <input> 标签：text, search, url, telephone, email, password, datepickers, range 以及 color。
-                                       autocomplete="on | off"  
+                                       autocomplete="on | off"
 
                   novalidate           规定在提交表单时不应该验证 form 或 input 域。 只要添加该属性，则此form或者input不需要验证；此属性是一个布尔值属性
-                                       <form action="demo-form.php" novalidate> 
+                                       <form action="demo-form.php" novalidate>
 
-<input>新属性： 
+<input>新属性：
                   autocomplete         同form一样
 
                   autofocus            规定在页面加载时，域自动地获得焦点，此属性是一个布尔值属性  <input type="text" name="fname" autofocus>
 
                   form                 规定输入域所属的一个或多个表单。
-                                        <form action="demo-form.php" id="form1"> 
-                                          First name: <input type="text" name="fname"><br> 
-                                          <input type="submit" value="Submit"> 
-                                          </form> 
+                                        <form action="demo-form.php" id="form1">
+                                          First name: <input type="text" name="fname"><br>
+                                          <input type="submit" value="Submit">
+                                          </form>
 
                                           Last name: <input type="text" name="lname" form="form1">     这一个input虽然不在form1这个表单里面，但是添加此属性可以关联这个表单，成为它的一部分
 
                   formaction          用于描述表单提交的URL地址,会覆盖<form> 元素中的action属性,The formaction 属性用于 type="submit" 和 type="image".
                                           以下HTMLform表单包含了两个不同地址的提交按钮：
-                                          <form action="demo-form.php"> 
-                                          First name: <input type="text" name="fname"><br> 
-                                          Last name: <input type="text" name="lname"><br> 
-                                          <input type="submit" value="Submit"><br> 
-                                          <input type="submit" formaction="demo-admin.php" 
-                                          value="Submit as admin"> 
-                                          </form> 
+                                          <form action="demo-form.php">
+                                          First name: <input type="text" name="fname"><br>
+                                          Last name: <input type="text" name="lname"><br>
+                                          <input type="submit" value="Submit"><br>
+                                          <input type="submit" formaction="demo-admin.php"
+                                          value="Submit as admin">
+                                          </form>
 
                   formenctype         描述了表单提交到服务器的数据编码 (只对form表单中 method="post" 表单),属性覆盖 form 元素的 enctype 属性,该属性与 type="submit" 和 type="image" 配合使用
 
                                        第一个提交按钮已默认编码发送表单数据，第二个提交按钮以 "multipart/form-data" 编码格式发送表单数据:
-                                          <form action="demo-post_enctype.php" method="post"> 
-                                          First name: <input type="text" name="fname"><br> 
-                                          <input type="submit" value="Submit"> 
-                                          <input type="submit" formenctype="multipart/form-data" 
-                                          value="Submit as Multipart/form-data"> 
-                                          </form> 
+                                          <form action="demo-post_enctype.php" method="post">
+                                          First name: <input type="text" name="fname"><br>
+                                          <input type="submit" value="Submit">
+                                          <input type="submit" formenctype="multipart/form-data"
+                                          value="Submit as Multipart/form-data">
+                                          </form>
 
                   formmethod            定义了表单提交的方式,覆盖了 <form> 元素的的method 属性。该属性可以与 type="submit" 和 type="image" 配合使用
-                                        <input type="submit" formmethod="post" formaction="demo-post.php" value="Submit using POST"> 
+                                        <input type="submit" formmethod="post" formaction="demo-post.php" value="Submit using POST">
 
                   formnovalidate         是一个 boolean 属性,表单提交时无需被验证,formnovalidate 属性会覆盖 <form> 元素的novalidate属性,与type="submit”一起使用
 
@@ -369,13 +369,13 @@ HTML5 的 <form> 和 <input>标签添加了几个新属性.
                   height , width        规定用于 image 类型的 <input> 标签的图像高度和宽度。
 
                   list                  规定输入域的 datalist。datalist 是输入域的选项列表。
-                                        <datalist id="browsers"> 
-                                          <option value="Internet Explorer"> 
-                                          <option value="Firefox"> 
-                                          <option value="Chrome"> 
-                                          <option value="Opera"> 
-                                          <option value="Safari"> 
-                                        </datalist> 
+                                        <datalist id="browsers">
+                                          <option value="Internet Explorer">
+                                          <option value="Firefox">
+                                          <option value="Chrome">
+                                          <option value="Opera">
+                                          <option value="Safari">
+                                        </datalist>
 
                   min and max           用于为包含数字或日期的 input 类型规定限定（约束）,min、max 和 step 属性适用于以下类型的 <input> 标签：date pickers、number 以及 range。step是步进值。
 
@@ -385,7 +385,7 @@ HTML5 的 <form> 和 <input>标签添加了几个新属性.
                                         下面的例子显示了一个只能包含三个字母的文本域（不含数字及特殊字符）：
                                         Country code: <input type="text" name="country_code" pattern="[A-Za-z]{3}" title="Three letter country code">
 
-                  placeholder           常用的啦~ 
+                  placeholder           常用的啦~
 
                   required              是一个 boolean 属性.规定必须在提交之前填写输入域（不能为空）。
                                         适用于以下类型的<input> 标签：text, search, url, telephone, email, password, date pickers, number, checkbox, radio 以及 file。
@@ -414,9 +414,9 @@ HTML5 的 <form> 和 <input>标签添加了几个新属性.
                   为了让这些块及元素在所有版本的浏览器中生效，你需要在样式表文件中设置一下属性 (以下样式代码可以让旧版本浏览器支持本章介绍的块级元素):
 
                   header, section, footer, aside, nav, article, figure
-                  { 
-                  display: block; 
-                  } 
+                  {
+                  display: block;
+                  }
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -428,17 +428,20 @@ HTML5 web 存储,一个比cookie更好的本地存储方式。
                 sessionStorage          针对一个 session 的数据存储
 
                在使用 web 存储前,应检查浏览器是否支持 localStorage 和sessionStorage:
-                                                                                    if(typeof(Storage)!=="undefined"){                        
-                                                                                          // 是的! 支持 localStorage  sessionStorage 对象!                        
-                                                                                          // 一些代码.....                        
-                                                                                          }else{                        
-                                                                                          // 抱歉! 不支持 web 存储。                        
+                                                                                    if(typeof(Storage)!=="undefined"){
+                                                                                          // 是的! 支持 localStorage  sessionStorage 对象!
+                                                                                          // 一些代码.....
+                                                                                          }else{
+                                                                                          // 抱歉! 不支持 web 存储。
                                                                                           }
               实例：<div id="result"></div>
                   <script>
                   if(typeof(Storage)!=="undefined")
                   {
+                  //存储
                   localStorage.sitename="W3Cschool在线教程";                                         //使用 key="sitename" 和 value="W3Cschool在线教程" 创建一个 localStorage 键/值对。
+
+                  //查找
                   document.getElementById("result").innerHTML="网站名：" + localStorage.sitename;   //检索键值为"sitename" 的值然后将数据插入 id="result"的元素中
                   }
                   else
@@ -447,7 +450,49 @@ HTML5 web 存储,一个比cookie更好的本地存储方式。
                   }
                   </script>
 
-                  
 
+                  不管是 localStorage，还是 sessionStorage，可使用的API都相同，常用的有如下几个（以localStorage为例）：
+                  保存数据：localStorage.setItem(key,value);
+                  读取数据：localStorage.getItem(key);
+                  删除单个数据：localStorage.removeItem(key);
+                  删除所有数据：localStorage.clear();
+                  得到某个索引的key：localStorage.key(index);
 
+                  提示: 键/值对通常以字符串存储，你可以按自己的需要转换该格式。
 
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Web SQL 数据库
+
+核心方法
+
+openDatabase           这个方法使用现有的数据库或者新建的数据库创建一个数据库对象。
+                       打开数据库    var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+                                          mydb               数据库名称
+                                          1.0                版本号
+                                          Test DB            描述文本
+                                          2 * 1024 * 1024    数据库大小
+                                          第五个参数          创建回调（会在创建数据库后被调用）
+
+transaction            这个方法让我们能够控制一个事务，以及基于这种情况执行提交或者回滚。
+                       执行查询操作  var db = openDatabase('mydb', '1.0', 'Test DB', 2 * 1024 * 1024);
+                                    db.transaction(function (tx) {
+                                       tx.executeSql('CREATE TABLE IF NOT EXISTS LOGS (id unique, log)');
+                                    });
+                      上面的语句执行后会在 'mydb' 数据库中创建一个名为 LOGS 的表。
+
+executeSql            这个方法用于执行实际的 SQL 查询。
+
+以上具体实例可参考 w3cschool在线教程
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+应用程序缓存（Application Cache）
+
+应用程序缓存为应用带来三个优势：
+
+            离线浏览 - 用户可在应用离线时使用它们
+            速度 - 已缓存资源加载得更快
+            减少服务器负载 - 浏览器将只从服务器下载更新过或更改过的资源。
+
+详情具体参考 w3cschool在线教程
