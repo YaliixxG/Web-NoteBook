@@ -462,6 +462,25 @@ break  停止整个for循环
 
 continue 只停止当次循环 然后再继续循环
 
+----------------------------------------------------------------------------------------------------------
+
+while循环 
+
+目的是为了反复执行语句或代码块。
+
+while (条件){            //只要指定条件为 true，循环就可以一直执行代码块。
+  需要执行的代码
+   }
+
+do/while 循环
+
+是while 循环的变体。
+
+do{               
+  需要执行的代码         //该循环会在检查条件是否为真之前执行一次代码块，然后如果条件为真的话，就会重复这个循环。
+   }
+ while (条件);         //别忘记增加条件中所用变量的值，否则循环永远不会结束！
+
 ---------------------------------------------------------------------------------------------------------
 
 this 这个    调用函数（方法）的那个对象
@@ -1065,3 +1084,98 @@ localStorage.setItem(“I001”,JSON.stringify(country));
 客户端/服务端	  客户端和服务端都能访问数据。Cookie的数据通过每一个请求发送到服务端	       只有本地浏览器端可访问数据，服务器不能访问本地存储直到故意通过POST或者GET的通道发送到服务器
 大小	         每个cookie有4095byte	                                                 每个域5MB
 过期	         Cookies有有效期，所以在过期之后cookie和cookie数据会被删除	                没有过期数据，无论最后用户从浏览器删除或者使用Javascript程序删除，我们都需要删除
+
+---------------------------------------------------------------------------------------------------------------------
+
+错误处理 Throw、Try 和 Catch
+
+try                         语句测试代码块的错误，允许我们定义在执行时进行错误测试的代码块。
+
+catch                       语句处理错误，允许我们定义当 try 代码块发生错误时，所执行的代码块。
+
+throw                       语句创建自定义错误。当错误发生时，当事情出问题时，JavaScript 引擎通常会停止，并生成一个错误消息。
+                            描述这种情况的技术术语是：JavaScript 将抛出一个错误。
+
+try 和 catch 是成对出现的，语法：
+                            try{
+                              //在这里运行代码
+                              }catch(err){
+                              //在这里处理错误
+                              }
+                            
+-------------------------------------------------------------------------------------------------------------------------
+
+调 试
+
+console.log() 方法
+
+设置断点                     在调试窗口中，你可以设置 JavaScript 代码的断点。在每个断点上，都会停止执行 JavaScript 代码，以便于我们检查 JavaScript 变量的值。
+                            在检查完毕后，可以重新执行代码（如播放按钮）
+                            debugger 关键字用于停止执行 JavaScript，并调用调试函数。这个关键字与在调试工具中设置断点的效果是一样的。
+                            实例：如果没有调试可用，debugger 语句将无法工作。开启 debugger ，代码在第三行前停止执行
+                                  <script>
+                                  var x = 15 * 5;
+                                  debugger;
+                                  document.getElementById("demo").innerHTML = x;
+                                  </script>
+                            
+-----------------------------------------------------------------------------------------------------------------------------------
+
+表单验证
+
+JavaScript 可用来在数据被送往服务器前对 HTML 表单中的这些输入数据进行验证。
+
+表单数据经常需要使用 JavaScript 来验证其正确性：
+                                            验证表单数据是否为空？
+                                            验证输入是否是一个正确的email地址？
+                                            验证日期是否输入正确？
+                                            验证表单输入内容是否为数字型？
+
+ 当是一个必填的项目时：
+                      <body>                        
+                      <form name="myForm" action="/statics/demosource/demo-form.php" onsubmit="return validateForm()" method="post">
+                      姓: <input type="text" name="fname">
+                      <input type="submit" value="提交">
+                      </form>
+
+                      <script>
+                      function validateForm(){
+                      var x=document.forms["myForm"]["fname"].value;
+                      if (x==null || x==""){
+                        alert("姓必须填写");
+                        return false;
+                        }
+                      }
+                      </script>  
+                      </body>
+
+E-mail 验证：（输入的数据必须包含 @ 符号和点号(.)。同时，@ 不可以是邮件地址的首字符，并且 @ 之后需有至少一个点号）
+                      <body>                        
+                      <form name="myForm" action="demo-form" onsubmit="return validateForm();" method="post">
+                      Email: <input type="text" name="email">
+                      <input type="submit" value="提交">
+                      </form>
+
+                      <script>
+                      function validateForm(){
+                        var x=document.forms["myForm"]["email"].value;
+                        var atpos=x.indexOf("@");
+                        var dotpos=x.lastIndexOf(".");
+                        if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length){
+                          alert("不是一个有效的 e-mail 地址");
+                            return false;
+                        }
+                      }
+                      </script>                        
+                      </body>
+
+----------------------------------------------------------------------------------------------------------------------
+
+保留关键字
+
+不可以用作变量、标签或者函数名。有些保留关键字是作为 Javascript 以后扩展使用
+
+详情参考 w3cschool
+
+---------------------------------------------------------------------------------------------------------------------
+
