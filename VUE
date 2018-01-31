@@ -120,12 +120,13 @@ v-model=                 双向绑定 监听表单元素 当表单元素的值�
 
 
 v-if:                    判断语句  根据表达式的值在DOM中生成或移除一个元素。如果v-if表达式赋值为false，对应的元素就会从DOM中删除；
-                                   否则，对应元素将被重新插入DOM中。
-v-els:                    e就是JavaScript中else的意思，它必须跟着v-if或v-show，充当else功能
+                                   否则，对应元素将被重新插入DOM中。 支持template模板，写在template标签中
+v-else:                   else就是JavaScript中else的意思，它必须跟着v-if或v-show，充当else功能 ， 不支持template
+v-else-if:                顾名思义，就是 v-if 之后的“else-if 块”。  不支持template
 
 v-show=                  根据表达式的值来显示或者隐藏HTML元素。当v-show赋值为false时，元素将被隐藏。查看DOM时，会发现元素上多了
                          一个内联样式style=”display:none” 节点依然存在
-v-for=
+v-for=                    v-for的优先级高于 v-if
                          循环
                         <ul id="demo">
                           <li v-for='(item,index) in info'>{{info[index].text}}</li>  //(item,index) in info 中的info是你要循环的数组名
@@ -500,6 +501,7 @@ is 扩 展
 
 数 据 监 控 watch
 
+通过 watch 选项，来提供一个更加通用的响应数据变化的方式。当你需要在数据变化响应时，执行异步操作，或高性能消耗的操作，自定义 watcher 的方式就会很有帮助。
 
 
 浅度监控：只能监控第一层数据的变化
@@ -528,6 +530,8 @@ is 扩 展
 
 @click.self                  会判断这个事件是不是这个本身所作用触发的事件，如果不是自己作用触发的，则会跳过
 
+
+有许多修饰符，详情可参考 https://vuefe.cn/v2/guide/events.html 文档
 
 键 盘 事 件 修 饰 符
 
@@ -767,3 +771,160 @@ Slot 插 槽 及 内 容 分 发
                                                      //查询某个字符在字符串中是否存在
                                                      //str.indexOf('a')  -1
 </script>
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+Vue2 脚手架的学习
+
+├── README.md                       // 项目说明文档
+├── node_modules                    // 项目依赖包文件夹
+├── build                           // 编译配置文件，一般不用管
+│   ├── build.js
+│   ├── check-versions.js
+│   ├── dev-client.js
+│   ├── dev-server.js
+│   ├── utils.js
+│   ├── vue-loader.conf.js
+│   ├── webpack.base.conf.js
+│   ├── webpack.dev.conf.js
+│   └── webpack.prod.conf.js
+├── config                          // 项目基本设置文件夹
+│   ├── dev.env.js              // 开发配置文件
+│   ├── index.js                    // 配置主文件
+│   └── prod.env.js             // 编译配置文件
+├── index.html                      // 项目入口文件
+├── package-lock.json           // npm5 新增文件，优化性能
+├── package.json                    // 项目依赖包配置文件
+├── src                             // 我们的项目的源码编写文件
+│   ├── App.vue                 // APP入口文件                      App.vue是我们的主组件，所有页面都是在App.vue下进行切换的。其实你也可以理解为所有的路由也是App.vue的子组件。所以我将router标示为App.vue的子组件。
+│   ├── assets                      // 初始项目资源目录，回头删掉
+│   │   └── logo.png
+│   ├── components              // 组件目录                        Components 组件文件夹里面可以放置你的组件页面，如果你是做spa， 可以分两个文件夹，一个用来装公共组件，一个用来放置你在某个区域需要更换的一系列的组件。
+│   │   └── Hello.vue           // 测试组件，回头删除
+│   ├── main.js                 // 主配置文件                      main.js是我们的入口文件，主要作用是初始化vue实例并使用需要的插件。
+│   └── router                      // 路由配置文件夹
+│       └── index.js            // 路由配置文件
+└── static                          // 资源放置目录
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+生命周期 钩子函数
+
+beforeCreate          组件实例刚被创建，组件属性计算之前，如data属性等   el 和 data 并未初始化 
+created               组件实例创建完成，属性已绑定，但DOM还未生成，$el属性还不存在  完成了 data 数据的初始化，el没有
+beforeMount           模板编译/挂载之前   完成了 el 和 data 初始化
+mounted               模板编译/挂载之后（不保证组件已在document中） 完成挂载
+beforeUpdated         组件更新之前
+updated               组件更新之后
+activated             for  keep-alive,组件被激活时调用
+deactivated           for  keep-alive,组件被移除时调用
+beforeDestory         组件销毁前调用
+destoryed             组件销毁后调用
+
+
+app.$destroy();  对VUE实例进行销毁，销毁完成后，我们再重新改变message的值，vue不再对此动作进行响应了。
+                 但是原先生成的dom元素还存在，可以这么理解，执行了destroy操作，后续就不再受vue控制了。
+
+
+生命周期总结（怎么用钩子函数呢？）
+beforecreate : 举个栗子：可以在这加个loading事件 
+created ：在这结束loading，还做一些初始化，实现函数自执行 
+mounted ： 在这发起后端请求，拿回数据，配合路由钩子做一些事情
+beforeDestory： 你确认删除XX吗？ destoryed ：当前组件已被删除，清空相关内容
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+插值
+
+v-once       一次性插值，在数据改变时，插值内容不会随之更新   <span v-once>这里的值永远不会改变：{{ msg }}</span>
+v-html       可以插入HTML的内容，因为{{}}语法会将数据中的html转换成纯文本，所以需要使用v-html来进行插值  <p>使用 v-html 指令：<span v-html="rawHtml"></span></p>
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+computed 缓存 与 method 方法 的异同
+
+计算属性示例：
+            <div id="example">
+            <p>初始 message 是："{{ message }}"</p>
+            <p>计算后的翻转 message 是："{{ reversedMessage }}"</p>
+            </div>
+            var vm = new Vue({
+            el: '#example',
+            data: {
+                message: 'Hello'
+            },
+            computed: {
+                // 一个 computed 属性的 getter 函数
+                reversedMessage: function () {
+                // `this` 指向 vm 实例
+                return this.message.split('').reverse().join('')
+                }
+            }
+            })
+上面的计算属性也可以用method来实现： 
+                                    methods: {
+                                    reverseMessage: function () {
+                                        return this.message.split('').reverse().join('')
+                                    }
+                                    }
+
+两者的结果是相同，那有什么不同呢？区别是什么？
+                    细微的差异之处在于，computed 属性会基于它所依赖的数据进行缓存。每个 computed 属性，只有在它所依赖的数据发生变化时，
+                    才会重新取值(re-evaluate)。这就意味着，只要 message 没有发生变化，多次访问 computed 属性 reversedMessage，将会
+                    立刻返回之前计算过的结果，而不必每次都重新执行函数。而method会每次都重新执行函数，不会调用缓存的结果。
+
+为什么我们需要将依赖数据缓存起来？
+                    假设一种场景，我们有一个高性能开销(expensive)的 computed 属性 A，在 computed 属性的 getter 函数内部，需要遍历循环一个巨大数组，并进行
+                    大量计算。然后还有其他 computed 属性直接或间接依赖于 A。如果没有缓存，我们将不可避免地多次执行 A 的 getter 函数，这远多余实际需要执行的
+                    次数！然而在某些场景下，你可能不希望有缓存，请使用 method 方法替代。
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+使用 key 控制元素是否可复用
+
+Vue 会尽可能高效地渲染元素，通常会复用已渲染元素，而不是从头重新渲染。这样的实现方式，除了有助于使 Vue 变得非常快之外，还具有一些额外的优势。
+但是有时候，我并不需要它进行复用，有些地方我希望是重新渲染的。
+
+比如：
+<template v-if="loginType === 'username'">
+  <label>用户名</label>
+  <input placeholder="请输入用户名">
+</template>
+<template v-else>
+  <label>邮箱</label>
+  <input placeholder="请输入邮箱">
+</template>                         //如果我们在用户名的input里面已经输入了我们的文本，则即使切换登陆类型，切换成邮箱，那邮箱里面还会保留上次输入的值，
+                                      这个时候我希望输入框是重新渲染为空的。此时就需要用 key 来进行控制，让其重新渲染
+
+                                      <template v-if="loginType === 'username'">
+                                        <label>用户名</label>
+                                        <input placeholder="请输入用户名" key="username-input">
+                                      </template>
+                                      <template v-else>
+                                        <label>邮箱</label>
+                                        <input placeholder="请输入邮箱" key="email-input">
+                                      </template>          //此时切换登陆类型，输入框的值会进行重新渲染了
+                                                            注意，<label> 元素仍然被有效地复用，因为它们没有 key 属性。
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+响应时属性
+
+Vue 不允许在已经创建的实例上，动态地添加新的根级响应式属性(root-level reactive property)。
+然而，可以使用 Vue.set(object, key, value) 方法，将响应式属性添加到嵌套的对象上。
+
+Vue.set(object, key, value)    实例：var vm = new Vue({
+                                                      data: {
+                                                        userProfile: {
+                                                          name: 'Anika'
+                                                        }
+                                                      }
+                                                    })
+                              给userProfile动态添加属性： Vue.set(vm.userProfile, 'age', 27) 或者 vm.$set(this.userProfile, 'age', 27)
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+        
