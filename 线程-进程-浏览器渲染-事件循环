@@ -1,0 +1,237 @@
+
+GPU:图形处理器（英语：Graphics Processing Unit，缩写：GPU），又称显示核心、视觉处理器、显示芯片，是一种专门在个人电脑、工作站、游戏机和一些移动设备（如平板电脑、智能手机等）上图像运算工作的微处理器。
+GUI:图形用户界面（Graphical User Interface，简称 GUI，又称图形用户接口）是指采用图形方式显示的计算机操作用户界面。
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+区分进程和线程
+
+进程是一个工厂，工厂有它的独立资源            -> 系统分配的内存（独立的一块内存）
+
+- 工厂之间相互独立                          -> 进程之间相互独立
+
+- 线程是工厂中的工人，多个工人协作完成任务    -> 多个线程在进程中协作完成任务
+
+- 工厂内有一个或多个工人                    -> 一个进程由一个或多个线程组成
+
+- 工人之间共享空间                         -> 同一进程下的各个线程之间共享程序的内存空间（包括代码段、数据集、堆等）
+
+总结：
+
+进程是cpu资源分配的最小单位（是能拥有资源和独立运行的最小单位），不同进程之间也可以通信，不过代价较大
+
+线程是cpu调度的最小单位（线程是建立在进程的基础上的一次程序运行单位，一个进程中可以有多个线程），单线程与多线程，都是指在一个进程内的单和多。（所以核心还是得属于一个进程才行）
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+浏览器是多进程的
+
+浏览器之所以能够运行，是因为系统给它的进程分配了资源（cpu、内存），简单点理解，每打开一个Tab页，就相当于创建了一个独立的浏览器进程。
+
+浏览器包含哪些进程？
+1.Browser进程：浏览器的主进程（负责协调、主控），只有一个。作用有负责浏览器界面显示，与用户交互。如前进，后退等，负责各个页面的管理，
+  创建和销毁其他进程将Renderer进程得到的内存中的Bitmap，绘制到用户界面上网络资源的管理，下载等
+2.第三方插件进程：每种类型的插件对应一个进程，仅当使用该插件时才创建
+3.GPU进程：最多一个，用于3D绘制等
+4.浏览器渲染进程（浏览器内核）（Renderer进程，内部是多线程的）：默认每个Tab页面一个进程，互不影响。主要作用为页面渲染，脚本执行，事件处理等。
+
+浏览器多进程的优势
+相比于单进程浏览器，多进程有如下优点：
+1.避免单个page crash影响整个浏览器
+2.避免第三方插件crash影响整个浏览器
+3.多进程充分利用多核优势
+4.方便使用沙盒模型隔离插件等进程，提高浏览器稳定性
+简单点理解：如果浏览器是单进程，那么某个Tab页崩溃了，就影响了整个浏览器，体验有多差；同理如果是单进程，插件崩溃了也会影响整个浏览器；而且多进程还有其它的诸多优势。。。
+
+当然，内存等资源消耗也会更大，有点空间换时间的意思。
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+浏览器内核（渲染进程）
+
+它都包含了哪些线程:
+
+1.GUI渲染线程
+
+负责渲染浏览器界面，解析HTML，CSS，构建DOM树和RenderObject树，布局和绘制等。
+当界面需要重绘（Repaint）或由于某种操作引发回流(reflow)时，该线程就会执行
+注意，GUI渲染线程与JS引擎线程是互斥的，当JS引擎执行时GUI线程会被挂起（相当于被冻结了），GUI更新会被保存在一个队列中等到JS引擎空闲时立即被执行。
+
+2.JS引擎线程
+
+也称为JS内核，负责处理Javascript脚本程序。（例如V8引擎）
+JS引擎线程负责解析Javascript脚本，运行代码。
+JS引擎一直等待着任务队列中任务的到来，然后加以处理，浏览器无论什么时候都只有一个JS线程在运行JS程序
+同样注意，GUI渲染线程与JS引擎线程是互斥的，所以如果JS执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞。
+
+3.事件触发线程
+
+归属于浏览器而不是JS引擎，用来控制事件循环（可以理解，JS引擎自己都忙不过来，需要浏览器另开线程协助）
+当JS引擎执行代码块如setTimeOut时（也可来自浏览器内核的其他线程,如鼠标点击、AJAX异步请求等），会将对应任务添加到事件线程中
+当对应的事件符合触发条件被触发时，该线程会把事件添加到待处理队列的队尾，等待JS引擎的处理
+注意，由于JS的单线程关系，所以这些待处理队列中的事件都得排队等待JS引擎处理（当JS引擎空闲时才会去执行）
+
+4.定时触发器线程
+
+传说中的setInterval与setTimeout所在线程
+浏览器定时计数器并不是由JavaScript引擎计数的,（因为JavaScript引擎是单线程的, 如果处于阻塞线程状态就会影响记计时的准确）
+因此通过单独线程来计时并触发定时（计时完毕后，添加到事件队列中，等待JS引擎空闲后执行）
+注意，W3C在HTML标准中规定，规定要求setTimeout中低于4ms的时间间隔算为4ms。
+
+5.异步http请求线程
+
+在XMLHttpRequest在连接后是通过浏览器新开一个线程请求
+将检测到状态变更时，如果设置有回调函数，异步线程就产生状态变更事件，将这个回调再放入事件队列中。再由JavaScript引擎执行。
+
+
+**************************************************************
+浏览器器内核拿到内容后，渲染大概可以划分成以下几个步骤：
+
+1.解析html建立dom树
+2.解析css构建render树（将CSS代码解析成树形的数据结构，然后结合DOM合并成render树）
+3.布局render树（Layout/reflow），负责各元素尺寸、位置的计算
+4.绘制render树（paint），绘制页面像素信息
+5.浏览器会将各层的信息发送给GPU，GPU会将各层合成（composite），显示在屏幕上。
+
+ 所有详细步骤都已经略去，渲染完毕后就是load事件了，之后就是自己的JS逻辑处理了
+
+load事件与DOMContentLoaded事件的先后:
+DOMContentLoaded                  事件触发时，仅当DOM加载完成，不包括样式表，图片。(譬如如果有async加载的脚本就不一定完成)
+onload                            事件触发时，页面上所有的DOM，样式表，脚本，图片都已经加载完成了。（渲染完毕了）
+顺序是：DOMContentLoaded -> load
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+从Event Loop 事件循环 谈JS的运行机制  
+
+事件循环：JS分为同步任务和异步任务，同步任务都在主线程上执行，形成一个执行栈，主线程之外，事件触发线程管理着一个任务队列，只要异步任务有了运行结果，就在任务队列之中放置一个事件。
+         一旦执行栈中的所有同步任务执行完毕（此时JS引擎空闲），系统就会读取任务队列，将可运行的异步任务添加到可执行栈中，开始执行。 
+
+
+定时器
+
+1.调用setTimeout后，是如何等待特定时间后才添加到事件队列中的？
+  是JS引擎检测的么？当然不是了。它是由定时器线程控制（因为JS引擎自己都忙不过来，根本无暇分身）
+2.为什么要单独的定时器线程？
+  因为JavaScript引擎是单线程的, 如果处于阻塞线程状态就会影响计时的准确，因此很有必要单独开一个线程用来计时。
+3.什么时候会用到定时器线程？
+  当使用setTimeout或setInterval时，它需要定时器线程计时，计时完成后就会将特定的事件推入事件队列中。
+
+  实例：setTimeout(function(){
+                            console.log('hello!');
+                        }, 1000);
+       这段代码的作用是当1000毫秒计时完毕后（由定时器线程计时），将回调函数推入事件队列中，等待主线程执行
+
+
+setInterval的问题：
+
+目前一般认为的最佳方案是：用setTimeout模拟setInterval，或者特殊场合直接用requestAnimationFrame
+补充：JS高程中有提到，JS引擎会对setInterval进行优化，如果当前事件队列中有setInterval的回调，不会重复添加。不过，仍然是有很多问题。。。
+
+
+requestAnimationFrame：
+
+setTimeout和setInterval的问题是，它们都不精确。它们的内在运行机制决定了时间间隔参数实际上只是指定了把
+动画代码添加到浏览器UI线程队列中以等待执行的时间。如果队列前面已经加入了其他任务，那动画代码就要等前面的
+任务完成后再执行。
+requestAnimationFrame采用系统时间间隔，保持最佳绘制效率，不会因为间隔时间过短，造成过度绘制，增加开销；
+也不会因为间隔时间太长，使用动画卡顿不流畅，让各种网页动画效果能够有一个统一的刷新机制，从而节省系统资源，
+提高系统性能，改善视觉效果
+
+requestAnimationFrame的使用：requestAnimationFrame的用法与settimeout很相似，只是不需要设置时间间隔而已。
+                             requestAnimationFrame使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。
+                             它返回一个整数，表示定时器的编号，这个值可以传递给cancelAnimationFrame用于取消这个函数的执行
+                             timer = requestAnimationFrame(fn())
+
+                           requestAnimationFrame兼容问题：1.简单兼容：IE9-浏览器不支持该方法，可以使用setTimeout来兼容
+                                                            if (!window.requestAnimationFrame) {
+                                                                        requestAnimationFrame = function(fn) {
+                                                                            setTimeout(fn, 17);
+                                                                        };    
+                                                                    }
+                                                         2.严格兼容：if(!window.requestAnimationFrame){
+                                                                            var lastTime = 0;
+                                                                            window.requestAnimationFrame = function(callback){
+                                                                                var currTime = new Date().getTime();
+                                                                                var timeToCall = Math.max(0,16.7-(currTime - lastTime));
+                                                                                var id  = window.setTimeout(function(){
+                                                                                    callback(currTime + timeToCall);
+                                                                                },timeToCall);
+                                                                                lastTime = currTime + timeToCall;
+                                                                                return id;
+                                                                            }
+                                                                        }
+                                                                      取消定时器
+                                                                        if (!window.cancelAnimationFrame) {
+                                                                            window.cancelAnimationFrame = function(id) {
+                                                                                clearTimeout(id);
+                                                                            };
+                                                                        }
+**********************************************************************************
+
+三者使用实例的差异：
+
+【1】setInterval
+
+<div id="myDiv" style="background-color: lightblue;width: 0;height: 20px;line-height: 20px;">0%</div>
+<button id="btn">run</button>
+<script>
+var timer;
+btn.onclick = function(){
+    clearInterval(timer);
+    myDiv.style.width = '0';
+    timer = setInterval(function(){
+        if(parseInt(myDiv.style.width) < 500){
+            myDiv.style.width = parseInt(myDiv.style.width) + 5 + 'px';
+            myDiv.innerHTML =     parseInt(myDiv.style.width)/5 + '%';    
+        }else{
+            clearInterval(timer);
+        }        
+    },16);
+}
+</script>
+
+【2】setTimeout
+
+<div id="myDiv" style="background-color: lightblue;width: 0;height: 20px;line-height: 20px;">0%</div>
+<button id="btn">run</button>
+<script>
+var timer;
+btn.onclick = function(){
+    clearTimeout(timer);
+    myDiv.style.width = '0';
+    timer = setTimeout(function fn(){
+        if(parseInt(myDiv.style.width) < 500){
+            myDiv.style.width = parseInt(myDiv.style.width) + 5 + 'px';
+            myDiv.innerHTML =     parseInt(myDiv.style.width)/5 + '%';
+            timer = setTimeout(fn,16);
+        }else{
+            clearTimeout(timer);
+        }    
+    },16);
+}
+</script>
+
+【3】requestAnimationFrame
+
+<div id="myDiv" style="background-color: lightblue;width: 0;height: 20px;line-height: 20px;">0%</div>
+<button id="btn">run</button>
+<script>
+var timer;
+btn.onclick = function(){
+    myDiv.style.width = '0';
+    cancelAnimationFrame(timer);
+    timer = requestAnimationFrame(function fn(){
+        if(parseInt(myDiv.style.width) < 500){
+            myDiv.style.width = parseInt(myDiv.style.width) + 5 + 'px';
+            myDiv.innerHTML =     parseInt(myDiv.style.width)/5 + '%';
+            timer = requestAnimationFrame(fn);
+        }else{
+            cancelAnimationFrame(timer);
+        }    
+    });
+}
+</script>
+
