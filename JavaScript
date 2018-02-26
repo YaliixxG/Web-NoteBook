@@ -508,6 +508,20 @@ finally 后期处理
 
 ----------------------------------------------------------------------------------------------------------
 
+constructor 属性
+
+返回所有 JavaScript 变量的构造函数
+
+例如："John".constructor                  // 返回函数 String()  { [native code] }
+      (3.14).constructor                 // 返回函数 Number()  { [native code] } 
+      false.constructor                  // 返回函数 Boolean() { [native code] }
+      [1,2, 3,4].constructor             // 返回函数 Array()   { [native code] }
+      {name:'John', age:34}.constructor  // 返回函数 Object()  { [native code] }
+      new Date().constructor             // 返回函数 Date()    { [native code] }
+      function() {}.constructor          // 返回函数 Function(){ [native code] }
+
+----------------------------------------------------------------------------------------------------------
+
 this 这个    调用函数（方法）的那个对象
 
 INPUT.onclick=function(){
@@ -1205,3 +1219,18 @@ E-mail 验证：（输入的数据必须包含 @ 符号和点号(.)。同时，@
 
 ---------------------------------------------------------------------------------------------------------------------
 
+javascript:void(0);用法及常见问题解析
+
+void 操作符用法格式如下： 
+1. javascript:void (表达式) 
+2. javascript:void 表达式 
+
+<a href="javascript:void(0)">单此处什么也不会发生</a>                       当用户链接时，void(0) 计算为 0，但 Javascript 上没有任何效果
+<a href="javascript:void(document.form.submit())">单击此处提交表单</a>     用户单击时会提交表单
+<a href="javascript:void(0)"onclick="subgo()">点我</a>                    javascript:void(0),没启实质上的作用，它仅仅是一个死链接，执行的函数是subgo()
+
+
+href="#"与javascript：void（0）的区别
+
+href="#"         其实也是空连接的意思，但是点击之后会自动跳转到页面的最上面，因为用了这个方法就相当于点击了一个锚记，但是这个锚记又没写ID，所以就默认跳转到页面顶部
+void（0）        看一下Ajax的web页面的话，一般都会看到有很多的void(0)，所以在使用void(0)之前,最好先想一想,这个页面是否需要整体刷新。不需要整体刷新的话，则用void（0）
