@@ -1,0 +1,32 @@
+ 一、    在网页代码的头部，加入一行viewport元标签。
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        viewport是网页默认的宽度和高度，上面这行代码的意思是，网页宽度默认等于屏幕宽度（width=device-width），原始缩放比例（initial-scale=1）为1.0，即网页初始大小占屏幕面积的100%。        
+        由于网页会根据屏幕宽度调整布局，所以不能使用绝对宽度的布局，也不能使用具有绝对宽度的元素。对图像来说也是这样。
+
+        具体说，CSS代码不能指定像素宽度：
+        width:xxx px;
+        只能指定百分比宽度：
+        width: xx%;
+        或者
+        width:auto;
+
+        
+        字体也不能使用绝对大小（px），而只能使用相对大小（em）。
+        例如：
+        body {font: normal 100% Helvetica, Arial,sans-serif;}
+        上面的代码指定，字体大小是页面默认大小的100%，即16像素。
+
+        
+ 二、    流动布局（fluid grid）
+        "流动布局"的含义是，各个区块的位置都是浮动的，不是固定不变的。
+        .main {float: right;width: 70%; }
+        .leftBar {float: left;width: 25%;}
+        float的好处是，如果宽度太小，放不下两个元素，后面的元素会自动滚动到前面元素的下方，不会在水平方向overflow（溢出），避免了水平滚动条的出现。
+
+        
+三、    "自适应网页设计"的核心，就是CSS3引入的MediaQuery模块。
+        它的意思就是，自动探测屏幕宽度，然后加载相应的CSS文件。
+        <link rel="stylesheet" type="text/css"media="screen and (max-device-width:400px)"href="tinyScreen.css" />
+        上面的代码意思是，如果屏幕宽度小于400像素（max-device-width: 400px），就加载tinyScreen.css文件。
+        <link rel="stylesheet" type="text/css"media="screen and (min-width: 400px)and (max-device-width: 600px)"href="smallScreen.css" />
+        如果屏幕宽度在400像素到600像素之间，则加载smallScreen.css文件。
