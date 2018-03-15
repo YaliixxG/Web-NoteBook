@@ -186,6 +186,19 @@ AJAX 阿贾克斯 只刷新局部页面的技术
 --------------------------------------
 
 load()方法是局部方法,他需要一个元素对象作为前缀.适合做静态文件的异步获取.
+jQuery load() 方法              这是jQuery ajax的局部方法
+                                jQuery load() 方法是简单但强大的 AJAX 方法。
+                                load() 方法从服务器加载数据，并把返回的数据放入被选元素中。
+                                语法：
+                                $(selector).load(URL,data,callback);
+                                  必需的 URL 参数规定您希望加载的 URL。
+                                  可选的 data 参数规定与请求一同发送的查询字符串键/值对集合。(如果是GET方式,则参数是在后面加上"?a=b",其中
+                                  a为key值,b为value值;POST方式的话,则必须写成键值对的形式"{a:b}"                                  
+                                  可选的 callback 参数是 load() 方法完成后所执行的函数名称。
+                                  callback回调函数:function(response,status,xhr){
+                                                   //response就是返回的值,status为状态值有两个success和error,可以用来做判断
+                                                     xhr是XMLHRequest对象
+                                                   }
 $.get()和$.post()是全局方法,无需指定某个元素.适合需要传递参数到服务器页面的.
 
 
@@ -263,19 +276,7 @@ $.parseHTML(data)              将后台的字符串转为元素节点
 async:true|false               异步：发送请求后不等返回结果，由回调函数处理结果,不会影响下面代码的执行
       异步 |同步                同步：等上面执行完代码后，再执行下面的代码
 
-jQuery load() 方法              这是jQuery ajax的局部方法
-                                jQuery load() 方法是简单但强大的 AJAX 方法。
-                                load() 方法从服务器加载数据，并把返回的数据放入被选元素中。
-                                语法：
-                                $(selector).load(URL,data,callback);
-                                  必需的 URL 参数规定您希望加载的 URL。
-                                  可选的 data 参数规定与请求一同发送的查询字符串键/值对集合。(如果是GET方式,则参数是在后面加上"?a=b",其中
-                                  a为key值,b为value值;POST方式的话,则必须写成键值对的形式"{a:b}"                                  
-                                  可选的 callback 参数是 load() 方法完成后所执行的函数名称。
-                                  callback回调函数:function(response,status,xhr){
-                                                   //response就是返回的值,status为状态值有两个success和error,可以用来做判断
-                                                     xhr是XMLHRequest对象
-                                                   }
+
 
 GET vs POST
                                   两种在客户端和服务器端进行请求-响应的常用方法是：GET 和 POST。
@@ -283,6 +284,7 @@ GET vs POST
                                   POST - 向指定的资源提交要处理的数据
                                   GET 基本上用于从服务器获得（取回）数据。注释：GET 方法可能返回缓存数据。
                                   POST 也可用于从服务器获取数据。不过，POST 方法不会缓存数据，并且常用于连同请求一起发送数据。
+                    
 
 
 ======================================================================================================================================
@@ -374,4 +376,75 @@ jQuery封装JSONP实现跨域：
         });
     });
 </script>
+
+
+======================================================================================================================
+表单提交
+
+html文件: 
+<form>
+    用户名:<input type="text" name="user" />
+    邮件:<input type="text" name="email" />
+    <input type="button" value="提交">
+</form>
+<div id="box"></div>
+
+第一种方法:
+
+ $('form input[type=button]').click(function(){
+     $.ajax({
+         type:'POST',
+         url:'user.php',
+         data:{
+             user:$('form input[name=user]').val(),
+             email:$('form input[name=email]').val()
+         },
+         sucess:function(reponse,status,xhr){
+             $('#box').html(response);
+         }
+     })
+ })
+
+  缺点:表单元素非常多的情况下,写起来非常麻烦,容易出错
+  复制提交的JS内容时,data属性需要修改的非常多
+
+  第二种方法:表单序列化的方法
+
+  $('form input[type=button]').click(function(){
+    $.ajax({
+        type:'POST',
+        url:'user.php',
+        data:$('form).serialize(), //此处进行表单序列化,就这么一个方法就搞定了上面的所有取值
+        sucess:function(reponse,status,xhr){
+            $('#box').html(response);
+        }
+    })
+})
+
+ $('form).serialize()这样序列化其实得到的数据就是a=b&c=d的键值对形式,并且还对url进行了编码
+
+ <form>
+    用户名:<input type="text" name="user" />
+    邮件:<input type="text" name="email" />
+    <input type="radio" name="sex"value="男"> 男
+    <input type="radio" name="sex"value="女"> 女
+    <input type="button" value="提交">
+</form>
+<div id="box"></div>
+
+让点击这个男女选项时,打印出sex=男或者sex=女
+ $('form input[name=sex]').click(function(){
+     $('#box').html($(this).serialize())  //这样打出来是 sex=%jdfsjdkfk% 这种类似的形式,因为
+                                          serialize对其进行了编码
+                                           如果要解码的话要用到下面的方法
+                                           $('#box').html(decodeURLComponent($(this).serialize()))
+                                          这样打出来的就是 sex=男或者sex=女了
+ })
+
+
+
+
+
+
+      
 
