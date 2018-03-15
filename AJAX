@@ -148,9 +148,13 @@ readyState 存有 XMLHttpRequest 的状态。从 0 到 4 发生变化。
                                                         3: 请求处理中
                                                         4: 请求已完成，且响应已就绪
 
-status	
+status	 相应HTTP状态
         200: "OK"
-        404: 未找到页面
+        404: 未找到页面,语法错误导致服务器不识别
+        401: 请求需要用户认证
+        404: 只听的URL在服务器上找不到
+        500: 服务器遇到意外错误,无法完成请求
+        503: 犹豫服务器过载或维护导致无法完成请求
 
 实例： xmlhttp.onreadystatechange=function()
         {
@@ -159,6 +163,7 @@ status
             document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
             }
         }
+ statusText  HTTP状态的说明
 
 ====================================================================================================================================
 
@@ -178,7 +183,48 @@ AJAX 阿贾克斯 只刷新局部页面的技术
                     dataType
                     async
 
+--------------------------------------
 
+load()方法是局部方法,他需要一个元素对象作为前缀.适合做静态文件的异步获取.
+$.get()和$.post()是全局方法,无需指定某个元素.适合需要传递参数到服务器页面的.
+
+
+$.get()   全局方法 第二层
+$.get(url,data,callback,type)
+type为服务器返回的数据类型
+传参形式: 1.通过直接在url问号紧跟传参
+            如果url为test.php ,则传参写法为$.get('test.php?a=b',type,callback)
+         2.通过参数data来传参,对象形式的键值对传参
+            $.get('test.php',{
+                a:'b'
+            },type,callback)
+         3.通过参数data来传参,字符串形式的键值对传参
+            $.get('test.php','a=b',type,callback)
+
+
+$.post()   全局方法 第二层
+$.post(url,data,callback,type)
+传参形式: 1.不能通过问号传参
+         2.通过参数data来传参,对象形式的键值对传参
+            $.post('test.php',{
+                a:'b'
+            },type,callback)
+         3.通过参数data来传参,字符串形式的键值对传参
+            $.post('test.php','a=b',type,callback)
+
+
+$.getJSON   全局方法 第三层
+$.getJSON(url,data,callback) 
+看方法就知道,这是只用于JSON格式,所以它不需要第四个参数来规定返回类型,直接为JSON类型
+
+
+$.getScript('index.js') 这个主要是用于在异步加载时,再加载这个JS文件
+ 一般平常直接引入JS文件,会在页面出来时就直接加载了,但是如果你只需在异步处理交互数据才需要
+ 这个JS文件处理的话,可以只在这个时候来进行加载.一般常用于一个参数.
+
+
+
+ $.ajax()   全局方法 最底层的方法
             $.ajax({                                      用对象的形式来写
               url:'user.php',                             发送请求的地址
               data:{'name':$(this).val()},                请求的数据
@@ -195,13 +241,29 @@ AJAX 阿贾克斯 只刷新局部页面的技术
                 console.log(222)
               }
             })
+            
+            
+             $.ajax({                                     
+              url:'user.php',                            
+              data:{'name':$(this).val()},                
+              type:'GET',                                 
+              datatype:'json'                            
+              success:function(response,status,xhr){                     
+                
+              },
+              error:function(){
+                console.log(222)
+              }
+            })
+------------------------------------------
+
 
 $.parseJSON(data)              将后台的字符串转为json格式，此时data必须是严格按照json格式来书写的
 $.parseHTML(data)              将后台的字符串转为元素节点
 async:true|false               异步：发送请求后不等返回结果，由回调函数处理结果,不会影响下面代码的执行
       异步 |同步                同步：等上面执行完代码后，再执行下面的代码
 
-jQuery load() 方法
+jQuery load() 方法              这是jQuery ajax的局部方法
                                 jQuery load() 方法是简单但强大的 AJAX 方法。
                                 load() 方法从服务器加载数据，并把返回的数据放入被选元素中。
                                 语法：
@@ -210,6 +272,10 @@ jQuery load() 方法
                                   可选的 data 参数规定与请求一同发送的查询字符串键/值对集合。(如果是GET方式,则参数是在后面加上"?a=b",其中
                                   a为key值,b为value值;POST方式的话,则必须写成键值对的形式"{a:b}"                                  
                                   可选的 callback 参数是 load() 方法完成后所执行的函数名称。
+                                  callback回调函数:function(response,status,xhr){
+                                                   //response就是返回的值,status为状态值有两个success和error,可以用来做判断
+                                                     xhr是XMLHRequest对象
+                                                   }
 
 GET vs POST
                                   两种在客户端和服务器端进行请求-响应的常用方法是：GET 和 POST。
