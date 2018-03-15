@@ -252,7 +252,7 @@ $.getJSON   全局方法 第三层
                   $('div').html('注册成功！')
                 }
               },
-              error:function(){
+              error:function(,errorText,errorType){
                 console.log(222)
               }
             })
@@ -336,7 +336,34 @@ $.param()     全局方法  主要用于复杂的data参数以对象形式来传
              $.ajax({
               global:false
               })
-
+ 报错方法: 
+           局部错误方法
+           $.ajax({
+            error:function(xhr,errorText,errorType){  
+             alert(errorText+":"+errorType)
+            }
+           })
+     
+           $.post()方法的话,报错需这么写
+           $.post().error(function(xhr,errorText,errorType){
+              alert()
+            })
+            
+            全局错误方法
+              $(document).ajaxError(function(event,xhr,settings,errorType){
+                                
+               //event      事件对象
+               //settings   settings.url 得到你本次提交的url
+                            settings.type 得到你本次提交模式
+              })
+              
+  成功方法:     全局方法这种形式的 都是绑在 $(document)上面
+               .ajaxSuccess()  全局方法  .success() 局部方法     -------请求成功完成时执行
+               .ajaxComplete() 全局方法   .complete() 局部方法   -------请求完成后注册一个回调函数,只要完成就可以了,不需要成功
+               .ajaxSend()      全局方法   没有对应的局部方法,只有属性beforeSend  ------请求发送之前要绑定的函数 和 .ajaxStart()类似
+            
+           
+           
 ------------------------------------------
 
 
@@ -416,6 +443,7 @@ JSONP 由两部分组成：回调函数和数据。回调函数是当响应到�
                 };
         </script>
 -------------------------------------------
+
 
 jQuery封装JSONP实现跨域：
 
@@ -515,8 +543,37 @@ html文件:
                            $('#box').html(json[0].value)
 
 
+====================================================
 
-
+ jqXHR 就是 $.ajax()返回的对象
+          如果使用jqXHR对象的话,那么建议用.done() .always()  .fail() 代替 .success()  .complete() .error()
+ var jqXHR =  $.ajax({
+               type:'POST',
+               url:'user.php',
+               data:$("form").serialize()
+           });
+      jqXHR.done(function(response){
+        alert(response +'1')        --------------可以多次执行同一个回调函数
+      }).done(function(response){   --------------可以连缀操作,可读性大大提高
+        alert(response +'2')
+      })
+   
+   可以为多个操作指定回调函数:
+    以前的方法:
+    var jqXHR1 =  $.ajax('t1.php');
+    var jqXHR2 =  $.ajax('t2.php');
+    
+          jqXHR1.done(function(response){            
+            alert(response)     -------相同的回调函数    
+          })
+          jqXHR2.done(function(response){
+            alert(response)     -------相同的回调函数      
+          })
+      使用$.when(jqXHR1,jqXHR2).done(function(r1,r2){
+         alert(r1[0]);
+         alert(r2[0]);
+      }) --------------------可以一次性执行这个回调函数
+    
 
       
 
