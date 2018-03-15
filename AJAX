@@ -10,7 +10,7 @@ AJAX 是与服务器交换数据并更新部分网页的艺术，在不重新加
 一、创建 XMLHttpRequest 对象 
 
 XMLHttpRequest 对象用于和服务器交换数据
-
+ 
 XMLHttpRequest是AJAX的基础，所有现代浏览器均支持 XMLHttpRequest 对象（IE5 和 IE6 使用 ActiveXObject）。
 
 创建 XMLHttpRequest 对象的语法：
@@ -207,7 +207,8 @@ jQuery load() 方法
                                 语法：
                                 $(selector).load(URL,data,callback);
                                   必需的 URL 参数规定您希望加载的 URL。
-                                  可选的 data 参数规定与请求一同发送的查询字符串键/值对集合。
+                                  可选的 data 参数规定与请求一同发送的查询字符串键/值对集合。(如果是GET方式,则参数是在后面加上"?a=b",其中
+                                  a为key值,b为value值;POST方式的话,则必须写成键值对的形式"{a:b}"                                  
                                   可选的 callback 参数是 load() 方法完成后所执行的函数名称。
 
 GET vs POST
