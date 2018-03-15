@@ -199,41 +199,43 @@ jQuery load() 方法              这是jQuery ajax的局部方法
                                                    //response就是返回的值,status为状态值有两个success和error,可以用来做判断
                                                      xhr是XMLHRequest对象
                                                    }
+                                                   
+                                                   
 $.get()和$.post()是全局方法,无需指定某个元素.适合需要传递参数到服务器页面的.
 
 
 $.get()   全局方法 第二层
-$.get(url,data,callback,type)
-type为服务器返回的数据类型
-传参形式: 1.通过直接在url问号紧跟传参
-            如果url为test.php ,则传参写法为$.get('test.php?a=b',type,callback)
-         2.通过参数data来传参,对象形式的键值对传参
-            $.get('test.php',{
-                a:'b'
-            },type,callback)
-         3.通过参数data来传参,字符串形式的键值对传参
-            $.get('test.php','a=b',type,callback)
+           $.get(url,data,callback,type)
+           type为服务器返回的数据类型
+           传参形式: 1.通过直接在url问号紧跟传参
+                       如果url为test.php ,则传参写法为$.get('test.php?a=b',type,callback)
+                    2.通过参数data来传参,对象形式的键值对传参
+                       $.get('test.php',{
+                           a:'b'
+                       },type,callback)
+                    3.通过参数data来传参,字符串形式的键值对传参
+                       $.get('test.php','a=b',type,callback)
 
 
 $.post()   全局方法 第二层
-$.post(url,data,callback,type)
-传参形式: 1.不能通过问号传参
-         2.通过参数data来传参,对象形式的键值对传参
-            $.post('test.php',{
-                a:'b'
-            },type,callback)
-         3.通过参数data来传参,字符串形式的键值对传参
-            $.post('test.php','a=b',type,callback)
+           $.post(url,data,callback,type)
+           传参形式: 1.不能通过问号传参
+                    2.通过参数data来传参,对象形式的键值对传参
+                       $.post('test.php',{
+                           a:'b'
+                       },type,callback)
+                    3.通过参数data来传参,字符串形式的键值对传参
+                       $.post('test.php','a=b',type,callback)
 
 
 $.getJSON   全局方法 第三层
-$.getJSON(url,data,callback) 
-看方法就知道,这是只用于JSON格式,所以它不需要第四个参数来规定返回类型,直接为JSON类型
+            $.getJSON(url,data,callback) 
+            看方法就知道,这是只用于JSON格式,所以它不需要第四个参数来规定返回类型,直接为JSON类型
 
 
-$.getScript('index.js') 这个主要是用于在异步加载时,再加载这个JS文件
- 一般平常直接引入JS文件,会在页面出来时就直接加载了,但是如果你只需在异步处理交互数据才需要
- 这个JS文件处理的话,可以只在这个时候来进行加载.一般常用于一个参数.
+            $.getScript('index.js') 这个主要是用于在异步加载时,再加载这个JS文件
+             一般平常直接引入JS文件,会在页面出来时就直接加载了,但是如果你只需在异步处理交互数据才需要
+             这个JS文件处理的话,可以只在这个时候来进行加载.一般常用于一个参数.
 
 
 
@@ -268,6 +270,67 @@ $.getScript('index.js') 这个主要是用于在异步加载时,再加载这个J
                 console.log(222)
               }
             })
+            
+            
+ $.ajaxSetup    全局方法  对于多个ajax用于初始化重复的属性
+
+                  $('form input[type=button]').click(function(){
+                     $.ajaxSetup({
+                         type:'POST',
+                         url:'user.php',
+                         data:$('form).serialize(), 
+                     })
+                 })         上面这些属性是重复出现并且内容一样的,则用这个方法初始化重复的属性
+
+                  $('form input[type=button]').click(function(){
+                     $.ajax({ 
+                         sucess:function(reponse,status,xhr){
+                             $('#box').html(response);
+                         }
+                     })
+                 })       初始化重复的属性后,则其他的ajax,则只需写不同的部分
+
+
+
+$.param()     全局方法  主要用于复杂的data参数以对象形式来传递时,当用表单序列化serialize()方法解读不开时,则用这个方法来解读开来
+
+                $('form input[type=button]').click(function(){
+                 $.ajax({
+                     type:'POST',
+                     url:'user.php',
+                     data:$.param({                  --------此处运用
+                         user:$('form input[name=user]').val(),
+                         email:$('form input[name=email]').val()
+                     }),
+                     sucess:function(reponse,status,xhr){
+                         $('#box').html(response);
+                     }
+                 })
+             })
+
+
+
+.ajaxStart()  .ajaxStop()
+加载请求事件: 在ajax异步发送请求,遇到网速较慢的情况,就会出现请求时间较长的问题,
+              而超过一定的时间请求,用户就会变得不耐烦而关闭页面.而如果在请求期间
+              能给用户一些提示:比如:正在努力加载中..,那么用户体验会更好.
+              
+              所以JQ提供了两个全局事件 .ajaxStart()  .ajaxStop()
+
+              当用户触发ajax请求开始时(未完成其他请求)激活.ajaxStart()
+              请求结束时(所有请求都结束了)激活.ajaxStop()
+              这两个事件绑定在document上
+              $(dcument).ajaxStart(function({
+                  $('loading').show();
+              })).ajaxStop(function(){
+                $('loading').hide();
+              })
+              如果加载时间过长,可以在ajax里面设置超时
+
+              $.ajax({
+                 timeout:3000    设置超时的时间
+              })
+
 ------------------------------------------
 
 
@@ -441,6 +504,9 @@ html文件:
                                           这样打出来的就是 sex=男或者sex=女了
  })
 
+如果你要显示的是json数据的话  则是用$(this).serializeArray(),但是json数据要体现在页面上的话
+可以先赋值给一个变量,再体现:  var json = $(this).serializeArray().
+                           $('#box').html(json[0].value)
 
 
 
