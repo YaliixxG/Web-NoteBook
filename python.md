@@ -4,291 +4,172 @@
 
 #### Python 官网：https://www.python.org/
 
-## Python 函数
+## Python3 基本数据类型
 
-1. 规则
+### 多个变量赋值
 
-你可以定义一个由自己想要功能的函数，以下是简单的规则：
+a = b = c = 1  
+以上实例，创建一个整型对象，值为 1，从后往前赋值，三个变量都指向同一个内存地址。
 
--   函数代码块以 def 关键词开头，后接函数标识符名称和圆括号()。
--   任何传入参数和自变量必须放在圆括号中间。圆括号之间可以用于定义参数。
--   函数的第一行语句可以选择性地使用文档字符串—用于存放函数说明。
--   函数内容以冒号起始，并且缩进。
--   return [表达式] 结束函数，选择性地返回一个值给调用方。不带表达式的 return 相当于返回 None。
-
-2.  语法
-
-        def functionname( parameters ):
-        "函数_文档字符串"
-        function_suite
-        return [expression]
-
-实例：
-
-        # 定义函数
-        def printme(str):
-            "打印传入的参数"
-            print(str)
-            return
-
-        #调用函数
-        printme("调用函数")
-
-## 命名空间和作用域
-
-> 一个 Python 表达式可以访问局部命名空间和全局命名空间里的变量。如果一个局部变量和一个全局变量重名，则局部变量会覆盖全局变量。每个函数都有自己的命名空间。类的方法的作用域规则和通常函数的一样。Python 会智能地猜测一个变量是局部的还是全局的，它假设任何在函数内赋值的变量都是局部的。因此，如果要给函数内的全局变量赋值，必须使用 global 语句。
-
-        #!/usr/bin/python
-        # -*- coding: UTF-8 -*-
-
-        Money = 2000
-        def AddMoney():
-        # 想让Money变成全局变量就取消以下注释:
-        # global Money
-        Money = Money + 1
-
-        print Money
-        AddMoney()
-        print Money
-
-## Python 中的包
-
-> 包是一个分层次的文件目录结构，它定义了一个由模块及子包，和子包下的子包等组成的 Python 的应用环境。简单来说，包就是文件夹，但该文件夹下必须存在 **init**.py 文件, 该文件的内容可以为空。**init**.py 用于标识当前文件夹是一个包。
-
-考虑一个在 package_runoob 目录下的 demo1.py、demo2.py、**init**.py 文件，test.py 为测试调用包的代码，目录结构如下：
-
-        test.py
-        package_demo
-        |-- __init__.py
-        |-- demo1.py
-        |-- demo2.py
-
-
-
-
-        # 1.package_demo/demo1.py 文件代码如下
-        #!/usr/bin/python
-        # -*- coding: UTF-8 -*-
-
-        def demo1():
-        print "I'm in demo1"
-
-        # 2.package_demo/demo2.py 文件代码如下
-        #!/usr/bin/python
-        # -*- coding: UTF-8 -*-
-
-        def demo1():
-        print "I'm in demo2"
-
-        # 3.现在，在 package_demo 目录下创建 __init__.py：
-        # __init__.py文件代码如下
-        #!/usr/bin/python
-        # -*- coding: UTF-8 -*-
-
-        if __name__ == '__main__':
-            print '作为主程序运行'
-        else:
-            print 'package_demo 初始化'
-
-
-        # 然后我们在 package_demo 同级目录下创建 test.py 来调用 package_demo 包
-        # test.py文件代码如下
-        #!/usr/bin/python
-        # -*- coding: UTF-8 -*-
-
-        # 导入 Phone 包
-        from package_demo.demo1 import demo1
-        from package_demo.demo2 import demo2
-
-        demo1()
-        demo2()
-
-        # 以上实例输出结果：
-        package_demo 初始化
-        I'm in demo1
-        I'm in demo2
-
-## 基础语法
-
-### 行和缩进
-
-> 学习 Python 与其他语言最大的区别就是，Python 的代码块不使用大括号 {} 来控制类，函数以及其他逻辑判断。python 最具特色的就是用缩进来写模块。缩进的空白数量是可变的，但是所有代码块语句必须包含相同的缩进空白数量，这个必须严格执行。
-
-### 多行语句
-
-1.  斜杠（ \）将一行的语句分为多行显示，如下所示：
-
-        total = item_one + \
-                item_two + \
-                item_three
-
-2.  语句中包含 [], {} 或 () 括号就不需要使用多行连接符。如下实例：
-
-        days = ['Monday', 'Tuesday', 'Wednesday',
-                'Thursday', 'Friday']
-
-### Python 注释
-
-1. #号
-2. """ 或者 ‘’‘
-
-## Python 变量类型
+a, b, c = 1, 2, 'doudou'  
+以上实例，两个整型对象 1 和 2 的分配给变量 a 和 b, 字符串对 ixang'doudou'分配给变量 c。
 
 ### 标准数据类型
 
--   Numbers（数字）
--   String（字符串）
+-   Number（数字）
+-   String （字符串）
+-   Tuple（元祖）
 -   List（列表）
--   Tuple（元组）
--   Dictionary（字典）
+-   Dictionary （字典）
+-   Set（集合）
 
-### Python 列表
+Python3 的六个标准数据类型中：
 
-1. 列表用 [ ] 标识，是 python 最通用的复合数据类型。
-2. 列表中值的切割也可以用到变量 [头下标:尾下标] ，就可以截取相应的列表，从左到右索引默认 0 开始，从右到左索引默认 -1 开始，下标可以为空表示取到头或尾。
+_不可变数据（3 个）_：Number（数字）、String（字符串）、Tuple（元组）；  
+_可变数据（3 个）_：List（列表）、Dictionary（字典）、Set（集合）。
 
-### Python 元组
+### Number（数字）
 
-1. 元组用"()"标识。内部元素用逗号隔开。
-2. 元组不能二次赋值，相当于只读列表，元祖可以看成是“不允许更新的列表”
+支持 int、float、complex、bool  
+在 Python 3 里，只有一种整数类型 int，表示为长整型，没有 python2 中的 Long。
 
-### Python 字典
+#### 数值运算
 
-1.字典用"{ }"标识。字典由索引(key)和它对应的值 value 组成。
+        >>>5 + 4  # 加法
+        9
+        >>> 4.3 - 2 # 减法
+        2.3
+        >>> 3 * 7  # 乘法
+        21
+        >>> 2 / 4  # 除法，得到一个浮点数
+        0.5
+        >>> 2 // 4 # 除法，得到一个整数
+        0
+        >>> 17 % 3 # 取余
+        2
+        >>> 2 ** 5 # 乘方
+        32
 
-### Python 数据类型转换
+### String（字符串）
 
--   int(x,base)
-    -   将 x 转换为一个整数。x 为带转化的数字或者字符串，base 可写可不写，为进制数，默认十进制。
--   long(x,base)
-    -   将 x 转换为一个长整数。
--   str(x)
+Python 中的字符串用单引号 ' 或双引号 " 括起来，同时使用反斜杠 \ 转义特殊字符。
 
-    -   将对象 x 转换为字符串。
+变量[头下标:尾下标]
 
-            >>>s = 'RUNOOB'
-            >>> str(s)
-            'RUNOOB'
-            >>> dict = {'runoob': 'runoob.com', 'google': 'google.com'};
-            >>> str(dict)
-            "{'google': 'google.com', 'runoob': 'runoob.com'}"
-            >>>
+_注意_
 
--   repr(x)
-    -   将对象 x 转换为表达式字符串。
--   eval(str)
+1. 反斜杠可以用来转义，使用 r 可以让反斜杠不发生转义。
+2. 字符串可以用+运算符连接在一起，用\*运算符重复。
+3. Python 中的字符串有两种索引方式，从左往右以 0 开始，从右往左以-1 开始。
+4. Python 中的字符串不能改变。
 
-    -   用来计算在字符串中的有效 Python 表达式,并返回一个对象。
+### List（列表）
 
-            >>>x = 7
-            >>> eval( '3 * x' )
-            21
-            >>> eval('pow(2,2)')
-            4
-            >>> eval('2 + 2')
-            4
-            >>> n=81
-            >>> eval("n + 4")
-            85
+列表是写在方括号 [] 之间、用逗号分隔开的元素列表。
 
--   tuple(s)
+和字符串一样，列表同样可以被索引和截取，列表被截取后返回一个包含所需元素的新列表。
 
-    -   将序列 s 转换为一个元组。
+变量[头下标:尾下标]
 
-            >>>tuple([1,2,3,4])
+_注意_
 
-            (1, 2, 3, 4)
+1. List 写在方括号之间，元素用逗号隔开。
+2. 和字符串一样，list 可以被索引和切片。
+3. List 可以使用+操作符进行拼接。
+4. List 中的元素是可以改变的。
 
-            >>> tuple({1:2,3:4})    #针对字典 会返回字典的key组成的tuple
+### Tuple（元组）
 
-            (1, 3)
+元组（tuple）与列表类似，不同之处在于元组的元素不能修改。元组写在小括号 () 里，元素之间用逗号隔开。
 
-            >>> tuple((1,2,3,4))    #元组会返回元组自身
+虽然 tuple 的元素不可改变，但它可以包含可变的对象，比如 list 列表。
 
-            (1, 2, 3, 4)
+构造包含 0 个或 1 个元素的元组比较特殊，所以有一些额外的语法规则：
 
--   list(s)
-    -   将序列 s 转换为一个列表。
--   set(s)
+        tup1 = ()    # 空元组
+        tup2 = (20,) # 一个元素，需要在元素后添加逗号
 
-    -   转换为可变集合。
+_注意_
 
-            >>>x = set('runoob')
-            >>> y = set('google')
-            >>> x, y
-            (set(['b', 'r', 'u', 'o', 'n']), set(['e', 'o', 'g', 'l']))   # 重复的被删除
-            >>> x & y         # 交集
-            set(['o'])
-            >>> x | y         # 并集
-            set(['b', 'e', 'g', 'l', 'o', 'n', 'r', 'u'])
-            >>> x - y         # 差集
-            set(['r', 'b', 'u', 'n'])
-            >>>
+1. 与字符串一样，元组的元素不能修改。
+2. 元组也可以被索引和切片，方法一样。
+3. 注意构造包含 0 或 1 个元素的元组的特殊语法规则。
+4. 元组也可以使用+操作符进行拼接。
 
--   dict(d)
+### Set（集合）
 
-    -   创建一个字典。d 必须是一个序列 (key,value)元组。
+集合（set）是由一个或数个形态各异的大小整体组成的，构成集合的事物或对象称作元素或是成员。
 
-              >>>dict()                        # 创建空字典
-              {}
-              >>> dict(a='a', b='b', t='t')     # 传入关键字
-              {'a': 'a', 'b': 'b', 't': 't'}
-              >>> dict(zip(['one', 'two', 'three'], [1, 2, 3]))   # 映射函数方式来构造字典
-              {'three': 3, 'two': 2, 'one': 1}
-              >>> dict([('one', 1), ('two', 2), ('three', 3)])    # 可迭代对象方式来构造字典
-              {'three': 3, 'two': 2, 'one': 1}
-              >>>
+基本功能是进行成员关系测试和删除重复元素。
 
-## Python 条件语句
+可以使用大括号 { } 或者 set() 函数创建集合，注意：创建一个空集合必须用 set() 而不是 { }，因为 { } 是用来创建一个空字典。
 
-        if 判断条件：
-            执行语句……
-        else：
-            执行语句……
+        parame = {value01,value02,...}
+        或者
+        set(value)
 
-        if 判断条件1:
-            执行语句1……
-        elif 判断条件2:
-            执行语句2……
-        elif 判断条件3:
-            执行语句3……
-        else:
-            执行语句4……
+实例：
 
--   并且 and
--   或者 or
+        #!/usr/bin/python3
 
-## Python 循环语句
+        student = {'Tom', 'Jim', 'Mary', 'Tom', 'Jack', 'Rose'}
 
--   while 循环
+        print(student)   # 输出集合，重复的元素被自动去掉
 
-    -   在给定的判断条件为 true 时执行循环体，否则退出循环体
+        # 成员测试
+        if 'Rose' in student :
+            print('Rose 在集合中')
+        else :
+            print('Rose 不在集合中')
 
-            count = 0
-            while (count < 9):
-            print 'The count is:', count
-            count = count + 1
 
-            print "Good bye!"
+        # set可以进行集合运算
+        a = set('abracadabra')
+        b = set('alacazam')
 
-*   for 循环
+        print(a)
 
-          for letter in 'Python':     # 第一个实例
-          print '当前字母 :', letter
+        print(a - b)     # a和b的差集
 
-          fruits = ['banana', 'apple',  'mango']
-          for fruit in fruits:        # 第二个实例
-          print '当前水果 :', fruit
+        print(a | b)     # a和b的并集
 
-          print "Good bye!"
+        print(a & b)     # a和b的交集
 
-*   pass 语句
+        print(a ^ b)     # a和b中不同时存在的元素
 
-    pass 不做任何事情，一般用做占位语句。
+### Dictionary（字典）
 
-## Python Number(数字)
+列表是有序的对象集合，字典是无序的对象集合。两者之间的区别在于：字典当中的元素是通过键来存取的，而不是通过偏移存取。
 
--   整型(Int) - 通常被称为是整型或整数，是正或负整数，不带小数点。
--   长整型(long integers) - 无限大小的整数，整数最后是一个大写或小写的 L。
--   浮点型(floating point real values) - 浮点型由整数部分与小数部分组成，浮点型也可以使用科学计数法表示（2.5e2 = 2.5 x 102 = 250）
--   复数(complex numbers) - 复数由实数部分和虚数部分构成，可以用 a + bj,或者 complex(a,b)表示， 复数的实部 a 和虚部 b 都是浮点型。
+字典是一种映射类型，字典用"{ }"标识，它是一个无序的键(key) : 值(value)对集合。
+
+键(key)必须使用不可变类型。
+
+在同一个字典中，键(key)必须是唯一的。
+
+        #!/usr/bin/python3
+
+        dict = {}
+        dict['one'] = "1 - 菜鸟教程"
+        dict[2]     = "2 - 菜鸟工具"
+
+        tinydict = {'name': 'doudou','code':1}
+
+
+        print (dict['one'])       # 输出键为 'one' 的值
+        print (dict[2])           # 输出键为 2 的值
+        print (tinydict)          # 输出完整的字典
+        print (tinydict.keys())   # 输出所有键
+        print (tinydict.values()) # 输出所有值
+
+_注意_
+
+1. 字典是一种映射类型，它的元素是键值对。
+2. 字典的关键字必须为不可变类型，且不能重复。
+3. 创建空字典使用 { }。
+
+## Python 逻辑运算符
+
+1. and 并且
+2. or 或者
+3. not 非
