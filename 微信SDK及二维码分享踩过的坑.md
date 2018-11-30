@@ -1,4 +1,6 @@
-## 关于微信分享哪些踩过的坑
+## 关于 `微信分享` 和 `QRcode二维码分享`那些踩过的坑
+
+## 微信分享
 
 ### 进行微信分享时，前提在项目中安装 SDK
 
@@ -21,6 +23,8 @@ import "../assets/img/shareImg.png"
 ```js
 imgUrl: "https://tmarketing.inuol.com/static/img/shareImg.dd45f95.png"
 ```
+
+<!--more-->
 
 ### 在微信公众号分享，报错 invalid url
 
@@ -177,4 +181,46 @@ import "../assets/img/shareImg.png";
         });
       });
     }
+```
+
+## QRcode 二维码分享
+
+### 如何生成带参数的动态二维码
+
+1. 先下载 `qrcode.js`，然后将其引入 main.js
+
+```js
+import "./utils/qrcode.js"
+```
+
+2. 在 DOM 结构中，建立一个 div,取名 qrcode，再在你需要展示二维码的地方建立个 img
+
+```html
+<div id="qrcode" v-show="false"></div>
+```
+
+```html
+<img id="code" src />
+```
+
+3. 建立两个方法：不需要 DOM 是父子结构，但是写法；其实就是讲 qrcode 这个结构中的 img 的 src，赋值在你需要展示的 img 的 src 中。
+
+```js
+//动态二维码
+    showQr() {
+      var Img = document.querySelector("#qrcode img").src; //不需要DOM是父子结构，但是写法是如此
+      document.querySelector("#code").src = Img;
+      //其实就是讲qrcode这个结构中的img的src，赋值在你需要展示的img的src中
+    },
+    qrCode() {
+      let url = "https://tmarketing.inuol.com/share.html" + "?uid=" + this.uid;
+      var qrcode = new QRCode("qrcode", {
+        text: url,
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    },
 ```
