@@ -191,4 +191,69 @@
    - 渲染 jsx 元素数组
    - 将普通字符串数组，转为 jsx 数组并渲染到页面上【两种方案】
 
-4. **在 jsx 中 写注释**：推荐使用`{ /* 这是注释 */ }`
+4. **在 jsx 中 写注释**：推荐使用`{ /* 这是注释 */ }`  
+
+5. **为 jsx 中的元素添加class类名**：需要使用`className` 来替代 `class`；`htmlFor`替换label的`for`属性
+
+6. 在JSX创建DOM的时候，所有的节点，必须有唯一的根元素进行包裹；
+
+7. 在 jsx 语法中，标签必须 成对出现，如果是单标签，则必须自闭和！
+
+> 当 编译引擎，在编译JSX代码的时候，如果遇到了`<`那么就把它当作 HTML代码去编译，如果遇到了 `{}` 就把 花括号内部的代码当作 普通JS代码去编译；
+
+
+
+## 9. React中创建组件
+
+### 第1种 - 创建组件的方式
+
+> **使用构造函数来创建组件**，如果要接收外界传递的数据，需要在 构造函数的参数列表中使用`props`来接收；
+>
+> 必须要向外return一个合法的JSX创建的虚拟DOM；
+
++ 创建组件：
+
+  ```jsx
+  function Hello () { 
+  	// return null 
+  	return <div>Hello 组件</div>
+  }
+  ```
+
++ 为组件传递数据：
+
+  ```jsx
+  // 使用组件并 为组件传递 props 数据
+  <Hello name={dog.name} age={dog.age} gender={dog.gender}></Hello>
+
+  // 在构造函数中，使用 props 形参，接收外界 传递过来的数据
+  function Hello(props) {
+    // props.name = 'zs'
+    console.log(props)
+    // 结论：不论是 Vue 还是 React，组件中的 props 永远都是只读的；不能被重新赋值；
+
+    return <div>这是 Hello 组件 --- {props.name} --- {props.age} --- {props.gender}</div>
+  }
+  ```
+
+1. 父组件向子组件传递数据
+
+2. 使用{...obj}属性扩散传递数据
+
+3. 将组件封装到单独的文件中
+
+4. 注意：组件的名称首字母必须是大写
+
+5. 在导入组件的时候，如何省略组件的`.jsx`后缀名：
+
+   ```js
+   // 打开 webpack.config.js ，并在导出的配置对象中，新增 如下节点：
+   resolve: {
+       extensions: ['.js', '.jsx', '.json'], // 表示，这几个文件的后缀名，可以省略不写
+       alias: {
+           '@': path.join(__dirname, './src')
+       }
+     }
+   ```
+
+  
