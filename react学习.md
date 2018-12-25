@@ -191,40 +191,38 @@
    - 渲染 jsx 元素数组
    - 将普通字符串数组，转为 jsx 数组并渲染到页面上【两种方案】
 
-4. **在 jsx 中 写注释**：推荐使用`{ /* 这是注释 */ }`  
+4. **在 jsx 中 写注释**：推荐使用`{ /* 这是注释 */ }`
 
-5. **为 jsx 中的元素添加class类名**：需要使用`className` 来替代 `class`；`htmlFor`替换label的`for`属性
+5. **为 jsx 中的元素添加 class 类名**：需要使用`className` 来替代 `class`；`htmlFor`替换 label 的`for`属性
 
-6. 在JSX创建DOM的时候，所有的节点，必须有唯一的根元素进行包裹；
+6. 在 JSX 创建 DOM 的时候，所有的节点，必须有唯一的根元素进行包裹；
 
 7. 在 jsx 语法中，标签必须 成对出现，如果是单标签，则必须自闭和！
 
-> 当 编译引擎，在编译JSX代码的时候，如果遇到了`<`那么就把它当作 HTML代码去编译，如果遇到了 `{}` 就把 花括号内部的代码当作 普通JS代码去编译；
+> 当 编译引擎，在编译 JSX 代码的时候，如果遇到了`<`那么就把它当作 HTML 代码去编译，如果遇到了 `{}` 就把 花括号内部的代码当作 普通 JS 代码去编译；
 
+## 9. React 中创建组件
 
-
-## 9. React中创建组件
-
-### 第1种 - 创建组件的方式
+### 第 1 种 - 创建组件的方式
 
 > **使用构造函数来创建组件**，如果要接收外界传递的数据，需要在 构造函数的参数列表中使用`props`来接收；
 >
-> 必须要向外return一个合法的JSX创建的虚拟DOM；
+> 必须要向外 return 一个合法的 JSX 创建的虚拟 DOM；
 
-+ 创建组件：
+- 创建组件：
 
   ```jsx
-  function Hello () { 
-  	// return null 
-  	return <div>Hello 组件</div>
+  function Hello() {
+    // return null
+    return <div>Hello 组件</div>
   }
   ```
 
-+ 为组件传递数据：
+- 为组件传递数据：
 
   ```jsx
   // 使用组件并 为组件传递 props 数据
-  <Hello name={dog.name} age={dog.age} gender={dog.gender}></Hello>
+  ;<Hello name={dog.name} age={dog.age} gender={dog.gender} />
 
   // 在构造函数中，使用 props 形参，接收外界 传递过来的数据
   function Hello(props) {
@@ -232,7 +230,11 @@
     console.log(props)
     // 结论：不论是 Vue 还是 React，组件中的 props 永远都是只读的；不能被重新赋值；
 
-    return <div>这是 Hello 组件 --- {props.name} --- {props.age} --- {props.gender}</div>
+    return (
+      <div>
+        这是 Hello 组件 --- {props.name} --- {props.age} --- {props.gender}
+      </div>
+    )
   }
   ```
 
@@ -258,15 +260,45 @@
 
 6. 在导入组件的时候，配置和使用`@`路径符号
 
-### 第2种 - 创建组件的方式
+### 第 2 种 - 创建组件的方式
 
 > 使用 class 关键字来创建组件
 >
 > ES6 中 class 关键字，是实现面向对象编程的新形式；
 
-#### 了解ES6中 class 关键字的使用
+#### 了解 ES6 中 class 关键字的使用
 
 1. class 中 `constructor` 的基本使用
 2. 实例属性和实例方法
 3. 静态属性和静态方法
 4. 使用 `extends` 关键字实现继承
+
+#### 基于 class 关键字创建组件
+
+1. 最基本的组件结构：
+
+   ```jsx
+   //如果要使用class定义组件，必须让自己的组件，继承自React.Component
+   class 组件名称 extends React.Component {
+     //在组件内部，必须有render函数，作用：渲染当前组件对应的虚拟DOM结构
+     render() {
+       //render函数中，必须返回合法的JSX虚拟DOM结构，render函数也算是class这个类中的实例方法
+       //在class关键字创建的组件中，如果使用外界传递过来的 props 参数，不需接收，直接通过 this.props.**** 访问即可
+       //注意：在class组件内部，this表示当前组件的实例对象
+       return <div>这是 class 创建的组件 -- {this.props.name}</div>
+     }
+   }
+   ```
+
+## 10. 两种创建组件方式的对比
+
+注意：使用class关键字创建的组件，有自己的私有数据和生命周期函数；  
+注意：但是使用function创建的组件，只有props，没有自己的私有数据和生命周期函数；
+
+1. 用**构造函数**创建出来的组件：叫做“无状态组件”
+2. 用**class关键字**创建出来的组件：叫做“有状态组件”
+    * this.state = {} 相当于Vue中的 date(){ return { } }，是这个组件中的私有数据，并且可以可读可写。
+
+
+> 有状态组件和无状态组件之间的**本质区别**就是：有无state属性！
+
