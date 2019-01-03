@@ -315,6 +315,8 @@
 
 ## 11. 一个小案例，巩固有状态组件和无状态组件的使用
 
+![效果](./images/cmtlist.png)
+
 ### 通过for循环生成多个组件
 1. 数据：
 ```js
@@ -326,3 +328,66 @@ CommentList: [
     { id: 5, user: '田七', content: '哈哈，楼下山炮' }
 ]
 ```
+
+### 设置样式
+
+1. 使用普通的 `style` 样式
+
+   ```jsx
+   <h1 style={ {color: 'red', fontWeight: 200} }></h1>
+   ```
+
+2. 启用 css-modules
+
+   1. 修改 `webpack.config.js`这个配置文件，为 `css-loader` 添加参数：
+
+      ```js
+      { test: /\.css$/, use: ['style-loader', 'css-loader?modules'] } // 为 .css 后缀名的样式表  启用 CSS 模块化
+      ```
+
+   2. 在需要的组件中，`import`导入样式表，并接收模块化的 CSS 样式对象：
+
+      ```js
+      import cssObj from '../css/CmtList.css' 
+      ```
+
+   3. 在需要的HTML标签上，使用`className`指定模块化的样式：
+
+      ```jsx
+      <h1 className={cssObj.title}>评论列表组件</h1>
+      ```
+
+3. 使用`localIdentName`自定义生成的类名格式，可选的参数有：
+
+   - [path]  表示样式表 `相对于项目根目录` 所在路径
+   - [name]  表示 样式表文件名称
+   - [local]  表示样式的类名定义名称
+   - [hash:length]  表示32位的hash值
+   - 例子：`{ test: /\.css$/, use: ['style-loader', 'css-loader?modules&localIdentName=[path][name]-[local]-[hash:5]'] }`
+
+4. 使用 `:local()` 和 `:global()`
+
+   - `:local()`包裹的类名，是被模块化的类名，只能通过`className={cssObj.类名}`来使用
+
+     同时，`:local`默认可以不写，这样，默认在样式表中定义的类名，都是被模块化的类名；
+
+   - `:global()`包裹的类名，是全局生效的，不会被 `css-modules` 控制，定义的类名是什么，就是使用定义的类名`className="类名"`
+
+5. 注意：只有`.title`这样的类样式选择器，才会被模块化控制，类似于`body`这样的标签选择器，不会被模块化控制；
+
+
+<!-- ### 在项目中启用模块化并同时使用bootstrap
+
+1. 把 自己的样式表，定义为 `.scss`  文件
+
+2. 第三方的 样式表，还是 以 `.css` 结尾
+
+3. 我们只需要为自己的 `.scss` 文件，启用模块化即可；
+
+4. 运行`cnpm i sass-loader node-sass -D` 安装能够解析`scss`文件的loader
+
+5. 添加loader规则：
+
+   ```json
+   { test: /\.scss$/, use: ['style-loader', 'css-loader?modules&localIdentName=[path][name]-[local]-[hash:5]', 'sass-loader'] } // 打包处理 scss 文件的 loader
+   ``` -->
