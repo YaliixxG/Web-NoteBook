@@ -376,7 +376,7 @@ CommentList: [
 5. 注意：只有`.title`这样的类样式选择器，才会被模块化控制，类似于`body`这样的标签选择器，不会被模块化控制；
 
 
-<!-- ### 在项目中启用模块化并同时使用bootstrap
+### 在项目中启用模块化并同时使用bootstrap
 
 1. 把 自己的样式表，定义为 `.scss`  文件
 
@@ -390,4 +390,27 @@ CommentList: [
 
    ```json
    { test: /\.scss$/, use: ['style-loader', 'css-loader?modules&localIdentName=[path][name]-[local]-[hash:5]', 'sass-loader'] } // 打包处理 scss 文件的 loader
-   ``` -->
+   ```
+
+## 12. React 中绑定事件的注意点
+
+1. 事件的名称都是React的提供的，因此名称的首字母必须大写`onClick`、`onMouseOver`
+
+2. 为事件提供的处理函数，必须是如下格式
+
+   ```
+   onClick= { function }
+   ```
+
+3. 用的最多的事件绑定形式为：
+
+   ```jsx
+   <button onClick={ () => this.show('传参') }>按钮</button>
+
+   // 事件的处理函数，需要定义为 一个箭头函数，然后赋值给 函数名称
+   show = (arg1) => {
+       console.log('show方法' + arg1)
+   }
+   ```
+
+4. 在React中，如果想要修改 state 中的数据，推荐使用 `this.setState({ })`
