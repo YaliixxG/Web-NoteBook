@@ -292,40 +292,42 @@
 
 ## 10. 两种创建组件方式的对比
 
-注意：使用class关键字创建的组件，有自己的私有数据和生命周期函数；  
-注意：但是使用function创建的组件，只有props，没有自己的私有数据和生命周期函数；
+注意：使用 class 关键字创建的组件，有自己的私有数据和生命周期函数；  
+注意：但是使用 function 创建的组件，只有 props，没有自己的私有数据和生命周期函数；
 
 1. 用**构造函数**创建出来的组件：叫做“无状态组件”
-2. 用**class关键字**创建出来的组件：叫做“有状态组件”
-    * this.state = {} 相当于Vue中的 date(){ return { } }，是这个组件中的私有数据，并且可以可读可写。
+2. 用**class 关键字**创建出来的组件：叫做“有状态组件”
+   - this.state = {} 相当于 Vue 中的 date(){ return { } }，是这个组件中的私有数据，并且可以可读可写。
 3. 什么情况下使用有状态组件？什么情况下使用无状态组件？
-  * 如果一个组件需要有自己的私有数据，则推荐使用：class创建的有状态组件
-  * 如果一个组件不需要私有的数据，则推荐使用：无状态组件
-  * react官方说：无状态组件，由于没有自己的state和声明周期函数，所以运行效率会比有状态组件稍微高一些
 
+- 如果一个组件需要有自己的私有数据，则推荐使用：class 创建的有状态组件
+- 如果一个组件不需要私有的数据，则推荐使用：无状态组件
+- react 官方说：无状态组件，由于没有自己的 state 和声明周期函数，所以运行效率会比有状态组件稍微高一些
 
-> 有状态组件和无状态组件之间的**本质区别**就是：有无state属性、和有无生命周期函数
+> 有状态组件和无状态组件之间的**本质区别**就是：有无 state 属性、和有无生命周期函数
 
 4. 组件中的 props 和 state/data 之间的区别
-  * props 中的数据都是外界传递过来的
-  * state/data 中的数据，都是组件私有的；（通过 Ajax 获取回来的数据，一般都是私有数据）
-  * props 中的数据都是只读的，不能重新赋值；
-  * state/data 中的数据，都是可读可写的；
 
+- props 中的数据都是外界传递过来的
+- state/data 中的数据，都是组件私有的；（通过 Ajax 获取回来的数据，一般都是私有数据）
+- props 中的数据都是只读的，不能重新赋值；
+- state/data 中的数据，都是可读可写的；
 
 ## 11. 一个小案例，巩固有状态组件和无状态组件的使用
 
 ![效果](./images/cmtlist.png)
 
-### 通过for循环生成多个组件
+### 通过 for 循环生成多个组件
+
 1. 数据：
+
 ```js
 CommentList: [
-    { id: 1, user: '张三', content: '哈哈，沙发' },
-    { id: 2, user: '李四', content: '哈哈，板凳' },
-    { id: 3, user: '王五', content: '哈哈，凉席' },
-    { id: 4, user: '赵六', content: '哈哈，砖头' },
-    { id: 5, user: '田七', content: '哈哈，楼下山炮' }
+  { id: 1, user: "张三", content: "哈哈，沙发" },
+  { id: 2, user: "李四", content: "哈哈，板凳" },
+  { id: 3, user: "王五", content: "哈哈，凉席" },
+  { id: 4, user: "赵六", content: "哈哈，砖头" },
+  { id: 5, user: "田七", content: "哈哈，楼下山炮" }
 ]
 ```
 
@@ -334,7 +336,7 @@ CommentList: [
 1. 使用普通的 `style` 样式
 
    ```jsx
-   <h1 style={ {color: 'red', fontWeight: 200} }></h1>
+   <h1 style={{ color: "red", fontWeight: 200 }} />
    ```
 
 2. 启用 css-modules
@@ -348,10 +350,10 @@ CommentList: [
    2. 在需要的组件中，`import`导入样式表，并接收模块化的 CSS 样式对象：
 
       ```js
-      import cssObj from '../css/CmtList.css' 
+      import cssObj from "../css/CmtList.css"
       ```
 
-   3. 在需要的HTML标签上，使用`className`指定模块化的样式：
+   3. 在需要的 HTML 标签上，使用`className`指定模块化的样式：
 
       ```jsx
       <h1 className={cssObj.title}>评论列表组件</h1>
@@ -359,10 +361,10 @@ CommentList: [
 
 3. 使用`localIdentName`自定义生成的类名格式，可选的参数有：
 
-   - [path]  表示样式表 `相对于项目根目录` 所在路径
-   - [name]  表示 样式表文件名称
-   - [local]  表示样式的类名定义名称
-   - [hash:length]  表示32位的hash值
+   - [path] 表示样式表 `相对于项目根目录` 所在路径
+   - [name] 表示 样式表文件名称
+   - [local] 表示样式的类名定义名称
+   - [hash:length] 表示 32 位的 hash 值
    - 例子：`{ test: /\.css$/, use: ['style-loader', 'css-loader?modules&localIdentName=[path][name]-[local]-[hash:5]'] }`
 
 4. 使用 `:local()` 和 `:global()`
@@ -375,26 +377,32 @@ CommentList: [
 
 5. 注意：只有`.title`这样的类样式选择器，才会被模块化控制，类似于`body`这样的标签选择器，不会被模块化控制；
 
+### 在项目中启用模块化并同时使用 bootstrap
 
-### 在项目中启用模块化并同时使用bootstrap
-
-1. 把 自己的样式表，定义为 `.scss`  文件
+1. 把 自己的样式表，定义为 `.scss` 文件
 
 2. 第三方的 样式表，还是 以 `.css` 结尾
 
 3. 我们只需要为自己的 `.scss` 文件，启用模块化即可；
 
-4. 运行`cnpm i sass-loader node-sass -D` 安装能够解析`scss`文件的loader
+4. 运行`cnpm i sass-loader node-sass -D` 安装能够解析`scss`文件的 loader
 
-5. 添加loader规则：
+5. 添加 loader 规则：
 
    ```json
-   { test: /\.scss$/, use: ['style-loader', 'css-loader?modules&localIdentName=[path][name]-[local]-[hash:5]', 'sass-loader'] } // 打包处理 scss 文件的 loader
+   {
+     "test": /\.scss$/,
+     "use": [
+       "style-loader",
+       "css-loader?modules&localIdentName=[path][name]-[local]-[hash:5]",
+       "sass-loader"
+     ]
+   } // 打包处理 scss 文件的 loader
    ```
 
 ## 12. React 中绑定事件的注意点
 
-1. 事件的名称都是React的提供的，因此名称的首字母必须大写`onClick`、`onMouseOver`
+1. 事件的名称都是 React 的提供的，因此名称的首字母必须大写`onClick`、`onMouseOver`
 
 2. 为事件提供的处理函数，必须是如下格式
 
@@ -405,12 +413,44 @@ CommentList: [
 3. 用的最多的事件绑定形式为：
 
    ```jsx
-   <button onClick={ () => this.show('传参') }>按钮</button>
+   ;<button onClick={() => this.show("传参")}>按钮</button>
 
    // 事件的处理函数，需要定义为 一个箭头函数，然后赋值给 函数名称
-   show = (arg1) => {
-       console.log('show方法' + arg1)
+   show = arg1 => {
+     console.log("show方法" + arg1)
    }
    ```
 
-4. 在React中，如果想要修改 state 中的数据，推荐使用 `this.setState({ })`
+4. 在 React 中，如果想要修改 state 中的数据，使用 `this.setState({ })`
+
+    - 在`setState({ })`中，只会把对应的 `state` 状态更新，而不会覆盖其它的 `state` 状态。
+    - `this.setState({ })`方法是异步的，所以如果想拿到最新的值，需要在它自带的回调函数里面拿到值。即：`this.setState({ },callback`
+
+## 13. 绑定文本框与state中的值（单向数据流）
+
+1. 在 Vue 中，默认提供了`v-model`指令，可以很方便的实现 `数据的双向绑定`；
+
+2. 但是，在 React 中，默认只是`单向数据流`，也就是 只能把 state 上的数据绑定到 页面，无法把 页面中数据的变化，自动同步回 state ； 如果需要把 页面上数据的变化，保存到 state，则需要程序员手动监听`onChange`事件，拿到最新的数据，手动调用`this.setState({  })` 更改回去；
+
+3. 案例：
+
+   ```jsx
+   <input type="text" style={{ width: '100%' }} value={this.state.msg} onChange={() => this.textChanged()} ref="mytxt" />
+
+    // 响应 文本框 内容改变的处理函数
+     textChanged = () => {
+       // console.log(this);
+       // console.log(this.refs.mytxt.value);
+       this.setState({
+         msg: this.refs.mytxt.value
+       })
+     }
+   ```
+
+   ​
+
+## 7. 使用ref获取DOM元素引用
+
+和 Vue 中差不多，vue 为页面上的元素提供了 `ref` 的属性，如果想要获取 元素引用，则需要使用`this.$refs.引用名称`
+
+在 React 中，也有 `ref`, 如果要获取元素的引用`this.refs.引用名称`
