@@ -113,9 +113,11 @@ SVG优势
 
 ------------------------------------------------------------------------------------------------------------------------------------------
 
-MathML   <math>...</math>
+### MathML   `<math>...</math>`
 
- 实例： <body>
+ 实例：
+ ```HTML  
+ <body>
            <math xmlns="http://www.w3.org/1998/Math/MathML">
                   <mrow>
                         <msup><mi>a</mi><mn>2</mn></msup>
@@ -124,8 +126,9 @@ MathML   <math>...</math>
                         <mo>=</mo>
                         <msup><mi>c</mi><mn>2</mn></msup>
                   </mrow>
-                  </math>
-            </body>
+            </math>
+</body>
+```
 
             运算出来的结果：a2 + b2 = c2 （a的平方 + b的平方 = c的平方）
 
