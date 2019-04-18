@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>代理模式</title>
+</head>
+<body>
+    <script>
+    //设定三方：买家，中介，房东
+    //流程：中介作为代理商沟通于买家与房东之间
+
+    //买家
+    function maijia(){
+        this.name = '小明'
+    }
+
+    //中介卖房（中介卖房这个方法是经常要使用的，为了性能消耗，将其放在原型链上）
+    function zhongjie(){
+
+    }
+
+    zhongjie.prototype.maifang = function(){
+        new fangdong(new maijia()).maifang('20万')
+    }
+
+    //房东
+    function fangdong(maijia){
+
+        //拿到买家的信息
+        this.maijia_name = maijia.name
+
+        this.maifang = function(money){
+            alert('收到了来自'+ this.maijia_name + money + '人民币')
+        }
+    }
+
+
+    (new zhongjie).maifang()
+
+
+    
+    </script>
+</body>
+</html>
