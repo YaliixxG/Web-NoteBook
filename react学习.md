@@ -449,8 +449,29 @@ CommentList: [
 
    ​
 
-## 7. 使用ref获取DOM元素引用
+## 14. 使用ref获取DOM元素引用
 
 和 Vue 中差不多，vue 为页面上的元素提供了 `ref` 的属性，如果想要获取 元素引用，则需要使用`this.$refs.引用名称`
 
-在 React 中，也有 `ref`, 如果要获取元素的引用`this.refs.引用名称`
+在 React 中，也有 `ref`, 如果要获取元素的引用`this.refs.引用名称`  
+
+## 15. React 生命周期函数
+
+![react生命周期](./img/react生命周期.png)
+
+  * getDefaultProps
+    * 作用于组件类，只调用一次，返回对象用于设置默认的props，对于引用值，会在实例中共享。
+  * getInitialState
+    * 作用于组件的实例，在实例创建时调用一次，用于初始化每个实例的state，此时可以访问this.props
+  * componentWillMount
+    * 在完成首次渲染之前调用，此时仍可以修改组件的state
+  * render
+    必选的方法，创建虚拟DOM，该方法具有特殊的规则：
+      * 只能通过this.props和this.state访问数据
+      * 可以返回null、false或任何react组件
+      * 只能出现一个顶级组件（不能返回数据）
+      * 不能改变组件的状态
+      * 不能修改DOM的输出
+  * componentDidMount
+      真实的DOM被渲染出来后调用，在该方法中可通过this.getDOMNode()访问到真实的DOM元素。此时已可以使用其他类库来操作这个DOM。
+  
