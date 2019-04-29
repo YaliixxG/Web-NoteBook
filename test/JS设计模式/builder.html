@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+    //建造者模式，用户是白富美，指挥者是包工头，建造者是工人
+    //产出的东西是房子
+    //包工头调用工人进行开工，而且他要很清楚工人们具体的某一个大项
+    //工人是盖房子的，工人可以建卧室、客厅、厨房
+
+    //白富美提出房子要求
+    function Fangzi(){
+        this.woshi = ''
+        this.keting = ''
+        this.chufang = ''
+    }
+
+    //包工头不需要干活，只需要只会工人盖房子即可
+    function Baogongtou(){
+        this.gaifangzi = function(gongren){
+            gongren.jian_woshi()
+            gongren.jian_keting()
+            gongren.jian_chufang()
+        }
+    }
+
+    //工人盖房子
+    function Gongren(){
+        this.jian_woshi = function(){
+            alert('卧室盖好了')
+        }
+        this.jian_keting = function(){
+            alert('客厅盖好了')
+        }
+        this.jian_chufang = function(){
+            alert('厨房盖好了')
+        }
+        this.jiaogong = function(){
+            var _fangzi = new Fangzi()
+            _fangzi.woshi = 'ok'
+            _fangzi.keitng = 'ok'
+            _fangzi.chufang = 'ok'
+            return _fangzi
+        }
+    }
+
+    var gongren = new Gongren
+    var baogongtou = new Baogongtou()
+    baogongtou.gaifangzi(gongren)
+    var myfangzi = gongren.jiaogong()
+
+    console.log(myfangzi)
+
+    </script>
+</body>
+</html>
