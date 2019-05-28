@@ -494,4 +494,16 @@ CommentList: [
       ß完成渲染新的props或者state后调用，此时可以访问到新的DOM元素。
   * componentWillUnmount  
       组件被移除之前被调用，可以用于做一些清理工作，在componentDidMount方法中添加的所有任务都需要在该方法中撤销，比如创建的定时器或添加的事件监听器。
+
+
+------------------------------------------------------------------------------------------------------------
+
+## React常用插件：
+
+1. `react-document-title`：媒体查询，响应式组件  
+2. `react-document-title`：设置页面浏览器标题  
+3. `react-d3-cloud`：词云  
+
+    ![词云](./img/wordCloud.jpg)
+
   
